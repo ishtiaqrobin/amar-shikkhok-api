@@ -1,0 +1,18 @@
+// Review Model
+model Review {
+    id        String   @id @default(uuid())
+    bookingId String   @unique
+    studentId String
+    tutorId   String
+    rating    Int
+    comment   String?  @db.Text
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relations
+    booking Booking      @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+    student User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+    tutor   TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+
+    @@map("reviews")
+}

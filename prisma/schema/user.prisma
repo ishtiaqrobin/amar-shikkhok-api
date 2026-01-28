@@ -1,0 +1,28 @@
+// User Model
+model User {
+    id           String   @id @default(uuid())
+    email        String   @unique
+    password     String
+    name         String
+    role         Role     @default(STUDENT)
+    profileImage String?
+    phone        String?
+    isActive     Boolean  @default(true)
+    isBanned     Boolean  @default(false)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    // Relations
+    tutorProfile TutorProfile?
+    bookings     Booking[]     @relation("StudentBookings")
+    reviews      Review[]
+
+    @@map("users")
+}
+
+// Role Enum
+enum Role {
+    STUDENT
+    TUTOR
+    ADMIN
+}

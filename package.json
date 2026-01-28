@@ -1,11 +1,12 @@
 {
-  "name": "skill-bridge-server",
+  "name": "amar-shikkhok-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/server.ts",
+    "reset": "prisma migrate reset",
     "migrate": "prisma migrate dev",
     "generate": "prisma generate",
     "studio": "prisma studio",
