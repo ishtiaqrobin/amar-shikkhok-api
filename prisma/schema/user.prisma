@@ -5,8 +5,8 @@ model User {
     emailVerified Boolean  @default(false)
     name          String
     image         String?
+    password      String?
     role          Role     @default(STUDENT)
-    profileImage  String?
     phone         String?
     isActive      Boolean  @default(true)
     isBanned      Boolean  @default(false)

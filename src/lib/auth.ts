@@ -8,11 +8,34 @@ export const auth = betterAuth({
   }),
   trustedOrigins: [process.env.APP_URL as string],
 
-  //   user: {},
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        required: true,
+        defaultValue: "STUDENT",
+      },
+      phone: {
+        type: "string",
+        required: false,
+      },
+      isActive: {
+        type: "boolean",
+        required: true,
+        defaultValue: true,
+      },
+      isBanned: {
+        type: "boolean",
+        required: true,
+        defaultValue: false,
+      },
+    },
+  },
 
   emailAndPassword: {
     enabled: true,
     autoSignIn: false,
+    requireEmailVerification: false,
   },
 
   socialProviders: {
@@ -24,4 +47,3 @@ export const auth = betterAuth({
     },
   },
 });
-
