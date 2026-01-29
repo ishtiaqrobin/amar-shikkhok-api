@@ -1,13 +1,35 @@
 import { prisma } from "../../lib/prisma";
+import { CreateCategoryInput, UpdateCategoryInput } from "./category.interface";
 
-interface CreateCategoryInput {
-  name: string;
-  description?: string;
-}
-
-const createCategory = async (data: CreateCategoryInput) => {
+const createCategory = async (payload: CreateCategoryInput) => {
   const result = await prisma.category.create({
-    data,
+    data: payload,
+  });
+
+  return result;
+};
+
+const getCategories = async () => {
+  const result = await prisma.category.findMany();
+  return result;
+};
+
+const updateCategory = async (id: string, payload: UpdateCategoryInput) => {
+  const result = await prisma.category.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+
+  return result;
+};
+
+const deleteCategory = async (id: string) => {
+  const result = await prisma.category.delete({
+    where: {
+      id,
+    },
   });
 
   return result;
@@ -15,4 +37,7 @@ const createCategory = async (data: CreateCategoryInput) => {
 
 export const CategoryService = {
   createCategory,
+  getCategories,
+  updateCategory,
+  deleteCategory,
 };

@@ -248,21 +248,73 @@ if (response.success && response.data.id) {
 ### 3.1 Get All Tutors (Public - with filters)
 
 **Method:** `GET`  
-**Endpoint:** `{{base_url}}/api/tutors`
+**Endpoint:** `{{base_url}}/api/tutors`  
+**Auth:** None (Public)
 
 **Query Parameters (সব optional):**
 
-- `category` - Category name দিয়ে ফিল্টার
+- `search` - Name/expertise/category দিয়ে সার্চ (OR logic - যেকোনো একটা match হলেই আসবে)
+- `category` - Specific category name দিয়ে ফিল্টার (exact match)
 - `minPrice` - Minimum hourly rate
 - `maxPrice` - Maximum hourly rate
-- `rating` - Minimum rating (1-5)
-- `search` - Name/subject দিয়ে সার্চ
+- `rating` - Minimum rating (0-5)
 
-**Example:**
+**Examples:**
 
 ```
-{{base_url}}/api/tutors?category=Mathematics&minPrice=500&maxPrice=2000&rating=4&search=calculus
+# শুধু search দিয়ে
+{{base_url}}/api/tutors?search=Algebra
+
+# Category এবং price range দিয়ে
+{{base_url}}/api/tutors?category=Mathematics&minPrice=500&maxPrice=2000
+
+# Rating এবং search দিয়ে
+{{base_url}}/api/tutors?rating=4&search=Physics
+
+# সব filters একসাথে
+{{base_url}}/api/tutors?search=calculus&category=Mathematics&minPrice=1000&maxPrice=2000&rating=4.5
 ```
+
+**Expected Response:**
+
+```json
+{
+  "success": true,
+  "message": "Tutors fetched successfully",
+  "data": [
+    {
+      "id": "uuid...",
+      "bio": "Experienced Math teacher from DU",
+      "expertise": ["Calculus", "Algebra", "Geometry"],
+      "hourlyRate": 1200,
+      "experience": 5,
+      "education": "MSc in Mathematics",
+      "rating": 4.8,
+      "totalReviews": 45,
+      "totalSessions": 120,
+      "categories": [
+        {
+          "id": "uuid...",
+          "name": "Mathematics",
+          "description": "All levels of mathematics"
+        }
+      ],
+      "user": {
+        "id": "uuid...",
+        "name": "Karim Sir",
+        "email": "tutor@test.com",
+        "role": "TUTOR",
+        "phone": "01800000000",
+        "image": "https://...",
+        "isActive": true,
+        "isBanned": false
+      }
+    }
+  ]
+}
+```
+
+**Note:** Results are sorted by rating (highest first).
 
 ---
 

@@ -2,8 +2,9 @@ import express, { Application } from "express";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth";
 import cors from "cors";
-import { categoryRouter } from "./modules/category/category.router";
+import { CategoryRouter } from "./modules/category/category.router";
 import { notFound } from "./middlewares/notFound";
+import { TutorRouter } from "./modules/tutor/tutor.router";
 
 const app: Application = express();
 
@@ -20,10 +21,10 @@ app.use(express.json());
 app.all("/api/auth/*splat", toNodeHandler(auth));
 
 // Category Routes
-app.use("/api/categories", categoryRouter);
+app.use("/api/categories", CategoryRouter);
 
 // Tutor Routes
-// app.use("/api/tutors", tutorRouter);
+app.use("/api/tutors", TutorRouter);
 
 // Booking Routes
 // app.use("/api/bookings", bookingRouter);

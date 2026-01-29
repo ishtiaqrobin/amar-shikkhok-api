@@ -38,7 +38,8 @@ const auth = (...roles: UserRole[]) => {
       if (!session?.user) {
         return res.status(401).json({
           success: false,
-          message: "Unauthorized",
+          message:
+            "Unauthorized! You must be logged in to access this resource",
         });
       }
 
