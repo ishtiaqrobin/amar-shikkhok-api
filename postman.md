@@ -158,9 +158,133 @@ if (response.success && response.data.token) {
 
 ---
 
-## 📚 2. Category APIs
+## 🧑‍💼 2. User APIs
 
-### 2.1 Get All Categories (Public)
+### 2.1 Get My Profile (লগইন ইউজারের প্রোফাইল দেখা)
+
+**Method:** `GET`  
+**Endpoint:** `{{base_url}}/api/users/me`  
+**Auth:** Bearer Token → `{{student_token}}` or `{{tutor_token}}` or `{{admin_token}}`
+
+**Headers:**
+
+```
+Authorization: Bearer {{student_token}}
+```
+
+**Expected Response (200):**
+
+```json
+{
+  "success": true,
+  "message": "User profile retrieved successfully",
+  "data": {
+    "id": "uuid...",
+    "name": "Rahim Ahmed",
+    "email": "student@test.com",
+    "role": "STUDENT",
+    "phone": "01700000000",
+    "image": null,
+    "isActive": true,
+    "isBanned": false,
+    "createdAt": "2026-01-28T10:00:00Z",
+    "updatedAt": "2026-01-28T10:00:00Z"
+  }
+}
+```
+
+---
+
+### 2.2 Update Profile (প্রোফাইল আপডেট করা)
+
+**Method:** `PUT`  
+**Endpoint:** `{{base_url}}/api/users/profile`  
+**Auth:** Bearer Token → `{{student_token}}` or `{{tutor_token}}` or `{{admin_token}}`
+
+**Headers:**
+
+```
+Authorization: Bearer {{student_token}}
+Content-Type: application/json
+```
+
+**Body (JSON):**
+
+```json
+{
+  "name": "Rahim Ahmed Updated",
+  "phone": "01711111111",
+  "image": "https://example.com/profile.jpg"
+}
+```
+
+**Expected Response (200):**
+
+```json
+{
+  "success": true,
+  "message": "User profile updated successfully",
+  "data": {
+    "id": "uuid...",
+    "name": "Rahim Ahmed Updated",
+    "email": "student@test.com",
+    "role": "STUDENT",
+    "phone": "01711111111",
+    "image": "https://example.com/profile.jpg",
+    "isActive": true,
+    "isBanned": false,
+    "updatedAt": "2026-01-30T12:00:00Z"
+  }
+}
+```
+
+---
+
+### 2.3 Change Password (পাসওয়ার্ড পরিবর্তন করা)
+
+**Method:** `PUT`  
+**Endpoint:** `{{base_url}}/api/users/password`  
+**Auth:** Bearer Token → `{{student_token}}` or `{{tutor_token}}` or `{{admin_token}}`
+
+**Headers:**
+
+```
+Authorization: Bearer {{student_token}}
+Content-Type: application/json
+```
+
+**Body (JSON):**
+
+```json
+{
+  "oldPassword": "password123",
+  "newPassword": "newPassword456"
+}
+```
+
+**Expected Response (200):**
+
+```json
+{
+  "success": true,
+  "message": "Password changed successfully"
+}
+```
+
+**Error Response (400) - Wrong Old Password:**
+
+```json
+{
+  "success": false,
+  "message": "Old password is incorrect"
+}
+```
+
+---
+
+## 📚 3. Category APIs
+
+### 3.1 Get All Categories (Public)
 
 **Method:** `GET`  
 **Endpoint:** `{{base_url}}/api/categories`  
@@ -191,7 +315,7 @@ if (response.success && response.data.token) {
 
 ---
 
-### 2.2 Create Category (Admin Only)
+### 3.2 Create Category (Admin Only)
 
 **Method:** `POST`  
 **Endpoint:** `{{base_url}}/api/categories`  
@@ -218,7 +342,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 2.3 Update Category (Admin Only)
+### 3.3 Update Category (Admin Only)
 
 **Method:** `PUT`  
 **Endpoint:** `{{base_url}}/api/categories/{{category_id}}`  
@@ -235,7 +359,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 2.4 Delete Category (Admin Only)
+### 3.4 Delete Category (Admin Only)
 
 **Method:** `DELETE`  
 **Endpoint:** `{{base_url}}/api/categories/{{category_id}}`  
@@ -243,9 +367,9 @@ if (response.success && response.data.id) {
 
 ---
 
-## 👨‍🏫 3. Tutor APIs
+## 👨‍🏫 4. Tutor APIs
 
-### 3.1 Get All Tutors (Public - with filters)
+### 4.1 Get All Tutors (Public - with filters)
 
 **Method:** `GET`  
 **Endpoint:** `{{base_url}}/api/tutors`  
@@ -318,7 +442,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 3.2 Get Single Tutor Details (Public)
+### 4.2 Get Single Tutor Details (Public)
 
 **Method:** `GET`  
 **Endpoint:** `{{base_url}}/api/tutors/{{tutor_id}}`
@@ -358,7 +482,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 3.3 Create/Update Tutor Profile (Tutor Only)
+### 4.3 Create/Update Tutor Profile (Tutor Only)
 
 **Method:** `PUT`  
 **Endpoint:** `{{base_url}}/api/tutor/profile`  
@@ -389,7 +513,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 3.4 Add Availability Slot (Tutor Only)
+### 4.4 Add Availability Slot (Tutor Only)
 
 **Method:** `POST`  
 **Endpoint:** `{{base_url}}/api/tutor/availability`  
@@ -417,7 +541,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 3.5 Update Availability Slot (Tutor Only)
+### 4.5 Update Availability Slot (Tutor Only)
 
 **Method:** `PUT`  
 **Endpoint:** `{{base_url}}/api/tutor/availability`  
@@ -436,7 +560,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 3.6 Get Tutor's Bookings (Tutor Only)
+### 4.6 Get Tutor's Bookings (Tutor Only)
 
 **Method:** `GET`  
 **Endpoint:** `{{base_url}}/api/tutor/bookings`  
@@ -450,7 +574,7 @@ if (response.success && response.data.id) {
 
 ## 📖 4. Booking APIs
 
-### 4.1 Create Booking (Student Only)
+### 5.1 Create Booking (Student Only)
 
 **Method:** `POST`  
 **Endpoint:** `{{base_url}}/api/bookings`  
@@ -481,7 +605,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 4.2 Get My Bookings (Student/Tutor)
+### 5.2 Get My Bookings (Student/Tutor)
 
 **Method:** `GET`  
 **Endpoint:** `{{base_url}}/api/bookings`  
@@ -499,7 +623,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 4.3 Get Booking Details (Student/Tutor)
+### 5.3 Get Booking Details (Student/Tutor)
 
 **Method:** `GET`  
 **Endpoint:** `{{base_url}}/api/bookings/{{booking_id}}`  
@@ -537,7 +661,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 4.4 Complete Booking (Tutor Only)
+### 5.4 Complete Booking (Tutor Only)
 
 **Method:** `PATCH`  
 **Endpoint:** `{{base_url}}/api/bookings/{{booking_id}}/complete`  
@@ -545,7 +669,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 4.5 Cancel Booking (Student Only)
+### 5.5 Cancel Booking (Student Only)
 
 **Method:** `PATCH`  
 **Endpoint:** `{{base_url}}/api/bookings/{{booking_id}}/cancel`  
@@ -553,9 +677,9 @@ if (response.success && response.data.id) {
 
 ---
 
-## ⭐ 5. Review APIs
+## ⭐ 6. Review APIs
 
-### 5.1 Create Review (Student Only)
+### 6.1 Create Review (Student Only)
 
 **Method:** `POST`  
 **Endpoint:** `{{base_url}}/api/reviews`  
@@ -575,7 +699,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 5.2 Get Tutor Reviews (Public)
+### 6.2 Get Tutor Reviews (Public)
 
 **Method:** `GET`  
 **Endpoint:** `{{base_url}}/api/reviews/tutor/{{tutor_id}}`
@@ -601,9 +725,9 @@ if (response.success && response.data.id) {
 
 ---
 
-## 🔧 6. Admin APIs
+## 🔧 7. Admin APIs
 
-### 6.1 Get All Users (Admin Only)
+### 7.1 Get All Users (Admin Only)
 
 **Method:** `GET`  
 **Endpoint:** `{{base_url}}/api/admin/users`  
@@ -621,7 +745,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 6.2 Get All Bookings (Admin Only)
+### 7.2 Get All Bookings (Admin Only)
 
 **Method:** `GET`  
 **Endpoint:** `{{base_url}}/api/admin/bookings`  
@@ -629,7 +753,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 6.3 Ban User (Admin Only)
+### 7.3 Ban User (Admin Only)
 
 **Method:** `PATCH`  
 **Endpoint:** `{{base_url}}/api/admin/users/{{user_id}}/ban`  
@@ -637,7 +761,7 @@ if (response.success && response.data.id) {
 
 ---
 
-### 6.4 Unban User (Admin Only)
+### 7.4 Unban User (Admin Only)
 
 **Method:** `PATCH`  
 **Endpoint:** `{{base_url}}/api/admin/users/{{user_id}}/unban`  

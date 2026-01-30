@@ -21,7 +21,7 @@
 
 ### 🔴 Critical (অবশ্যই করতে হবে)
 
-#### 1. **User Module** (সম্পূর্ণ missing)
+#### 1. **User Module** (সম্পূর্ণ) - Password change is not working
 
 - **Location**: `src/modules/user/`
 - **Files to implement**:
@@ -168,7 +168,7 @@ app.use("/api/admin", AdminRouter);
 
 ### 🟡 Important (করা উচিত)
 
-#### 4. **Tutor Module Completion**
+#### 4. **Tutor Module Completion** (সম্পূর্ণ)
 
 - **Location**: `src/modules/tutor/`
 - **Files to update**:
@@ -210,7 +210,7 @@ GET /api/tutor/bookings - Get bookings (Tutor only)
 
 ---
 
-#### 5. **Booking Module Completion** 
+#### 5. **Booking Module Completion** (সম্পূর্ণ)
 
 - **Location**: `src/modules/booking/`
 - **Files to update**:

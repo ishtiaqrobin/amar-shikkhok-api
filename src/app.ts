@@ -6,6 +6,7 @@ import { CategoryRouter } from "./modules/category/category.route";
 import { notFound } from "./middlewares/notFound";
 import { TutorRouter } from "./modules/tutor/tutor.route";
 import { BookingRouter } from "./modules/booking/booking.route";
+import { UserRouter } from "./modules/user/user.route";
 
 const app: Application = express();
 
@@ -34,7 +35,7 @@ app.use("/api/bookings", BookingRouter);
 // app.use('/api/reviews', ReviewRouter)
 
 // User Routes
-// app.use('/api/users', UserRouter)
+app.use("/api/users", UserRouter);
 
 // Admin Routes
 // app.use('/api/admin', AdminRouter)
