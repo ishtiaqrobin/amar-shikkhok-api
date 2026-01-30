@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { CategoryService } from "./category.service";
 
+// Create category
 const createCategory = async (
   req: Request,
   res: Response,
@@ -23,6 +24,7 @@ const createCategory = async (
   }
 };
 
+// Get all categories
 const getCategories = async (req: Request, res: Response) => {
   try {
     const result = await CategoryService.getCategories();
@@ -41,10 +43,14 @@ const getCategories = async (req: Request, res: Response) => {
   }
 };
 
+// Update category
 const updateCategory = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
-    const result = await CategoryService.updateCategory(id as string, req.body);
+    const { categoryId } = req.params;
+    const result = await CategoryService.updateCategory(
+      categoryId as string,
+      req.body,
+    );
 
     res.status(201).json({
       success: true,
@@ -60,10 +66,11 @@ const updateCategory = async (req: Request, res: Response) => {
   }
 };
 
+// Delete category
 const deleteCategory = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
-    const result = await CategoryService.deleteCategory(id as string);
+    const { categoryId } = req.params;
+    const result = await CategoryService.deleteCategory(categoryId as string);
 
     res.status(201).json({
       success: true,

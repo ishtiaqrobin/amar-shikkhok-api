@@ -333,7 +333,7 @@ if (response.success && response.data.id) {
     "user": {
       "name": "Karim Sir",
       "email": "tutor@test.com",
-      "profileImage": "https://..."
+      "image": "https://..."
     },
     "bio": "Experienced Math teacher from DU",
     "expertise": ["Calculus", "Algebra", "Geometry"],

@@ -2,9 +2,10 @@ import express, { Application } from "express";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth";
 import cors from "cors";
-import { CategoryRouter } from "./modules/category/category.router";
+import { CategoryRouter } from "./modules/category/category.route";
 import { notFound } from "./middlewares/notFound";
-import { TutorRouter } from "./modules/tutor/tutor.router";
+import { TutorRouter } from "./modules/tutor/tutor.route";
+import { BookingRouter } from "./modules/booking/booking.route";
 
 const app: Application = express();
 
@@ -24,10 +25,19 @@ app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use("/api/categories", CategoryRouter);
 
 // Tutor Routes
-app.use("/api/tutors", TutorRouter);
+app.use("/api", TutorRouter);
 
 // Booking Routes
-// app.use("/api/bookings", bookingRouter);
+app.use("/api/bookings", BookingRouter);
+
+// Review Routes
+// app.use('/api/reviews', ReviewRouter)
+
+// User Routes
+// app.use('/api/users', UserRouter)
+
+// Admin Routes
+// app.use('/api/admin', AdminRouter)
 
 // Root Route
 app.get("/", (req, res) => {

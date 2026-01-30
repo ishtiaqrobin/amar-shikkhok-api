@@ -1,6 +1,7 @@
 import { prisma } from "../../lib/prisma";
 import { CreateCategoryInput, UpdateCategoryInput } from "./category.interface";
 
+// Create category
 const createCategory = async (payload: CreateCategoryInput) => {
   const result = await prisma.category.create({
     data: payload,
@@ -9,15 +10,20 @@ const createCategory = async (payload: CreateCategoryInput) => {
   return result;
 };
 
+// Get all categories
 const getCategories = async () => {
   const result = await prisma.category.findMany();
   return result;
 };
 
-const updateCategory = async (id: string, payload: UpdateCategoryInput) => {
+// Update category
+const updateCategory = async (
+  categoryId: string,
+  payload: UpdateCategoryInput,
+) => {
   const result = await prisma.category.update({
     where: {
-      id,
+      id: categoryId,
     },
     data: payload,
   });
@@ -25,10 +31,11 @@ const updateCategory = async (id: string, payload: UpdateCategoryInput) => {
   return result;
 };
 
-const deleteCategory = async (id: string) => {
+// Delete category
+const deleteCategory = async (categoryId: string) => {
   const result = await prisma.category.delete({
     where: {
-      id,
+      id: categoryId,
     },
   });
 

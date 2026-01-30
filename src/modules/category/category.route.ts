@@ -11,9 +11,17 @@ router.get("/", CategoryController.getCategories);
 router.post("/", auth(UserRole.ADMIN), CategoryController.createCategory);
 
 // Update category
-router.put("/:id", auth(UserRole.ADMIN), CategoryController.updateCategory);
+router.put(
+  "/:categoryId",
+  auth(UserRole.ADMIN),
+  CategoryController.updateCategory,
+);
 
 // Delete category
-router.delete("/:id", auth(UserRole.ADMIN), CategoryController.deleteCategory);
+router.delete(
+  "/:categoryId",
+  auth(UserRole.ADMIN),
+  CategoryController.deleteCategory,
+);
 
 export const CategoryRouter: Router = router;

@@ -1,4 +1,4 @@
-export interface CreateTutorInput {
+export interface CreateReviewInput {
   userId: string;
   bio?: string;
   expertise: string[];
@@ -8,7 +8,7 @@ export interface CreateTutorInput {
   categoryIds: string[];
 }
 
-export interface GetTutorsParams {
+export interface GetReviewParams {
   search?: string;
   category?: string;
   minPrice?: number;
@@ -16,7 +16,7 @@ export interface GetTutorsParams {
   rating?: number;
 }
 
-export interface UpdateTutorInput {
+export interface UpdateReviewInput {
   bio?: string;
   expertise?: string[];
   hourlyRate?: number;
@@ -26,18 +26,4 @@ export interface UpdateTutorInput {
   totalReviews?: number;
   totalSessions?: number;
   categoryIds?: string[];
-}
-
-export interface CreateAvailabilityInput {
-  tutorId: string;
-  dayOfWeek: number;
-  startTime: string;
-  endTime: string;
-}
-
-export interface UpdateAvailabilityInput {
-  dayOfWeek: number;
-  startTime?: string;
-  endTime?: string;
-  isAvailable?: boolean;
 }
