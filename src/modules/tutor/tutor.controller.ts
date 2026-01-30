@@ -29,16 +29,12 @@ const createTutorProfile = async (
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to create tutor",
-      error: err,
-    });
+    next(err);
   }
 };
 
 // Get Tutors
-const getTutors = async (req: Request, res: Response) => {
+const getTutors = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { search, category, minPrice, maxPrice, rating } = req.query;
 
@@ -58,16 +54,16 @@ const getTutors = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch tutors",
-      error: err,
-    });
+    next(err);
   }
 };
 
 // Get Tutor By Id
-const getTutorById = async (req: Request, res: Response) => {
+const getTutorById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { tutorId } = req.params;
 
@@ -78,16 +74,16 @@ const getTutorById = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch tutor",
-      error: err,
-    });
+    next(err);
   }
 };
 
 // Update Tutor Profile
-const updateTutorProfile = async (req: Request, res: Response) => {
+const updateTutorProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { tutorId } = req.params;
 
@@ -101,16 +97,16 @@ const updateTutorProfile = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to update tutor",
-      error: err,
-    });
+    next(err);
   }
 };
 
 // Add Availability
-const addAvailability = async (req: Request, res: Response) => {
+const addAvailability = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const userId = req.user?.id;
 
@@ -143,16 +139,16 @@ const addAvailability = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to add availability",
-      error: err,
-    });
+    next(err);
   }
 };
 
 // Update Availability
-const updateAvailability = async (req: Request, res: Response) => {
+const updateAvailability = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const userId = req.user?.id;
 
@@ -182,16 +178,16 @@ const updateAvailability = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to update availability",
-      error: err,
-    });
+    next(err);
   }
 };
 
 // Get My Bookings (Tutor)
-const getMyBookings = async (req: Request, res: Response) => {
+const getMyBookings = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const userId = req.user?.id;
     const { status } = req.query;
@@ -225,11 +221,7 @@ const getMyBookings = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch bookings",
-      error: err,
-    });
+    next(err);
   }
 };
 

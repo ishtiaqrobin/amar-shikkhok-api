@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { UserService } from "./user.service";
 
 // Get current user profile
-const getMe = async (req: Request, res: Response) => {
+const getMe = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.user?.id;
 
@@ -27,17 +27,17 @@ const getMe = async (req: Request, res: Response) => {
       message: "User profile retrieved successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || "Failed to retrieve user profile",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
 // Update user profile
-const updateProfile = async (req: Request, res: Response) => {
+const updateProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const userId = req.user?.id;
 
@@ -55,12 +55,8 @@ const updateProfile = async (req: Request, res: Response) => {
       message: "User profile updated successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      message: err.message || "Failed to update user profile",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 

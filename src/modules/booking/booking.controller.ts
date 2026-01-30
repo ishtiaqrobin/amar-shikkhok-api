@@ -27,17 +27,17 @@ const createBooking = async (
       message: "Booking created successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      message: err.message || "Failed to create booking",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
 // Get booking by id
-const getBookingById = async (req: Request, res: Response) => {
+const getBookingById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { bookingId } = req.params;
 
@@ -67,16 +67,16 @@ const getBookingById = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to retrieve booking",
-      error: err,
-    });
+    next(err);
   }
 };
 
 // Get my bookings (Student/Tutor)
-const getMyBookings = async (req: Request, res: Response) => {
+const getMyBookings = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const userId = req.user?.id;
     const role = req.user?.role;
@@ -100,17 +100,17 @@ const getMyBookings = async (req: Request, res: Response) => {
       message: "Bookings retrieved successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      message: err.message || "Failed to retrieve bookings",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
 // Complete booking (Tutor only)
-const completeBooking = async (req: Request, res: Response) => {
+const completeBooking = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const userId = req.user?.id;
     const { bookingId } = req.params;
@@ -151,17 +151,17 @@ const completeBooking = async (req: Request, res: Response) => {
       message: "Booking completed successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      message: err.message || "Failed to complete booking",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
 // Cancel booking (Student only)
-const cancelBooking = async (req: Request, res: Response) => {
+const cancelBooking = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const studentId = req.user?.id;
     const { bookingId } = req.params;
@@ -183,12 +183,8 @@ const cancelBooking = async (req: Request, res: Response) => {
       message: "Booking cancelled successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      message: err.message || "Failed to cancel booking",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 

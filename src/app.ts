@@ -9,6 +9,7 @@ import { BookingRouter } from "./modules/booking/booking.route";
 import { UserRouter } from "./modules/user/user.route";
 import { ReviewRouter } from "./modules/review/review.route";
 import { AdminRouter } from "./modules/admin/admin.route";
+import errorHandler from "./middlewares/errorHandler";
 
 const app: Application = express();
 
@@ -46,6 +47,9 @@ app.use("/api/admin", AdminRouter);
 app.get("/", (req, res) => {
   res.send("Amar Shikkhok Server is running");
 });
+
+// Error handling
+app.use(errorHandler);
 
 // Not found
 app.use(notFound);

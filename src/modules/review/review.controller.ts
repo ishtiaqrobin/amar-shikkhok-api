@@ -1,8 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ReviewService } from "./review.service";
 
 // Create Review (Student only)
-const createReview = async (req: Request, res: Response) => {
+const createReview = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const studentId = req.user?.id;
 
@@ -23,17 +27,17 @@ const createReview = async (req: Request, res: Response) => {
       message: "Review created successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      message: err.message || "Failed to create review",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
 // Get Tutor Reviews (Public)
-const getTutorReviews = async (req: Request, res: Response) => {
+const getTutorReviews = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { tutorId } = req.params;
 
@@ -51,12 +55,8 @@ const getTutorReviews = async (req: Request, res: Response) => {
       message: "Reviews retrieved successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || "Failed to retrieve reviews",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 

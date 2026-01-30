@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { AdminService } from "./admin.service";
 
 // Get all users (Admin only)
-const getAllUsers = async (req: Request, res: Response) => {
+const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { role } = req.query;
 
@@ -13,17 +13,13 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: "Users retrieved successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || "Failed to retrieve users",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
 // Ban user (Admin only)
-const banUser = async (req: Request, res: Response) => {
+const banUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.params;
 
@@ -41,17 +37,13 @@ const banUser = async (req: Request, res: Response) => {
       message: "User banned successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      message: err.message || "Failed to ban user",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
 // Unban user (Admin only)
-const unbanUser = async (req: Request, res: Response) => {
+const unbanUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.params;
 
@@ -69,17 +61,17 @@ const unbanUser = async (req: Request, res: Response) => {
       message: "User unbanned successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      message: err.message || "Failed to unban user",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
 // Get all bookings (Admin only)
-const getAllBookings = async (req: Request, res: Response) => {
+const getAllBookings = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const result = await AdminService.getAllBookings();
 
@@ -88,17 +80,17 @@ const getAllBookings = async (req: Request, res: Response) => {
       message: "Bookings retrieved successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || "Failed to retrieve bookings",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
 // Get dashboard statistics (Admin only)
-const getDashboardStats = async (req: Request, res: Response) => {
+const getDashboardStats = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const result = await AdminService.getDashboardStats();
 
@@ -107,12 +99,8 @@ const getDashboardStats = async (req: Request, res: Response) => {
       message: "Dashboard statistics retrieved successfully",
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || "Failed to retrieve dashboard statistics",
-      error: err,
-    });
+  } catch (err) {
+    next(err);
   }
 };
 
