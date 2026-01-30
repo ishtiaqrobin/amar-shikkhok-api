@@ -7,4 +7,7 @@ const router = express.Router();
 // Create review (Student only)
 router.post("/", auth(UserRole.STUDENT), ReviewController.createReview);
 
-export const reviewRouter: Router = router;
+// Get tutor reviews (Public)
+router.get("/tutor/:tutorId", ReviewController.getTutorReviews);
+
+export const ReviewRouter: Router = router;

@@ -18,11 +18,4 @@ router.put(
   UserController.updateProfile,
 );
 
-// Change password
-router.put(
-  "/password",
-  auth(UserRole.STUDENT, UserRole.TUTOR, UserRole.ADMIN),
-  UserController.changePassword,
-);
-
 export const UserRouter: Router = router;

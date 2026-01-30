@@ -64,35 +64,7 @@ const updateProfile = async (req: Request, res: Response) => {
   }
 };
 
-// Change password
-const changePassword = async (req: Request, res: Response) => {
-  try {
-    const userId = req.user?.id;
-
-    if (!userId) {
-      return res.status(401).json({
-        success: false,
-        message: "User not authenticated",
-      });
-    }
-
-    const result = await UserService.changePassword(userId, req.body);
-
-    res.status(200).json({
-      success: true,
-      message: result.message,
-    });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      message: err.message || "Failed to change password",
-      error: err,
-    });
-  }
-};
-
 export const UserController = {
   getMe,
   updateProfile,
-  changePassword,
 };

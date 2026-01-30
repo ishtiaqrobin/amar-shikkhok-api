@@ -7,6 +7,8 @@ import { notFound } from "./middlewares/notFound";
 import { TutorRouter } from "./modules/tutor/tutor.route";
 import { BookingRouter } from "./modules/booking/booking.route";
 import { UserRouter } from "./modules/user/user.route";
+import { ReviewRouter } from "./modules/review/review.route";
+import { AdminRouter } from "./modules/admin/admin.route";
 
 const app: Application = express();
 
@@ -32,13 +34,13 @@ app.use("/api", TutorRouter);
 app.use("/api/bookings", BookingRouter);
 
 // Review Routes
-// app.use('/api/reviews', ReviewRouter)
+app.use("/api/reviews", ReviewRouter);
 
 // User Routes
 app.use("/api/users", UserRouter);
 
 // Admin Routes
-// app.use('/api/admin', AdminRouter)
+app.use("/api/admin", AdminRouter);
 
 // Root Route
 app.get("/", (req, res) => {

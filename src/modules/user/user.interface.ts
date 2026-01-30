@@ -3,8 +3,3 @@ export interface UpdateUserInput {
   phone?: string;
   image?: string;
 }
-
-export interface ChangePasswordInput {
-  oldPassword: string;
-  newPassword: string;
-}
