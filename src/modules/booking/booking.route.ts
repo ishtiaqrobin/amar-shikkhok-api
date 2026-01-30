@@ -4,17 +4,35 @@ import { BookingController } from "./booking.controller";
 
 const router = express.Router();
 
-// Booking a tutor (Student only)
-router.post("/", auth(UserRole.STUDENT), BookingController.createBooking);
+// Get my bookings (Student/Tutor)
+router.get(
+  "/",
+  auth(UserRole.STUDENT, UserRole.TUTOR),
+  BookingController.getMyBookings,
+);
 
-// Get booking by id (Student, Tutor, Admin)
+// Get booking by id (Student, Tutor)
 router.get(
   "/:bookingId",
-  auth(UserRole.STUDENT, UserRole.TUTOR, UserRole.ADMIN),
+  auth(UserRole.STUDENT, UserRole.TUTOR),
   BookingController.getBookingById,
 );
 
-// Get all bookings (Admin only)
-router.get("/", auth(UserRole.ADMIN), BookingController.getAllBookings);
+// Create Booking (Student only)
+router.post("/", auth(UserRole.STUDENT), BookingController.createBooking);
+
+// Complete booking (Tutor only)
+router.patch(
+  "/:bookingId/complete",
+  auth(UserRole.TUTOR),
+  BookingController.completeBooking,
+);
+
+// Cancel booking (Student only)
+router.patch(
+  "/:bookingId/cancel",
+  auth(UserRole.STUDENT),
+  BookingController.cancelBooking,
+);
 
 export const BookingRouter: Router = router;

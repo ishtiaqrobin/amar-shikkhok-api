@@ -210,7 +210,7 @@ GET /api/tutor/bookings - Get bookings (Tutor only)
 
 ---
 
-#### 5. **Booking Module Completion**
+#### 5. **Booking Module Completion** 
 
 - **Location**: `src/modules/booking/`
 - **Files to update**:
