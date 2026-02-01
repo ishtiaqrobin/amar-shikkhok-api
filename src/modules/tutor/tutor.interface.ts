@@ -14,6 +14,8 @@ export interface GetTutorsParams {
   minPrice?: number;
   maxPrice?: number;
   rating?: number;
+  page?: number;
+  limit?: number;
 }
 
 export interface UpdateTutorInput {

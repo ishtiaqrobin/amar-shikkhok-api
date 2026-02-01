@@ -48,7 +48,15 @@ const createTutorProfile = async (payload: CreateTutorInput) => {
 
 // Get Tutors
 const getTutors = async (params: GetTutorsParams) => {
-  const { search, category, minPrice, maxPrice, rating } = params;
+  const {
+    search,
+    category,
+    minPrice,
+    maxPrice,
+    rating,
+    page = 1,
+    limit = 12,
+  } = params;
 
   // Build AND conditions array
   const andConditions: any[] = [];
@@ -140,8 +148,19 @@ const getTutors = async (params: GetTutorsParams) => {
   // Build final where clause
   const whereClause = andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.tutorProfile.findMany({
+  // Calculate pagination
+  const skip = (page - 1) * limit;
+
+  // Get total count
+  const total = await prisma.tutorProfile.count({
     where: whereClause,
+  });
+
+  // Get paginated results
+  const data = await prisma.tutorProfile.findMany({
+    where: whereClause,
+    skip,
+    take: limit,
     include: {
       categories: {
         select: {
@@ -168,7 +187,15 @@ const getTutors = async (params: GetTutorsParams) => {
     },
   });
 
-  return result;
+  return {
+    data,
+    meta: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
 };
 
 // Get Tutor By Id

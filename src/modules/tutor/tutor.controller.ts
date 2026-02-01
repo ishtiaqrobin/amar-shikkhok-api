@@ -36,7 +36,8 @@ const createTutorProfile = async (
 // Get Tutors
 const getTutors = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { search, category, minPrice, maxPrice, rating } = req.query;
+    const { search, category, minPrice, maxPrice, rating, page, limit } =
+      req.query;
 
     // Build params object dynamically to avoid undefined values
     const params: any = {};
@@ -45,13 +46,15 @@ const getTutors = async (req: Request, res: Response, next: NextFunction) => {
     if (minPrice) params.minPrice = Number(minPrice);
     if (maxPrice) params.maxPrice = Number(maxPrice);
     if (rating) params.rating = Number(rating);
+    if (page) params.page = Number(page);
+    if (limit) params.limit = Number(limit);
 
     const result = await TutorService.getTutors(params);
 
     res.status(200).json({
       success: true,
       message: "Tutors fetched successfully",
-      data: result,
+      ...result,
     });
   } catch (err) {
     next(err);
@@ -119,7 +122,7 @@ const addAvailability = async (
 
     // Get tutor profile
     const tutorProfile = await TutorService.getTutors({ search: userId });
-    const tutor = tutorProfile.find((t) => t.userId === userId);
+    const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
 
     if (!tutor) {
       return res.status(404).json({
@@ -161,7 +164,7 @@ const updateAvailability = async (
 
     // Get tutor profile
     const tutorProfile = await TutorService.getTutors({ search: userId });
-    const tutor = tutorProfile.find((t) => t.userId === userId);
+    const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
 
     if (!tutor) {
       return res.status(404).json({
@@ -201,7 +204,7 @@ const getMyBookings = async (
 
     // Get tutor profile
     const tutorProfile = await TutorService.getTutors({ search: userId });
-    const tutor = tutorProfile.find((t) => t.userId === userId);
+    const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
 
     if (!tutor) {
       return res.status(404).json({
