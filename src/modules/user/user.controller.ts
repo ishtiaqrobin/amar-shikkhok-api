@@ -60,7 +60,36 @@ const updateProfile = async (
   }
 };
 
+// Get student dashboard stats
+const getStudentStats = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "User not authenticated",
+      });
+    }
+
+    const result = await UserService.getStudentStats(userId);
+
+    res.status(200).json({
+      success: true,
+      message: "Student stats retrieved successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const UserController = {
   getMe,
   updateProfile,
+  getStudentStats,
 };

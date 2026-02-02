@@ -1,5 +1,5 @@
-import { email } from "better-auth/*";
 import { prisma } from "../../lib/prisma";
+import { BookingStatus } from "../../../generated/prisma";
 import {
   CreateTutorInput,
   GetTutorsParams,
@@ -308,6 +308,57 @@ const getTutorBookings = async (tutorId: string, status?: string) => {
   return result;
 };
 
+// Get tutor dashboard stats
+const getTutorStats = async (userId: string) => {
+  const tutor = await prisma.tutorProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!tutor) {
+    throw new Error("Tutor profile not found");
+  }
+
+  const now = new Date();
+  const weekFromNow = new Date();
+  weekFromNow.setDate(weekFromNow.getDate() + 7);
+
+  // Get total bookings
+  const totalBookings = await prisma.booking.count({
+    where: { tutorId: tutor.id },
+  });
+
+  // Get upcoming bookings (Confirmed in next 7 days)
+  const upcomingBookings = await prisma.booking.count({
+    where: {
+      tutorId: tutor.id,
+      sessionDate: {
+        gte: now,
+        lte: weekFromNow,
+      },
+      status: BookingStatus.CONFIRMED,
+    },
+  });
+
+  // Get total revenue
+  const revenue = await prisma.booking.aggregate({
+    where: {
+      tutorId: tutor.id,
+      status: BookingStatus.COMPLETED,
+    },
+    _sum: {
+      totalPrice: true,
+    },
+  });
+
+  return {
+    totalBookings,
+    upcomingBookings,
+    totalSessions: tutor.totalSessions,
+    totalRevenue: revenue._sum.totalPrice || 0,
+    rating: tutor.rating,
+  };
+};
+
 export const TutorService = {
   createTutorProfile,
   getTutors,
@@ -316,4 +367,5 @@ export const TutorService = {
   addAvailability,
   updateAvailability,
   getTutorBookings,
+  getTutorStats,
 };

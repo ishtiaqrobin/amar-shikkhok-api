@@ -228,6 +228,34 @@ const getMyBookings = async (
   }
 };
 
+// Get tutor dashboard stats
+const getTutorStats = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "User not authenticated",
+      });
+    }
+
+    const result = await TutorService.getTutorStats(userId);
+
+    res.status(200).json({
+      success: true,
+      message: "Tutor stats fetched successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const TutorController = {
   createTutorProfile,
   getTutors,
@@ -236,4 +264,5 @@ export const TutorController = {
   addAvailability,
   updateAvailability,
   getMyBookings,
+  getTutorStats,
 };

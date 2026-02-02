@@ -18,4 +18,7 @@ router.put(
   UserController.updateProfile,
 );
 
+// Get student dashboard stats
+router.get("/stats", auth(UserRole.STUDENT), UserController.getStudentStats);
+
 export const UserRouter: Router = router;

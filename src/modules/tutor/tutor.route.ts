@@ -39,4 +39,6 @@ router.get(
   TutorController.getMyBookings,
 );
 
+router.get("/tutor/stats", auth(UserRole.TUTOR), TutorController.getTutorStats);
+
 export const TutorRouter: Router = router;
