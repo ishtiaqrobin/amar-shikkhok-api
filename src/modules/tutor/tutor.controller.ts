@@ -36,16 +36,25 @@ const createTutorProfile = async (
 // Get Tutors
 const getTutors = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { search, category, minPrice, maxPrice, rating, page, limit } =
-      req.query;
+    const {
+      search,
+      category,
+      categoryId,
+      minPrice,
+      maxPrice,
+      minRating,
+      page,
+      limit,
+    } = req.query;
 
     // Build params object dynamically to avoid undefined values
     const params: any = {};
     if (search) params.search = search as string;
     if (category) params.category = category as string;
+    if (categoryId) params.categoryId = categoryId as string;
     if (minPrice) params.minPrice = Number(minPrice);
     if (maxPrice) params.maxPrice = Number(maxPrice);
-    if (rating) params.rating = Number(rating);
+    if (minRating) params.minRating = Number(minRating);
     if (page) params.page = Number(page);
     if (limit) params.limit = Number(limit);
 

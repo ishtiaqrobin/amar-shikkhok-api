@@ -179,6 +179,7 @@ const getUserBookings = async (
           },
         },
       },
+      review: true,
     },
     orderBy: {
       sessionDate: "desc",

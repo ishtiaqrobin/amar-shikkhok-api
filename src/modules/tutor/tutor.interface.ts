@@ -11,9 +11,10 @@ export interface CreateTutorInput {
 export interface GetTutorsParams {
   search?: string;
   category?: string;
+  categoryId?: string;
   minPrice?: number;
   maxPrice?: number;
-  rating?: number;
+  minRating?: number;
   page?: number;
   limit?: number;
 }

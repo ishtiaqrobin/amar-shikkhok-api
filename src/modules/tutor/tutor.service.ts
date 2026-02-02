@@ -53,7 +53,7 @@ const getTutors = async (params: GetTutorsParams) => {
     category,
     minPrice,
     maxPrice,
-    rating,
+    minRating,
     page = 1,
     limit = 12,
   } = params;
@@ -122,6 +122,16 @@ const getTutors = async (params: GetTutorsParams) => {
     });
   }
 
+  if (params.categoryId) {
+    andConditions.push({
+      categories: {
+        some: {
+          id: params.categoryId,
+        },
+      },
+    });
+  }
+
   // Price range filter
   if (minPrice !== undefined || maxPrice !== undefined) {
     const priceCondition: any = {};
@@ -137,10 +147,10 @@ const getTutors = async (params: GetTutorsParams) => {
   }
 
   // Rating filter
-  if (rating !== undefined) {
+  if (minRating !== undefined) {
     andConditions.push({
       rating: {
-        gte: rating,
+        gte: minRating,
       },
     });
   }
