@@ -34,6 +34,12 @@ router.put(
 );
 
 router.get(
+  "/tutor/availability",
+  auth(UserRole.TUTOR),
+  TutorController.getAvailability,
+);
+
+router.get(
   "/tutor/bookings",
   auth(UserRole.TUTOR),
   TutorController.getMyBookings,

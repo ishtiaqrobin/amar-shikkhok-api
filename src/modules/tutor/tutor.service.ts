@@ -40,6 +40,7 @@ const createTutorProfile = async (payload: CreateTutorInput) => {
           isBanned: true,
         },
       },
+      availabilities: true,
     },
   });
 
@@ -191,6 +192,7 @@ const getTutors = async (params: GetTutorsParams) => {
           isBanned: true,
         },
       },
+      availabilities: true,
     },
     orderBy: {
       rating: "desc",
@@ -234,6 +236,7 @@ const getTutorById = async (tutorId: string) => {
           isBanned: true,
         },
       },
+      availabilities: true,
     },
   });
 
@@ -284,6 +287,20 @@ const updateAvailability = async (
       dayOfWeek,
     },
     data: updateData,
+  });
+
+  return result;
+};
+
+// Get Availability
+const getAvailability = async (tutorId: string) => {
+  const result = await prisma.availability.findMany({
+    where: {
+      tutorId,
+    },
+    orderBy: {
+      dayOfWeek: "asc",
+    },
   });
 
   return result;
@@ -376,6 +393,7 @@ export const TutorService = {
   updateTutorProfile,
   addAvailability,
   updateAvailability,
+  getAvailability,
   getTutorBookings,
   getTutorStats,
 };

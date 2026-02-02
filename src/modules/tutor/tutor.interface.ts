@@ -36,6 +36,7 @@ export interface CreateAvailabilityInput {
   dayOfWeek: number;
   startTime: string;
   endTime: string;
+  isAvailable?: boolean;
 }
 
 export interface UpdateAvailabilityInput {

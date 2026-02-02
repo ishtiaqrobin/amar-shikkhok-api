@@ -142,7 +142,13 @@ const addAvailability = async (
 
     const result = await TutorService.addAvailability({
       tutorId: tutor.id,
-      ...req.body,
+      dayOfWeek: parseInt(req.body.dayOfWeek),
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+      isAvailable:
+        req.body.isAvailable !== undefined
+          ? Boolean(req.body.isAvailable)
+          : true,
     });
 
     res.status(201).json({
@@ -182,11 +188,59 @@ const updateAvailability = async (
       });
     }
 
-    const result = await TutorService.updateAvailability(tutor.id, req.body);
+    const payload: any = {
+      dayOfWeek: parseInt(req.body.dayOfWeek),
+    };
+
+    if (req.body.startTime) payload.startTime = req.body.startTime;
+    if (req.body.endTime) payload.endTime = req.body.endTime;
+    if (req.body.isAvailable !== undefined)
+      payload.isAvailable = req.body.isAvailable;
+
+    const result = await TutorService.updateAvailability(tutor.id, payload);
 
     res.status(200).json({
       success: true,
       message: "Availability updated successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Get Availability
+const getAvailability = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "User not authenticated",
+      });
+    }
+
+    // Get tutor profile
+    const tutorProfile = await TutorService.getTutors({ search: userId });
+    const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
+
+    if (!tutor) {
+      return res.status(404).json({
+        success: false,
+        message: "Tutor profile not found",
+      });
+    }
+
+    const result = await TutorService.getAvailability(tutor.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Availability fetched successfully",
       data: result,
     });
   } catch (err) {
@@ -272,6 +326,7 @@ export const TutorController = {
   updateTutorProfile,
   addAvailability,
   updateAvailability,
+  getAvailability,
   getMyBookings,
   getTutorStats,
 };
