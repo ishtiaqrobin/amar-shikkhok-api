@@ -144,7 +144,7 @@ const getUserBookings = async (
     });
 
     if (!tutorProfile) {
-      throw new Error("Tutor profile not found");
+      return [];
     }
 
     whereClause.tutorId = tutorProfile.id;
