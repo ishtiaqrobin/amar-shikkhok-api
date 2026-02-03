@@ -6,7 +6,7 @@ export default defineConfig({
   platform: "node",
   target: "node20",
   outDir: "api",
-  external: ["pg-native"],
+  external: ["pg-native", "@prisma/client", "@prisma/adapter-pg"],
   skipNodeModulesBundle: true, // Prevents bundling node_modules (Avoids Vercel crashes)
   shims: true, // Fixes __dirname and other ESM compatibility issues
   outExtension() {
