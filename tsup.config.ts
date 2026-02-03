@@ -6,12 +6,11 @@ export default defineConfig({
   platform: "node",
   target: "node20",
   outDir: "api",
-  external: ["pg-native", "@prisma/client", "@prisma/adapter-pg"], // Prisma remains external to load engines correctly
-  noExternal: ["better-auth"], // Bundle better-auth to resolve its dynamic requires at build time
-  skipNodeModulesBundle: false,
-  shims: true,
+  external: ["pg-native"],
+  skipNodeModulesBundle: true, // Prevents bundling node_modules (Avoids Vercel crashes)
+  shims: true, // Fixes __dirname and other ESM compatibility issues
   outExtension() {
-    return { js: ".mjs" };
+    return { js: ".mjs" }; // Outputs server.mjs
   },
-  clean: true,
+  clean: true, // Clears the api/ folder before every build
 });
