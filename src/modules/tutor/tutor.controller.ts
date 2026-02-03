@@ -246,9 +246,10 @@ const getAvailability = async (
     const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
 
     if (!tutor) {
-      return res.status(404).json({
-        success: false,
-        message: "Tutor profile not found",
+      return res.status(200).json({
+        success: true,
+        message: "Availability fetched successfully",
+        data: [],
       });
     }
 
@@ -286,9 +287,10 @@ const getMyBookings = async (
     const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
 
     if (!tutor) {
-      return res.status(404).json({
-        success: false,
-        message: "Tutor profile not found",
+      return res.status(200).json({
+        success: true,
+        message: "Bookings fetched successfully",
+        data: [],
       });
     }
 

@@ -1,6 +1,5 @@
 // tsx src/scripts/seedAdmin.ts
 
-
 import { prisma } from "../lib/prisma";
 import { auth } from "../lib/auth";
 
@@ -8,9 +7,9 @@ async function seedAdmin() {
   try {
     console.log("🌱 Starting admin seed...");
 
-    const adminEmail = process.env.ADMIN_EMAIL || "admin@amarshikkhok.com";
-    const adminPassword = process.env.ADMIN_PASSWORD || "admin@123456";
-    const adminName = process.env.ADMIN_NAME || "Amar Shikkhok Admin";
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@gmail.com";
+    const adminPassword = process.env.ADMIN_PASSWORD || "password123";
+    const adminName = process.env.ADMIN_NAME || "Admin";
 
     // Check if admin already exists
     const existingAdmin = await prisma.user.findUnique({

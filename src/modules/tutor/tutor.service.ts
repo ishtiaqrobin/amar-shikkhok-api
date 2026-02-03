@@ -344,7 +344,13 @@ const getTutorStats = async (userId: string) => {
   });
 
   if (!tutor) {
-    throw new Error("Tutor profile not found");
+    return {
+      totalBookings: 0,
+      upcomingBookings: 0,
+      totalSessions: 0,
+      totalRevenue: 0,
+      rating: 0,
+    };
   }
 
   const now = new Date();
