@@ -1,5 +1,7 @@
 node_modules
 .env
+.env.local
+.next
 /generated/prisma
 README.md
 SkillBridge.md
@@ -8,3 +10,5 @@ postman.md
 amar_shikkhok.md
 remaining_work.md
 workflow.md
+.vercel
+dist

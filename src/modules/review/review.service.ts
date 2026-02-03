@@ -97,7 +97,38 @@ const getTutorReviews = async (tutorId: string) => {
   return result;
 };
 
+// Get all reviews (Public, latest first)
+const getAllReviews = async (limit: number = 10) => {
+  const result = await prisma.review.findMany({
+    take: limit,
+    include: {
+      student: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+      tutor: {
+        include: {
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return result;
+};
+
 export const ReviewService = {
   createReview,
   getTutorReviews,
+  getAllReviews,
 };

@@ -60,7 +60,28 @@ const getTutorReviews = async (
   }
 };
 
+// Get All Reviews (Public)
+const getAllReviews = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+    const result = await ReviewService.getAllReviews(limit);
+
+    res.status(200).json({
+      success: true,
+      message: "Reviews retrieved successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const ReviewController = {
   createReview,
   getTutorReviews,
+  getAllReviews,
 };

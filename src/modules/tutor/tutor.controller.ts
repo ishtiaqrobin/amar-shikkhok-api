@@ -97,7 +97,23 @@ const updateTutorProfile = async (
   next: NextFunction,
 ) => {
   try {
-    const { tutorId } = req.params;
+    const userId = req.user?.id;
+    let { tutorId } = req.params;
+
+    if (!tutorId && userId) {
+      const tutorProfile = await TutorService.getTutors({ search: userId });
+      const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
+      if (tutor) {
+        tutorId = tutor.id;
+      }
+    }
+
+    if (!tutorId) {
+      return res.status(404).json({
+        success: false,
+        message: "Tutor profile not found",
+      });
+    }
 
     const result = await TutorService.updateTutorProfile(
       tutorId as string,

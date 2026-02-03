@@ -1,5 +1,3 @@
-import { BookingStatus } from "../../../generated/prisma";
-
 export interface CreateBookingInput {
   studentId: string;
   tutorId: string;

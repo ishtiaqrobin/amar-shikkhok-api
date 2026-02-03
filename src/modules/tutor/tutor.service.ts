@@ -256,9 +256,11 @@ const updateTutorProfile = async (
     },
     data: {
       ...tutorData,
-      categories: {
-        set: categoryIds?.map((categoryId) => ({ id: categoryId })) || [],
-      },
+      ...(categoryIds && {
+        categories: {
+          set: categoryIds.map((categoryId) => ({ id: categoryId })),
+        },
+      }),
     },
   });
 

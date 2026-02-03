@@ -1,6 +1,6 @@
 // tsx src/scripts/seedAdmin.ts
 
-import "dotenv/config";
+
 import { prisma } from "../lib/prisma";
 import { auth } from "../lib/auth";
 
