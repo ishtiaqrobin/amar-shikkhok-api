@@ -6,7 +6,14 @@ export default defineConfig({
   platform: "node",
   target: "node20",
   outDir: "api",
-  external: ["pg-native", "@prisma/client", "@prisma/adapter-pg"],
+  external: [
+    "pg-native",
+    "@prisma/client",
+    "@prisma/adapter-pg",
+    "better-auth",
+    "better-auth/adapters/prisma",
+    "better-auth/node",
+  ],
   skipNodeModulesBundle: true, // Prevents bundling node_modules (Avoids Vercel crashes)
   shims: true, // Fixes __dirname and other ESM compatibility issues
   outExtension() {
