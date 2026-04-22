@@ -1,0 +1,198 @@
+// Account Model - Required by Better Auth
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("accounts")
+}
+
+// Availability Model
+model Availability {
+  id          String   @id @default(uuid())
+  tutorId     String
+  dayOfWeek   Int
+  startTime   String
+  endTime     String
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+
+  @@map("availabilities")
+}
+
+// Booking Model
+model Booking {
+  id          String        @id @default(uuid())
+  studentId   String
+  tutorId     String
+  subject     String
+  sessionDate DateTime
+  startTime   String
+  endTime     String
+  status      BookingStatus @default(CONFIRMED)
+  notes       String?       @db.Text
+  totalPrice  Float
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  student User         @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
+  tutor   TutorProfile @relation("TutorBookings", fields: [tutorId], references: [id], onDelete: Cascade)
+  review  Review?
+
+  @@map("bookings")
+}
+
+// BookingStatus Enum
+enum BookingStatus {
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+// Category Model
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  tutors TutorProfile[]
+
+  @@map("categories")
+}
+
+// Review Model
+model Review {
+  id        String   @id @default(uuid())
+  bookingId String   @unique
+  studentId String
+  tutorId   String
+  rating    Int
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  booking Booking      @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  student User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  tutor   TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Session Model - Required by Better Auth
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// TutorProfile Model
+model TutorProfile {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  bio           String?  @db.Text
+  expertise     String[]
+  hourlyRate    Float
+  experience    Int
+  education     String?
+  rating        Float    @default(0)
+  totalReviews  Int      @default(0)
+  totalSessions Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categories     Category[]
+  availabilities Availability[]
+  bookings       Booking[]      @relation("TutorBookings")
+  reviews        Review[]
+
+  @@map("tutor_profiles")
+}
+
+// User Model
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  name          String
+  image         String?
+  password      String?
+  role          Role     @default(STUDENT)
+  phone         String?
+  isActive      Boolean  @default(true)
+  isBanned      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Better Auth Relations
+  sessions Session[]
+  accounts Account[]
+
+  // App Relations
+  tutorProfile TutorProfile?
+  bookings     Booking[]     @relation("StudentBookings")
+  reviews      Review[]
+
+  @@map("users")
+}
+
+// Role Enum
+enum Role {
+  STUDENT
+  TUTOR
+  ADMIN
+}
+
+// Verification Model - Required by Better Auth
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+
+  @@map("verifications")
+}

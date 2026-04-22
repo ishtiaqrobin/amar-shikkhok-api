@@ -1,5 +1,6 @@
-import { prisma } from "../../lib/prisma";
+import status from "http-status";
 import { BookingStatus } from "../../../generated/prisma";
+import { prisma } from "../../lib/prisma";
 import {
   CreateTutorInput,
   GetTutorsParams,
@@ -10,13 +11,48 @@ import {
 
 // Create Tutor Profile
 const createTutorProfile = async (payload: CreateTutorInput) => {
-  const { categoryIds, ...tutorData } = payload;
+  const { categoryIds, userId, ...tutorData } = payload;
 
+  // 1. Verify user exists
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) {
+    throw new Error(`User with ID ${userId} not found in database.`);
+  }
+
+  // 2. Check if profile already exists
+  const existingProfile = await prisma.tutorProfile.findUnique({
+    where: { userId },
+  });
+
+  if (existingProfile) {
+    return await updateTutorProfile(existingProfile.id, {
+      ...tutorData,
+      categoryIds,
+    });
+  }
+
+  // 3. Filter valid categories to prevent P2025 connection errors
+  let validCategoryIds: string[] = [];
+  if (categoryIds && categoryIds.length > 0) {
+    const categories = await prisma.category.findMany({
+      where: {
+        id: { in: categoryIds },
+      },
+      select: { id: true },
+    });
+    validCategoryIds = categories.map((c) => c.id);
+  }
+
+  // 4. Create the profile
   const result = await prisma.tutorProfile.create({
     data: {
       ...tutorData,
+      userId, // Using scalar field for relation
       categories: {
-        connect: categoryIds.map((id) => ({ id })),
+        connect: validCategoryIds.map((id) => ({ id })),
       },
     },
 
@@ -210,6 +246,39 @@ const getTutors = async (params: GetTutorsParams) => {
   };
 };
 
+// Get Tutor By User Id
+const getTutorByUserId = async (userId: string) => {
+  const result = await prisma.tutorProfile.findUnique({
+    where: {
+      userId,
+    },
+    include: {
+      categories: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+        },
+      },
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          phone: true,
+          image: true,
+          isActive: true,
+          isBanned: true,
+        },
+      },
+      availabilities: true,
+    },
+  });
+
+  return result;
+};
+
 // Get Tutor By Id
 const getTutorById = async (tutorId: string) => {
   const result = await prisma.tutorProfile.findUnique({
@@ -250,15 +319,38 @@ const updateTutorProfile = async (
 ) => {
   const { categoryIds, ...tutorData } = payload;
 
+  // 1. Verify tutor profile exists
+  const existingTutor = await prisma.tutorProfile.findUnique({
+    where: { id: tutorId },
+  });
+
+  if (!existingTutor) {
+    throw new Error(`Tutor profile with ID ${tutorId} not found.`);
+  }
+
+  // 2. Filter valid categories if provided
+  let validCategoryIds: string[] | undefined = undefined;
+  if (categoryIds && categoryIds.length > 0) {
+    const categories = await prisma.category.findMany({
+      where: {
+        id: { in: categoryIds },
+      },
+      select: { id: true },
+    });
+    validCategoryIds = categories.map((c) => c.id);
+  } else if (categoryIds) {
+    validCategoryIds = [];
+  }
+
   const result = await prisma.tutorProfile.update({
     where: {
       id: tutorId,
     },
     data: {
       ...tutorData,
-      ...(categoryIds && {
+      ...(validCategoryIds !== undefined && {
         categories: {
-          set: categoryIds.map((categoryId) => ({ id: categoryId })),
+          set: validCategoryIds.map((id) => ({ id })),
         },
       }),
     },
@@ -396,6 +488,7 @@ const getTutorStats = async (userId: string) => {
 
 export const TutorService = {
   createTutorProfile,
+  getTutorByUserId,
   getTutors,
   getTutorById,
   updateTutorProfile,

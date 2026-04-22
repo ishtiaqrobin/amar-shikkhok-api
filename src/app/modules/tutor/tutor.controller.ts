@@ -90,6 +90,41 @@ const getTutorById = async (
   }
 };
 
+// Get My Profile (Tutor)
+const getMyProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "User not authenticated",
+      });
+    }
+
+    const result = await TutorService.getTutorByUserId(userId);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Tutor profile not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Tutor profile fetched successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // Update Tutor Profile
 const updateTutorProfile = async (
   req: Request,
@@ -101,8 +136,7 @@ const updateTutorProfile = async (
     let { tutorId } = req.params;
 
     if (!tutorId && userId) {
-      const tutorProfile = await TutorService.getTutors({ search: userId });
-      const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
+      const tutor = await TutorService.getTutorByUserId(userId);
       if (tutor) {
         tutorId = tutor.id;
       }
@@ -129,6 +163,44 @@ const updateTutorProfile = async (
   }
 };
 
+// Update My Profile (Tutor)
+const updateMyProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "User not authenticated",
+      });
+    }
+
+    // Get tutor profile
+    const tutor = await TutorService.getTutorByUserId(userId);
+
+    if (!tutor) {
+      return res.status(404).json({
+        success: false,
+        message: "Tutor profile not found",
+      });
+    }
+
+    const result = await TutorService.updateTutorProfile(tutor.id, req.body);
+
+    res.status(200).json({
+      success: true,
+      message: "Tutor profile updated successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // Add Availability
 const addAvailability = async (
   req: Request,
@@ -146,8 +218,7 @@ const addAvailability = async (
     }
 
     // Get tutor profile
-    const tutorProfile = await TutorService.getTutors({ search: userId });
-    const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
+    const tutor = await TutorService.getTutorByUserId(userId);
 
     if (!tutor) {
       return res.status(404).json({
@@ -194,8 +265,7 @@ const updateAvailability = async (
     }
 
     // Get tutor profile
-    const tutorProfile = await TutorService.getTutors({ search: userId });
-    const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
+    const tutor = await TutorService.getTutorByUserId(userId);
 
     if (!tutor) {
       return res.status(404).json({
@@ -242,8 +312,7 @@ const getAvailability = async (
     }
 
     // Get tutor profile
-    const tutorProfile = await TutorService.getTutors({ search: userId });
-    const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
+    const tutor = await TutorService.getTutorByUserId(userId);
 
     if (!tutor) {
       return res.status(200).json({
@@ -283,8 +352,7 @@ const getMyBookings = async (
     }
 
     // Get tutor profile
-    const tutorProfile = await TutorService.getTutors({ search: userId });
-    const tutor = tutorProfile.data.find((t: any) => t.userId === userId);
+    const tutor = await TutorService.getTutorByUserId(userId);
 
     if (!tutor) {
       return res.status(200).json({
@@ -341,7 +409,9 @@ export const TutorController = {
   createTutorProfile,
   getTutors,
   getTutorById,
+  getMyProfile,
   updateTutorProfile,
+  updateMyProfile,
   addAvailability,
   updateAvailability,
   getAvailability,
