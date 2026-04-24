@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { BookingService } from "./booking.service";
+import { BookingPaymentService } from "./booking.payment.service";
 
 // Create booking
 const createBooking = async (
@@ -188,10 +189,56 @@ const cancelBooking = async (
   }
 };
 
+// Create Checkout Session
+const createCheckoutSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { bookingId } = req.params;
+    const result = await BookingPaymentService.createCheckoutSession(
+      bookingId as string,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Checkout session created successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Verify Payment
+const verifyPayment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { session_id } = req.query;
+    const result = await BookingPaymentService.verifyPayment(
+      session_id as string,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: result ? "Payment verified" : "Payment verification failed",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const BookingController = {
   createBooking,
   getBookingById,
   getMyBookings,
   completeBooking,
   cancelBooking,
+  createCheckoutSession,
+  verifyPayment,
 };

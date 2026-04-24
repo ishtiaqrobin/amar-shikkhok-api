@@ -1,6 +1,8 @@
 import express, { Router } from "express";
 import { CategoryController } from "./category.controller";
 import auth, { UserRole } from "../../middlewares/auth";
+import { CategoryValidation } from "./category.validation";
+import { validateRequest } from "../../middlewares/validateRequest";
 
 const router = express.Router();
 
@@ -8,12 +10,18 @@ const router = express.Router();
 router.get("/", CategoryController.getCategories);
 
 // Create category
-router.post("/", auth(UserRole.ADMIN), CategoryController.createCategory);
+router.post(
+  "/",
+  auth(UserRole.ADMIN),
+  validateRequest(CategoryValidation.createCategoryZodSchema),
+  CategoryController.createCategory,
+);
 
 // Update category
 router.put(
   "/:categoryId",
   auth(UserRole.ADMIN),
+  validateRequest(CategoryValidation.updateCategoryZodSchema),
   CategoryController.updateCategory,
 );
 

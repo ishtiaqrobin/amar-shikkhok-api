@@ -21,6 +21,20 @@ router.get(
 // Create Booking (Student only)
 router.post("/", auth(UserRole.STUDENT), BookingController.createBooking);
 
+// Create Checkout Session (Student only)
+router.post(
+  "/:bookingId/payment",
+  auth(UserRole.STUDENT),
+  BookingController.createCheckoutSession,
+);
+
+// Verify Payment (Student only)
+router.get(
+  "/payment/verify",
+  auth(UserRole.STUDENT),
+  BookingController.verifyPayment,
+);
+
 // Complete booking (Tutor only)
 router.patch(
   "/:bookingId/complete",

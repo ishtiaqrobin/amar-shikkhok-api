@@ -94,6 +94,11 @@ const getTutorReviews = async (tutorId: string) => {
     },
   });
 
+  // const totalReviews = await prisma.review.count({
+  //   where: { tutorId },
+  // });
+
+  // return { data: result, totalReviews };
   return result;
 };
 

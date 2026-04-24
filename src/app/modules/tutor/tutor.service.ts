@@ -466,11 +466,11 @@ const getTutorStats = async (userId: string) => {
     },
   });
 
-  // Get total revenue
-  const revenue = await prisma.booking.aggregate({
+  // Get total earnings
+  const earnings = await prisma.booking.aggregate({
     where: {
       tutorId: tutor.id,
-      status: BookingStatus.COMPLETED,
+      paymentStatus: "PAID",
     },
     _sum: {
       totalPrice: true,
@@ -481,7 +481,8 @@ const getTutorStats = async (userId: string) => {
     totalBookings,
     upcomingBookings,
     totalSessions: tutor.totalSessions,
-    totalRevenue: revenue._sum.totalPrice || 0,
+    totalRevenue: earnings._sum.totalPrice || 0,
+    totalEarnings: earnings._sum.totalPrice || 0,
     rating: tutor.rating,
   };
 };

@@ -7,9 +7,11 @@ model Booking {
     sessionDate DateTime
     startTime   String
     endTime     String
-    status      BookingStatus @default(CONFIRMED)
+    status      BookingStatus @default(PENDING)
     notes       String?       @db.Text
     totalPrice  Float
+    paymentStatus PaymentStatus @default(PENDING)
+    transactionId String?
     createdAt   DateTime      @default(now())
     updatedAt   DateTime      @updatedAt
 
@@ -23,7 +25,15 @@ model Booking {
 
 // BookingStatus Enum
 enum BookingStatus {
+    PENDING
     CONFIRMED
     COMPLETED
     CANCELLED
+}
+
+// PaymentStatus Enum
+enum PaymentStatus {
+    PENDING
+    PAID
+    FAILED
 }

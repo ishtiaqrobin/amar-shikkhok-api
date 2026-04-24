@@ -103,6 +103,9 @@ const getDashboardStats = async (): Promise<DashboardStats> => {
   return await prisma.$transaction(async (tx) => {
     const [
       totalUsers,
+      totalVerifiedUsers,
+      totalUnverifiedUsers,
+      totalBannedUsers,
       totalStudents,
       totalTutors,
       totalAdmins,
@@ -114,8 +117,12 @@ const getDashboardStats = async (): Promise<DashboardStats> => {
       cancelledBookings,
       revenueData,
       totalCategories,
+      totalPayments,
     ] = await Promise.all([
       tx.user.count(),
+      tx.user.count({ where: { emailVerified: true } }),
+      tx.user.count({ where: { emailVerified: false } }),
+      tx.user.count({ where: { isBanned: true } }),
       tx.user.count({ where: { role: "STUDENT" } }),
       tx.user.count({ where: { role: "TUTOR" } }),
       tx.user.count({ where: { role: "ADMIN" } }),
@@ -126,14 +133,18 @@ const getDashboardStats = async (): Promise<DashboardStats> => {
       tx.booking.count({ where: { status: "COMPLETED" } }),
       tx.booking.count({ where: { status: "CANCELLED" } }),
       tx.booking.aggregate({
-        where: { status: "COMPLETED" },
+        where: { paymentStatus: "PAID" },
         _sum: { totalPrice: true },
       }),
       tx.category.count(),
+      tx.booking.count({ where: { paymentStatus: "PAID" } }),
     ]);
 
     return {
       totalUsers,
+      totalVerifiedUsers,
+      totalUnverifiedUsers,
+      totalBannedUsers,
       totalStudents,
       totalTutors,
       totalAdmins,
@@ -145,6 +156,7 @@ const getDashboardStats = async (): Promise<DashboardStats> => {
       cancelledBookings,
       totalRevenue: revenueData._sum.totalPrice || 0,
       totalCategories,
+      totalPayments,
     };
   });
 };

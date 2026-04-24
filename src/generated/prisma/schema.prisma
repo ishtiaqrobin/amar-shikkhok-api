@@ -39,18 +39,20 @@ model Availability {
 
 // Booking Model
 model Booking {
-  id          String        @id @default(uuid())
-  studentId   String
-  tutorId     String
-  subject     String
-  sessionDate DateTime
-  startTime   String
-  endTime     String
-  status      BookingStatus @default(CONFIRMED)
-  notes       String?       @db.Text
-  totalPrice  Float
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id            String        @id @default(uuid())
+  studentId     String
+  tutorId       String
+  subject       String
+  sessionDate   DateTime
+  startTime     String
+  endTime       String
+  status        BookingStatus @default(PENDING)
+  notes         String?       @db.Text
+  totalPrice    Float
+  paymentStatus PaymentStatus @default(PENDING)
+  transactionId String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   // Relations
   student User         @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
@@ -62,9 +64,17 @@ model Booking {
 
 // BookingStatus Enum
 enum BookingStatus {
+  PENDING
   CONFIRMED
   COMPLETED
   CANCELLED
+}
+
+// PaymentStatus Enum
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
 }
 
 // Category Model

@@ -84,11 +84,23 @@ const getStudentStats = async (studentId: string) => {
     return sum + hours;
   }, 0);
 
+  // Get total spent
+  const totalSpent = await prisma.booking.aggregate({
+    where: {
+      studentId,
+      paymentStatus: "PAID",
+    },
+    _sum: {
+      totalPrice: true,
+    },
+  });
+
   return {
     totalBookings: allBookings.length,
     upcomingClasses: upcomingBookings.length,
     completedClasses: completedBookings.length,
     totalHours: Math.round(totalHours * 10) / 10,
+    totalSpent: totalSpent._sum.totalPrice || 0,
   };
 };
 

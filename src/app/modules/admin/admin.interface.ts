@@ -10,4 +10,5 @@ export interface DashboardStats {
   cancelledBookings: number;
   totalRevenue: number;
   totalCategories: number;
+  totalPayments: number;
 }

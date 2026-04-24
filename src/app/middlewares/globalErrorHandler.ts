@@ -8,6 +8,11 @@ import { TErrorResponse, TErrorSources } from "../interfaces/error.interface";
 import AppError from "../errorHelpers/AppError";
 import { deleteFileFromCloudinary } from "../config/cloudinary.config";
 import { handleZodError } from "../errorHelpers/handleZodError";
+import { Prisma } from "@prisma/client";
+import {
+  handlePrismaKnownRequestError,
+  handlePrismaValidationError,
+} from "../errorHelpers/handlePrismaError";
 
 export const globalErrorHandler = async (
   err: any,
@@ -35,6 +40,18 @@ export const globalErrorHandler = async (
 
   if (err instanceof z.ZodError) {
     const simplifiedError = handleZodError(err);
+    statusCode = simplifiedError.statusCode as number;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources || [];
+    stack = err.stack;
+  } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    const simplifiedError = handlePrismaKnownRequestError(err);
+    statusCode = simplifiedError.statusCode as number;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources || [];
+    stack = err.stack;
+  } else if (err instanceof Prisma.PrismaClientValidationError) {
+    const simplifiedError = handlePrismaValidationError(err);
     statusCode = simplifiedError.statusCode as number;
     message = simplifiedError.message;
     errorSources = simplifiedError.errorSources || [];
