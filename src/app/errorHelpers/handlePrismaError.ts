@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "../../generated/prisma";
 import { TErrorResponse, TErrorSources } from "../interfaces/error.interface";
 import status from "http-status";
 

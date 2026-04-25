@@ -8,11 +8,12 @@ import { TErrorResponse, TErrorSources } from "../interfaces/error.interface";
 import AppError from "../errorHelpers/AppError";
 import { deleteFileFromCloudinary } from "../config/cloudinary.config";
 import { handleZodError } from "../errorHelpers/handleZodError";
-import { Prisma } from "@prisma/client";
+// import { Prisma } from "@prisma/client";
 import {
   handlePrismaKnownRequestError,
   handlePrismaValidationError,
 } from "../errorHelpers/handlePrismaError";
+import { Prisma } from "../../generated/prisma";
 
 export const globalErrorHandler = async (
   err: any,

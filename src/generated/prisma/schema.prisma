@@ -58,6 +58,7 @@ model Booking {
   student User         @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
   tutor   TutorProfile @relation("TutorBookings", fields: [tutorId], references: [id], onDelete: Cascade)
   review  Review?
+  refund  Refund?
 
   @@map("bookings")
 }
@@ -89,6 +90,29 @@ model Category {
   tutors TutorProfile[]
 
   @@map("categories")
+}
+
+model Refund {
+  id            String       @id @default(uuid())
+  bookingId     String       @unique
+  studentId     String
+  amount        Float
+  status        RefundStatus @default(PENDING)
+  reason        String?      @db.Text
+  transactionId String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  student User    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@map("refunds")
+}
+
+enum RefundStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 // Review Model
@@ -136,20 +160,30 @@ model Session {
   @@map("sessions")
 }
 
+model PlatformSetting {
+  id    String @id @default(uuid())
+  key   String @unique
+  value String
+
+  @@map("platform_settings")
+}
+
 // TutorProfile Model
 model TutorProfile {
-  id            String   @id @default(uuid())
-  userId        String   @unique
-  bio           String?  @db.Text
-  expertise     String[]
-  hourlyRate    Float
-  experience    Int
-  education     String?
-  rating        Float    @default(0)
-  totalReviews  Int      @default(0)
-  totalSessions Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  bio                 String?  @db.Text
+  expertise           String[]
+  hourlyRate          Float
+  experience          Int
+  education           String?
+  rating              Float    @default(0)
+  totalReviews        Int      @default(0)
+  totalSessions       Int      @default(0)
+  totalEarnings       Float    @default(0)
+  withdrawableBalance Float    @default(0)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   // Relations
   user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -157,6 +191,7 @@ model TutorProfile {
   availabilities Availability[]
   bookings       Booking[]      @relation("TutorBookings")
   reviews        Review[]
+  withdrawals    Withdrawal[]
 
   @@map("tutor_profiles")
 }
@@ -184,6 +219,7 @@ model User {
   tutorProfile TutorProfile?
   bookings     Booking[]     @relation("StudentBookings")
   reviews      Review[]
+  refunds      Refund[]
 
   @@map("users")
 }
@@ -205,4 +241,26 @@ model Verification {
   updatedAt  DateTime? @updatedAt
 
   @@map("verifications")
+}
+
+model Withdrawal {
+  id            String           @id @default(uuid())
+  tutorId       String
+  amount        Float
+  status        WithdrawalStatus @default(PENDING)
+  method        String           @default("STRIPE")
+  transactionId String?
+  notes         String?          @db.Text
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+
+  @@map("withdrawals")
+}
+
+enum WithdrawalStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }

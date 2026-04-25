@@ -10,6 +10,8 @@ model TutorProfile {
     rating        Float    @default(0)
     totalReviews  Int      @default(0)
     totalSessions Int      @default(0)
+    totalEarnings Float    @default(0)
+    withdrawableBalance Float @default(0)
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
 
@@ -19,6 +21,7 @@ model TutorProfile {
     availabilities Availability[]
     bookings       Booking[]      @relation("TutorBookings")
     reviews        Review[]
+    withdrawals    Withdrawal[]
 
     @@map("tutor_profiles")
 }

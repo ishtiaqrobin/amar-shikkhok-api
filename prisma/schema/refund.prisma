@@ -1,0 +1,22 @@
+model Refund {
+    id            String       @id @default(uuid())
+    bookingId     String       @unique
+    studentId     String
+    amount        Float
+    status        RefundStatus @default(PENDING)
+    reason        String?      @db.Text
+    transactionId String?
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+
+    booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+    student User    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+    @@map("refunds")
+}
+
+enum RefundStatus {
+    PENDING
+    APPROVED
+    REJECTED
+}

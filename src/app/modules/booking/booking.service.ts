@@ -1,5 +1,7 @@
 import { prisma } from "../../lib/prisma";
 import { CreateBookingInput } from "./booking.interface";
+import AppError from "../../errorHelpers/AppError";
+import status from "http-status";
 
 // Create booking with validations
 const createBooking = async (payload: CreateBookingInput) => {
@@ -74,10 +76,19 @@ const createBooking = async (payload: CreateBookingInput) => {
     throw new Error("You already have a booking at this time with this tutor");
   }
 
-  // 5. Calculate total price
+  // 5. Calculate total price and validate time
   const [startHour = 0, startMin = 0] = startTime.split(":").map(Number);
   const [endHour = 0, endMin = 0] = endTime.split(":").map(Number);
-  const hours = endHour - startHour + (endMin - startMin) / 60;
+  
+  const startTotalMinutes = startHour * 60 + startMin;
+  const endTotalMinutes = endHour * 60 + endMin;
+  const durationMinutes = endTotalMinutes - startTotalMinutes;
+
+  if (durationMinutes <= 0) {
+    throw new Error("End time must be after start time");
+  }
+
+  const hours = durationMinutes / 60;
   const totalPrice = tutor.hourlyRate * hours;
 
   // Create booking
@@ -237,11 +248,15 @@ const cancelBooking = async (bookingId: string, studentId: string) => {
   });
 
   if (!booking) {
-    throw new Error("Booking not found or you don't have permission");
+    throw new AppError(status.NOT_FOUND, "Booking not found or you don't have permission");
   }
 
-  if (booking.status !== "CONFIRMED") {
-    throw new Error("Only confirmed bookings can be cancelled");
+  const cancellableStatuses = ["PENDING", "CONFIRMED"];
+  if (!cancellableStatuses.includes(booking.status)) {
+    throw new AppError(
+      status.BAD_REQUEST,
+      `Only pending or confirmed bookings can be cancelled. Current status: ${booking.status}`,
+    );
   }
 
   // Update booking status

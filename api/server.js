@@ -8145,7 +8145,7 @@ var require_prisma = __commonJS({
     Prisma2.JsonNull = JsonNull2;
     Prisma2.AnyNull = AnyNull2;
     Prisma2.NullTypes = NullTypes2;
-    var path3 = __require("path");
+    var path4 = __require("path");
     exports.Prisma.TransactionIsolationLevel = makeStrictEnum2({
       ReadUncommitted: "ReadUncommitted",
       ReadCommitted: "ReadCommitted",
@@ -8200,6 +8200,17 @@ var require_prisma = __commonJS({
       createdAt: "createdAt",
       updatedAt: "updatedAt"
     };
+    exports.Prisma.RefundScalarFieldEnum = {
+      id: "id",
+      bookingId: "bookingId",
+      studentId: "studentId",
+      amount: "amount",
+      status: "status",
+      reason: "reason",
+      transactionId: "transactionId",
+      createdAt: "createdAt",
+      updatedAt: "updatedAt"
+    };
     exports.Prisma.ReviewScalarFieldEnum = {
       id: "id",
       bookingId: "bookingId",
@@ -8220,6 +8231,11 @@ var require_prisma = __commonJS({
       userAgent: "userAgent",
       userId: "userId"
     };
+    exports.Prisma.PlatformSettingScalarFieldEnum = {
+      id: "id",
+      key: "key",
+      value: "value"
+    };
     exports.Prisma.TutorProfileScalarFieldEnum = {
       id: "id",
       userId: "userId",
@@ -8231,6 +8247,8 @@ var require_prisma = __commonJS({
       rating: "rating",
       totalReviews: "totalReviews",
       totalSessions: "totalSessions",
+      totalEarnings: "totalEarnings",
+      withdrawableBalance: "withdrawableBalance",
       createdAt: "createdAt",
       updatedAt: "updatedAt"
     };
@@ -8253,6 +8271,17 @@ var require_prisma = __commonJS({
       identifier: "identifier",
       value: "value",
       expiresAt: "expiresAt",
+      createdAt: "createdAt",
+      updatedAt: "updatedAt"
+    };
+    exports.Prisma.WithdrawalScalarFieldEnum = {
+      id: "id",
+      tutorId: "tutorId",
+      amount: "amount",
+      status: "status",
+      method: "method",
+      transactionId: "transactionId",
+      notes: "notes",
       createdAt: "createdAt",
       updatedAt: "updatedAt"
     };
@@ -8279,30 +8308,43 @@ var require_prisma = __commonJS({
       PAID: "PAID",
       FAILED: "FAILED"
     };
+    exports.RefundStatus = exports.$Enums.RefundStatus = {
+      PENDING: "PENDING",
+      APPROVED: "APPROVED",
+      REJECTED: "REJECTED"
+    };
     exports.Role = exports.$Enums.Role = {
       STUDENT: "STUDENT",
       TUTOR: "TUTOR",
       ADMIN: "ADMIN"
+    };
+    exports.WithdrawalStatus = exports.$Enums.WithdrawalStatus = {
+      PENDING: "PENDING",
+      APPROVED: "APPROVED",
+      REJECTED: "REJECTED"
     };
     exports.Prisma.ModelName = {
       Account: "Account",
       Availability: "Availability",
       Booking: "Booking",
       Category: "Category",
+      Refund: "Refund",
       Review: "Review",
       Session: "Session",
+      PlatformSetting: "PlatformSetting",
       TutorProfile: "TutorProfile",
       User: "User",
-      Verification: "Verification"
+      Verification: "Verification",
+      Withdrawal: "Withdrawal"
     };
     var config = {
       "previewFeatures": [],
       "clientVersion": "7.2.0",
       "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
       "activeProvider": "postgresql",
-      "inlineSchema": '// Account Model - Required by Better Auth\nmodel Account {\n  id                    String    @id\n  accountId             String\n  providerId            String\n  userId                String\n  accessToken           String?\n  refreshToken          String?\n  idToken               String?\n  accessTokenExpiresAt  DateTime?\n  refreshTokenExpiresAt DateTime?\n  scope                 String?\n  password              String?\n  createdAt             DateTime  @default(now())\n  updatedAt             DateTime  @updatedAt\n\n  // Relations\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map("accounts")\n}\n\n// Availability Model\nmodel Availability {\n  id          String   @id @default(uuid())\n  tutorId     String\n  dayOfWeek   Int\n  startTime   String\n  endTime     String\n  isAvailable Boolean  @default(true)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  // Relations\n  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)\n\n  @@map("availabilities")\n}\n\n// Booking Model\nmodel Booking {\n  id            String        @id @default(uuid())\n  studentId     String\n  tutorId       String\n  subject       String\n  sessionDate   DateTime\n  startTime     String\n  endTime       String\n  status        BookingStatus @default(PENDING)\n  notes         String?       @db.Text\n  totalPrice    Float\n  paymentStatus PaymentStatus @default(PENDING)\n  transactionId String?\n  createdAt     DateTime      @default(now())\n  updatedAt     DateTime      @updatedAt\n\n  // Relations\n  student User         @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)\n  tutor   TutorProfile @relation("TutorBookings", fields: [tutorId], references: [id], onDelete: Cascade)\n  review  Review?\n\n  @@map("bookings")\n}\n\n// BookingStatus Enum\nenum BookingStatus {\n  PENDING\n  CONFIRMED\n  COMPLETED\n  CANCELLED\n}\n\n// PaymentStatus Enum\nenum PaymentStatus {\n  PENDING\n  PAID\n  FAILED\n}\n\n// Category Model\nmodel Category {\n  id          String   @id @default(uuid())\n  name        String   @unique\n  description String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  // Relations\n  tutors TutorProfile[]\n\n  @@map("categories")\n}\n\n// Review Model\nmodel Review {\n  id        String   @id @default(uuid())\n  bookingId String   @unique\n  studentId String\n  tutorId   String\n  rating    Int\n  comment   String?  @db.Text\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  booking Booking      @relation(fields: [bookingId], references: [id], onDelete: Cascade)\n  student User         @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  tutor   TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)\n\n  @@map("reviews")\n}\n\ngenerator client {\n  provider = "prisma-client-js"\n  output   = "../../src/generated/prisma"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\n// Session Model - Required by Better Auth\nmodel Session {\n  id        String   @id\n  expiresAt DateTime\n  token     String   @unique\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  ipAddress String?\n  userAgent String?\n  userId    String\n\n  // Relations\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map("sessions")\n}\n\n// TutorProfile Model\nmodel TutorProfile {\n  id            String   @id @default(uuid())\n  userId        String   @unique\n  bio           String?  @db.Text\n  expertise     String[]\n  hourlyRate    Float\n  experience    Int\n  education     String?\n  rating        Float    @default(0)\n  totalReviews  Int      @default(0)\n  totalSessions Int      @default(0)\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n\n  // Relations\n  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)\n  categories     Category[]\n  availabilities Availability[]\n  bookings       Booking[]      @relation("TutorBookings")\n  reviews        Review[]\n\n  @@map("tutor_profiles")\n}\n\n// User Model\nmodel User {\n  id            String   @id @default(uuid())\n  email         String   @unique\n  emailVerified Boolean  @default(false)\n  name          String\n  image         String?\n  password      String?\n  role          Role     @default(STUDENT)\n  phone         String?\n  isActive      Boolean  @default(true)\n  isBanned      Boolean  @default(false)\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n\n  // Better Auth Relations\n  sessions Session[]\n  accounts Account[]\n\n  // App Relations\n  tutorProfile TutorProfile?\n  bookings     Booking[]     @relation("StudentBookings")\n  reviews      Review[]\n\n  @@map("users")\n}\n\n// Role Enum\nenum Role {\n  STUDENT\n  TUTOR\n  ADMIN\n}\n\n// Verification Model - Required by Better Auth\nmodel Verification {\n  id         String    @id\n  identifier String\n  value      String\n  expiresAt  DateTime\n  createdAt  DateTime? @default(now())\n  updatedAt  DateTime? @updatedAt\n\n  @@map("verifications")\n}\n'
+      "inlineSchema": '// Account Model - Required by Better Auth\nmodel Account {\n  id                    String    @id\n  accountId             String\n  providerId            String\n  userId                String\n  accessToken           String?\n  refreshToken          String?\n  idToken               String?\n  accessTokenExpiresAt  DateTime?\n  refreshTokenExpiresAt DateTime?\n  scope                 String?\n  password              String?\n  createdAt             DateTime  @default(now())\n  updatedAt             DateTime  @updatedAt\n\n  // Relations\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map("accounts")\n}\n\n// Availability Model\nmodel Availability {\n  id          String   @id @default(uuid())\n  tutorId     String\n  dayOfWeek   Int\n  startTime   String\n  endTime     String\n  isAvailable Boolean  @default(true)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  // Relations\n  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)\n\n  @@map("availabilities")\n}\n\n// Booking Model\nmodel Booking {\n  id            String        @id @default(uuid())\n  studentId     String\n  tutorId       String\n  subject       String\n  sessionDate   DateTime\n  startTime     String\n  endTime       String\n  status        BookingStatus @default(PENDING)\n  notes         String?       @db.Text\n  totalPrice    Float\n  paymentStatus PaymentStatus @default(PENDING)\n  transactionId String?\n  createdAt     DateTime      @default(now())\n  updatedAt     DateTime      @updatedAt\n\n  // Relations\n  student User         @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)\n  tutor   TutorProfile @relation("TutorBookings", fields: [tutorId], references: [id], onDelete: Cascade)\n  review  Review?\n  refund  Refund?\n\n  @@map("bookings")\n}\n\n// BookingStatus Enum\nenum BookingStatus {\n  PENDING\n  CONFIRMED\n  COMPLETED\n  CANCELLED\n}\n\n// PaymentStatus Enum\nenum PaymentStatus {\n  PENDING\n  PAID\n  FAILED\n}\n\n// Category Model\nmodel Category {\n  id          String   @id @default(uuid())\n  name        String   @unique\n  description String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  // Relations\n  tutors TutorProfile[]\n\n  @@map("categories")\n}\n\nmodel Refund {\n  id            String       @id @default(uuid())\n  bookingId     String       @unique\n  studentId     String\n  amount        Float\n  status        RefundStatus @default(PENDING)\n  reason        String?      @db.Text\n  transactionId String?\n  createdAt     DateTime     @default(now())\n  updatedAt     DateTime     @updatedAt\n\n  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)\n  student User    @relation(fields: [studentId], references: [id], onDelete: Cascade)\n\n  @@map("refunds")\n}\n\nenum RefundStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n\n// Review Model\nmodel Review {\n  id        String   @id @default(uuid())\n  bookingId String   @unique\n  studentId String\n  tutorId   String\n  rating    Int\n  comment   String?  @db.Text\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  booking Booking      @relation(fields: [bookingId], references: [id], onDelete: Cascade)\n  student User         @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  tutor   TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)\n\n  @@map("reviews")\n}\n\ngenerator client {\n  provider = "prisma-client-js"\n  output   = "../../src/generated/prisma"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\n// Session Model - Required by Better Auth\nmodel Session {\n  id        String   @id\n  expiresAt DateTime\n  token     String   @unique\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  ipAddress String?\n  userAgent String?\n  userId    String\n\n  // Relations\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map("sessions")\n}\n\nmodel PlatformSetting {\n  id    String @id @default(uuid())\n  key   String @unique\n  value String\n\n  @@map("platform_settings")\n}\n\n// TutorProfile Model\nmodel TutorProfile {\n  id                  String   @id @default(uuid())\n  userId              String   @unique\n  bio                 String?  @db.Text\n  expertise           String[]\n  hourlyRate          Float\n  experience          Int\n  education           String?\n  rating              Float    @default(0)\n  totalReviews        Int      @default(0)\n  totalSessions       Int      @default(0)\n  totalEarnings       Float    @default(0)\n  withdrawableBalance Float    @default(0)\n  createdAt           DateTime @default(now())\n  updatedAt           DateTime @updatedAt\n\n  // Relations\n  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)\n  categories     Category[]\n  availabilities Availability[]\n  bookings       Booking[]      @relation("TutorBookings")\n  reviews        Review[]\n  withdrawals    Withdrawal[]\n\n  @@map("tutor_profiles")\n}\n\n// User Model\nmodel User {\n  id            String   @id @default(uuid())\n  email         String   @unique\n  emailVerified Boolean  @default(false)\n  name          String\n  image         String?\n  password      String?\n  role          Role     @default(STUDENT)\n  phone         String?\n  isActive      Boolean  @default(true)\n  isBanned      Boolean  @default(false)\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n\n  // Better Auth Relations\n  sessions Session[]\n  accounts Account[]\n\n  // App Relations\n  tutorProfile TutorProfile?\n  bookings     Booking[]     @relation("StudentBookings")\n  reviews      Review[]\n  refunds      Refund[]\n\n  @@map("users")\n}\n\n// Role Enum\nenum Role {\n  STUDENT\n  TUTOR\n  ADMIN\n}\n\n// Verification Model - Required by Better Auth\nmodel Verification {\n  id         String    @id\n  identifier String\n  value      String\n  expiresAt  DateTime\n  createdAt  DateTime? @default(now())\n  updatedAt  DateTime? @updatedAt\n\n  @@map("verifications")\n}\n\nmodel Withdrawal {\n  id            String           @id @default(uuid())\n  tutorId       String\n  amount        Float\n  status        WithdrawalStatus @default(PENDING)\n  method        String           @default("STRIPE")\n  transactionId String?\n  notes         String?          @db.Text\n  createdAt     DateTime         @default(now())\n  updatedAt     DateTime         @updatedAt\n\n  tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)\n\n  @@map("withdrawals")\n}\n\nenum WithdrawalStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n'
     };
-    config.runtimeDataModel = JSON.parse('{"models":{"Account":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"accountId","kind":"scalar","type":"String"},{"name":"providerId","kind":"scalar","type":"String"},{"name":"userId","kind":"scalar","type":"String"},{"name":"accessToken","kind":"scalar","type":"String"},{"name":"refreshToken","kind":"scalar","type":"String"},{"name":"idToken","kind":"scalar","type":"String"},{"name":"accessTokenExpiresAt","kind":"scalar","type":"DateTime"},{"name":"refreshTokenExpiresAt","kind":"scalar","type":"DateTime"},{"name":"scope","kind":"scalar","type":"String"},{"name":"password","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"user","kind":"object","type":"User","relationName":"AccountToUser"}],"dbName":"accounts"},"Availability":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"tutorId","kind":"scalar","type":"String"},{"name":"dayOfWeek","kind":"scalar","type":"Int"},{"name":"startTime","kind":"scalar","type":"String"},{"name":"endTime","kind":"scalar","type":"String"},{"name":"isAvailable","kind":"scalar","type":"Boolean"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"tutor","kind":"object","type":"TutorProfile","relationName":"AvailabilityToTutorProfile"}],"dbName":"availabilities"},"Booking":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"studentId","kind":"scalar","type":"String"},{"name":"tutorId","kind":"scalar","type":"String"},{"name":"subject","kind":"scalar","type":"String"},{"name":"sessionDate","kind":"scalar","type":"DateTime"},{"name":"startTime","kind":"scalar","type":"String"},{"name":"endTime","kind":"scalar","type":"String"},{"name":"status","kind":"enum","type":"BookingStatus"},{"name":"notes","kind":"scalar","type":"String"},{"name":"totalPrice","kind":"scalar","type":"Float"},{"name":"paymentStatus","kind":"enum","type":"PaymentStatus"},{"name":"transactionId","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"student","kind":"object","type":"User","relationName":"StudentBookings"},{"name":"tutor","kind":"object","type":"TutorProfile","relationName":"TutorBookings"},{"name":"review","kind":"object","type":"Review","relationName":"BookingToReview"}],"dbName":"bookings"},"Category":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"name","kind":"scalar","type":"String"},{"name":"description","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"tutors","kind":"object","type":"TutorProfile","relationName":"CategoryToTutorProfile"}],"dbName":"categories"},"Review":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"bookingId","kind":"scalar","type":"String"},{"name":"studentId","kind":"scalar","type":"String"},{"name":"tutorId","kind":"scalar","type":"String"},{"name":"rating","kind":"scalar","type":"Int"},{"name":"comment","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"booking","kind":"object","type":"Booking","relationName":"BookingToReview"},{"name":"student","kind":"object","type":"User","relationName":"ReviewToUser"},{"name":"tutor","kind":"object","type":"TutorProfile","relationName":"ReviewToTutorProfile"}],"dbName":"reviews"},"Session":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"expiresAt","kind":"scalar","type":"DateTime"},{"name":"token","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"ipAddress","kind":"scalar","type":"String"},{"name":"userAgent","kind":"scalar","type":"String"},{"name":"userId","kind":"scalar","type":"String"},{"name":"user","kind":"object","type":"User","relationName":"SessionToUser"}],"dbName":"sessions"},"TutorProfile":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"userId","kind":"scalar","type":"String"},{"name":"bio","kind":"scalar","type":"String"},{"name":"expertise","kind":"scalar","type":"String"},{"name":"hourlyRate","kind":"scalar","type":"Float"},{"name":"experience","kind":"scalar","type":"Int"},{"name":"education","kind":"scalar","type":"String"},{"name":"rating","kind":"scalar","type":"Float"},{"name":"totalReviews","kind":"scalar","type":"Int"},{"name":"totalSessions","kind":"scalar","type":"Int"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"user","kind":"object","type":"User","relationName":"TutorProfileToUser"},{"name":"categories","kind":"object","type":"Category","relationName":"CategoryToTutorProfile"},{"name":"availabilities","kind":"object","type":"Availability","relationName":"AvailabilityToTutorProfile"},{"name":"bookings","kind":"object","type":"Booking","relationName":"TutorBookings"},{"name":"reviews","kind":"object","type":"Review","relationName":"ReviewToTutorProfile"}],"dbName":"tutor_profiles"},"User":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"email","kind":"scalar","type":"String"},{"name":"emailVerified","kind":"scalar","type":"Boolean"},{"name":"name","kind":"scalar","type":"String"},{"name":"image","kind":"scalar","type":"String"},{"name":"password","kind":"scalar","type":"String"},{"name":"role","kind":"enum","type":"Role"},{"name":"phone","kind":"scalar","type":"String"},{"name":"isActive","kind":"scalar","type":"Boolean"},{"name":"isBanned","kind":"scalar","type":"Boolean"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"sessions","kind":"object","type":"Session","relationName":"SessionToUser"},{"name":"accounts","kind":"object","type":"Account","relationName":"AccountToUser"},{"name":"tutorProfile","kind":"object","type":"TutorProfile","relationName":"TutorProfileToUser"},{"name":"bookings","kind":"object","type":"Booking","relationName":"StudentBookings"},{"name":"reviews","kind":"object","type":"Review","relationName":"ReviewToUser"}],"dbName":"users"},"Verification":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"identifier","kind":"scalar","type":"String"},{"name":"value","kind":"scalar","type":"String"},{"name":"expiresAt","kind":"scalar","type":"DateTime"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"}],"dbName":"verifications"}},"enums":{},"types":{}}');
+    config.runtimeDataModel = JSON.parse('{"models":{"Account":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"accountId","kind":"scalar","type":"String"},{"name":"providerId","kind":"scalar","type":"String"},{"name":"userId","kind":"scalar","type":"String"},{"name":"accessToken","kind":"scalar","type":"String"},{"name":"refreshToken","kind":"scalar","type":"String"},{"name":"idToken","kind":"scalar","type":"String"},{"name":"accessTokenExpiresAt","kind":"scalar","type":"DateTime"},{"name":"refreshTokenExpiresAt","kind":"scalar","type":"DateTime"},{"name":"scope","kind":"scalar","type":"String"},{"name":"password","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"user","kind":"object","type":"User","relationName":"AccountToUser"}],"dbName":"accounts"},"Availability":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"tutorId","kind":"scalar","type":"String"},{"name":"dayOfWeek","kind":"scalar","type":"Int"},{"name":"startTime","kind":"scalar","type":"String"},{"name":"endTime","kind":"scalar","type":"String"},{"name":"isAvailable","kind":"scalar","type":"Boolean"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"tutor","kind":"object","type":"TutorProfile","relationName":"AvailabilityToTutorProfile"}],"dbName":"availabilities"},"Booking":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"studentId","kind":"scalar","type":"String"},{"name":"tutorId","kind":"scalar","type":"String"},{"name":"subject","kind":"scalar","type":"String"},{"name":"sessionDate","kind":"scalar","type":"DateTime"},{"name":"startTime","kind":"scalar","type":"String"},{"name":"endTime","kind":"scalar","type":"String"},{"name":"status","kind":"enum","type":"BookingStatus"},{"name":"notes","kind":"scalar","type":"String"},{"name":"totalPrice","kind":"scalar","type":"Float"},{"name":"paymentStatus","kind":"enum","type":"PaymentStatus"},{"name":"transactionId","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"student","kind":"object","type":"User","relationName":"StudentBookings"},{"name":"tutor","kind":"object","type":"TutorProfile","relationName":"TutorBookings"},{"name":"review","kind":"object","type":"Review","relationName":"BookingToReview"},{"name":"refund","kind":"object","type":"Refund","relationName":"BookingToRefund"}],"dbName":"bookings"},"Category":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"name","kind":"scalar","type":"String"},{"name":"description","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"tutors","kind":"object","type":"TutorProfile","relationName":"CategoryToTutorProfile"}],"dbName":"categories"},"Refund":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"bookingId","kind":"scalar","type":"String"},{"name":"studentId","kind":"scalar","type":"String"},{"name":"amount","kind":"scalar","type":"Float"},{"name":"status","kind":"enum","type":"RefundStatus"},{"name":"reason","kind":"scalar","type":"String"},{"name":"transactionId","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"booking","kind":"object","type":"Booking","relationName":"BookingToRefund"},{"name":"student","kind":"object","type":"User","relationName":"RefundToUser"}],"dbName":"refunds"},"Review":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"bookingId","kind":"scalar","type":"String"},{"name":"studentId","kind":"scalar","type":"String"},{"name":"tutorId","kind":"scalar","type":"String"},{"name":"rating","kind":"scalar","type":"Int"},{"name":"comment","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"booking","kind":"object","type":"Booking","relationName":"BookingToReview"},{"name":"student","kind":"object","type":"User","relationName":"ReviewToUser"},{"name":"tutor","kind":"object","type":"TutorProfile","relationName":"ReviewToTutorProfile"}],"dbName":"reviews"},"Session":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"expiresAt","kind":"scalar","type":"DateTime"},{"name":"token","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"ipAddress","kind":"scalar","type":"String"},{"name":"userAgent","kind":"scalar","type":"String"},{"name":"userId","kind":"scalar","type":"String"},{"name":"user","kind":"object","type":"User","relationName":"SessionToUser"}],"dbName":"sessions"},"PlatformSetting":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"key","kind":"scalar","type":"String"},{"name":"value","kind":"scalar","type":"String"}],"dbName":"platform_settings"},"TutorProfile":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"userId","kind":"scalar","type":"String"},{"name":"bio","kind":"scalar","type":"String"},{"name":"expertise","kind":"scalar","type":"String"},{"name":"hourlyRate","kind":"scalar","type":"Float"},{"name":"experience","kind":"scalar","type":"Int"},{"name":"education","kind":"scalar","type":"String"},{"name":"rating","kind":"scalar","type":"Float"},{"name":"totalReviews","kind":"scalar","type":"Int"},{"name":"totalSessions","kind":"scalar","type":"Int"},{"name":"totalEarnings","kind":"scalar","type":"Float"},{"name":"withdrawableBalance","kind":"scalar","type":"Float"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"user","kind":"object","type":"User","relationName":"TutorProfileToUser"},{"name":"categories","kind":"object","type":"Category","relationName":"CategoryToTutorProfile"},{"name":"availabilities","kind":"object","type":"Availability","relationName":"AvailabilityToTutorProfile"},{"name":"bookings","kind":"object","type":"Booking","relationName":"TutorBookings"},{"name":"reviews","kind":"object","type":"Review","relationName":"ReviewToTutorProfile"},{"name":"withdrawals","kind":"object","type":"Withdrawal","relationName":"TutorProfileToWithdrawal"}],"dbName":"tutor_profiles"},"User":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"email","kind":"scalar","type":"String"},{"name":"emailVerified","kind":"scalar","type":"Boolean"},{"name":"name","kind":"scalar","type":"String"},{"name":"image","kind":"scalar","type":"String"},{"name":"password","kind":"scalar","type":"String"},{"name":"role","kind":"enum","type":"Role"},{"name":"phone","kind":"scalar","type":"String"},{"name":"isActive","kind":"scalar","type":"Boolean"},{"name":"isBanned","kind":"scalar","type":"Boolean"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"sessions","kind":"object","type":"Session","relationName":"SessionToUser"},{"name":"accounts","kind":"object","type":"Account","relationName":"AccountToUser"},{"name":"tutorProfile","kind":"object","type":"TutorProfile","relationName":"TutorProfileToUser"},{"name":"bookings","kind":"object","type":"Booking","relationName":"StudentBookings"},{"name":"reviews","kind":"object","type":"Review","relationName":"ReviewToUser"},{"name":"refunds","kind":"object","type":"Refund","relationName":"RefundToUser"}],"dbName":"users"},"Verification":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"identifier","kind":"scalar","type":"String"},{"name":"value","kind":"scalar","type":"String"},{"name":"expiresAt","kind":"scalar","type":"DateTime"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"}],"dbName":"verifications"},"Withdrawal":{"fields":[{"name":"id","kind":"scalar","type":"String"},{"name":"tutorId","kind":"scalar","type":"String"},{"name":"amount","kind":"scalar","type":"Float"},{"name":"status","kind":"enum","type":"WithdrawalStatus"},{"name":"method","kind":"scalar","type":"String"},{"name":"transactionId","kind":"scalar","type":"String"},{"name":"notes","kind":"scalar","type":"String"},{"name":"createdAt","kind":"scalar","type":"DateTime"},{"name":"updatedAt","kind":"scalar","type":"DateTime"},{"name":"tutor","kind":"object","type":"TutorProfile","relationName":"TutorProfileToWithdrawal"}],"dbName":"withdrawals"}},"enums":{},"types":{}}');
     defineDmmfProperty2(exports.Prisma, config.runtimeDataModel);
     config.compilerWasm = {
       getRuntime: async () => require_query_compiler_bg(),
@@ -8333,12 +8375,11 @@ init_esm_shims();
 
 // src/app.ts
 init_esm_shims();
-import express7 from "express";
+import express9 from "express";
 import { toNodeHandler } from "better-auth/node";
 
 // src/app/lib/auth.ts
 init_esm_shims();
-import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 
 // src/app/lib/prisma.ts
@@ -8385,6 +8426,8 @@ var loadEnvVariables = () => {
     "REFRESH_TOKEN_SECRET",
     "REFRESH_TOKEN_EXPIRES_IN",
     "FRONTEND_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
     "EMAIL_SENDER_SMTP_USER",
     "EMAIL_SENDER_SMTP_PASS",
     "EMAIL_SENDER_SMTP_HOST",
@@ -8415,6 +8458,8 @@ var loadEnvVariables = () => {
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
     REFRESH_TOKEN_EXPIRES_IN: process.env.REFRESH_TOKEN_EXPIRES_IN,
     FRONTEND_URL: process.env.FRONTEND_URL,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     EMAIL_SENDER: {
       SMTP_USER: process.env.EMAIL_SENDER_SMTP_USER,
       SMTP_PASS: process.env.EMAIL_SENDER_SMTP_PASS,
@@ -8436,6 +8481,57 @@ var loadEnvVariables = () => {
 var env = loadEnvVariables();
 
 // src/app/lib/auth.ts
+import { bearer, emailOTP } from "better-auth/plugins";
+
+// src/app/utils/email.ts
+init_esm_shims();
+import nodemailer from "nodemailer";
+import status2 from "http-status";
+import path2 from "path";
+import ejs from "ejs";
+var transport = nodemailer.createTransport({
+  host: env.EMAIL_SENDER.SMTP_HOST,
+  port: Number(env.EMAIL_SENDER.SMTP_PORT),
+  secure: Number(env.EMAIL_SENDER.SMTP_PORT) === 465,
+  // true for 465, false for other ports
+  auth: {
+    user: env.EMAIL_SENDER.SMTP_USER,
+    pass: env.EMAIL_SENDER.SMTP_PASS
+  }
+});
+var sendEmail = async ({
+  to,
+  subject,
+  templateName,
+  templateData,
+  attachments
+}) => {
+  try {
+    const templatePath = path2.resolve(
+      process.cwd(),
+      `src/app/templates/${templateName}.ejs`
+    );
+    const html = await ejs.renderFile(templatePath, templateData);
+    const info = await transport.sendMail({
+      from: `"Amar Shikkhok" <${env.EMAIL_SENDER.SMTP_USER}>`,
+      to,
+      subject,
+      html,
+      attachments: attachments?.map((attachment) => ({
+        filename: attachment.filename,
+        content: attachment.content,
+        contentType: attachment.contentType
+      }))
+    });
+    console.log(`Email sent to ${to} : ${info.messageId}`);
+  } catch (error) {
+    console.log("Error sending email : ", error);
+    throw new AppError_default(status2.INTERNAL_SERVER_ERROR, "Failed to send email");
+  }
+};
+
+// src/app/lib/auth.ts
+import { betterAuth } from "better-auth";
 var auth = betterAuth({
   baseURL: env.BETTER_AUTH_URL,
   secret: env.BETTER_AUTH_SECRET,
@@ -8474,15 +8570,93 @@ var auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    autoSignIn: false,
-    requireEmailVerification: false
+    requireEmailVerification: true
   },
   socialProviders: {
     google: {
-      prompt: "select_account consent",
-      accessType: "offline",
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      mapProfileToUser: () => {
+        return {
+          role: "STUDENT",
+          isActive: true,
+          isBanned: false,
+          emailVerified: true
+        };
+      }
+    }
+  },
+  plugins: [
+    bearer(),
+    emailOTP({
+      overrideDefaultEmailVerification: true,
+      async sendVerificationOTP({ email, otp, type }) {
+        if (type === "email-verification") {
+          const user = await prisma.user.findUnique({
+            where: { email }
+          });
+          if (user && !user.emailVerified) {
+            await sendEmail({
+              to: email,
+              subject: "Verify your email - Amar Shikkhok",
+              templateName: "otp",
+              templateData: {
+                name: user.name,
+                otp
+              }
+            });
+          }
+        } else if (type === "forget-password") {
+          const user = await prisma.user.findUnique({
+            where: { email }
+          });
+          if (user) {
+            await sendEmail({
+              to: email,
+              subject: "Reset your password - Amar Shikkhok",
+              templateName: "reset-otp",
+              templateData: {
+                name: user.name,
+                otp
+              }
+            });
+          }
+        }
+      },
+      expiresIn: 5 * 60,
+      // 5 minutes
+      otpLength: 6
+    })
+  ],
+  session: {
+    expiresIn: 60 * 60 * 24 * 7,
+    // 7 days
+    updateAge: 60 * 60 * 24,
+    // 1 day
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 60 * 24
+    }
+  },
+  advanced: {
+    useSecureCookies: false,
+    cookies: {
+      state: {
+        attributes: {
+          sameSite: "none",
+          secure: true,
+          httpOnly: true,
+          path: "/"
+        }
+      },
+      sessionToken: {
+        attributes: {
+          sameSite: "none",
+          secure: true,
+          httpOnly: true,
+          path: "/"
+        }
+      }
     }
   }
 });
@@ -8503,13 +8677,13 @@ function notFound(req, res) {
 
 // src/app/middlewares/globalErrorHandler.ts
 init_esm_shims();
-import status5 from "http-status";
+import status6 from "http-status";
 import z from "zod";
 
 // src/app/config/cloudinary.config.ts
 init_esm_shims();
 import { v2 as cloudinary } from "cloudinary";
-import status2 from "http-status";
+import status3 from "http-status";
 cloudinary.config({
   cloud_name: env.CLOUDINARY.CLOUD_NAME,
   api_key: env.CLOUDINARY.API_KEY,
@@ -8529,17 +8703,18 @@ var deleteFileFromCloudinary = async (url) => {
   } catch (error) {
     console.log("Error deleting file from Cloudinary:", error);
     throw new AppError_default(
-      status2.INTERNAL_SERVER_ERROR,
+      status3.INTERNAL_SERVER_ERROR,
       "Failed to delete file from Cloudinary"
     );
   }
 };
+var cloudinaryUpload = cloudinary;
 
 // src/app/errorHelpers/handleZodError.ts
 init_esm_shims();
-import status3 from "http-status";
+import status4 from "http-status";
 var handleZodError = (err) => {
-  const statusCode = status3.BAD_REQUEST;
+  const statusCode = status4.BAD_REQUEST;
   const message = "Zod Validation Error";
   const errorSources = [];
   err.issues.forEach((issue) => {
@@ -8557,18 +8732,15 @@ var handleZodError = (err) => {
   };
 };
 
-// src/app/middlewares/globalErrorHandler.ts
-import { Prisma } from "@prisma/client";
-
 // src/app/errorHelpers/handlePrismaError.ts
 init_esm_shims();
-import status4 from "http-status";
+import status5 from "http-status";
 var handlePrismaKnownRequestError = (err) => {
-  let statusCode = status4.BAD_REQUEST;
+  let statusCode = status5.BAD_REQUEST;
   let message = "Prisma Known Request Error";
   let errorSources = [];
   if (err.code === "P2002") {
-    statusCode = status4.CONFLICT;
+    statusCode = status5.CONFLICT;
     const target = err.meta?.target;
     message = `Duplicate value for ${target?.join(", ") || "field"}. This value already exists.`;
     errorSources = [
@@ -8578,7 +8750,7 @@ var handlePrismaKnownRequestError = (err) => {
       }
     ];
   } else if (err.code === "P2025") {
-    statusCode = status4.NOT_FOUND;
+    statusCode = status5.NOT_FOUND;
     message = "Record Not Found";
     errorSources = [
       {
@@ -8587,7 +8759,7 @@ var handlePrismaKnownRequestError = (err) => {
       }
     ];
   } else if (err.code === "P2003") {
-    statusCode = status4.BAD_REQUEST;
+    statusCode = status5.BAD_REQUEST;
     message = "Foreign Key Constraint Error";
     errorSources = [
       {
@@ -8613,7 +8785,7 @@ var handlePrismaKnownRequestError = (err) => {
   };
 };
 var handlePrismaValidationError = (err) => {
-  const statusCode = status4.BAD_REQUEST;
+  const statusCode = status5.BAD_REQUEST;
   const message = "Prisma Validation Error";
   const errorSources = [
     {
@@ -8631,6 +8803,7 @@ var handlePrismaValidationError = (err) => {
 };
 
 // src/app/middlewares/globalErrorHandler.ts
+var import_prisma3 = __toESM(require_prisma(), 1);
 var globalErrorHandler = async (err, req, res, next) => {
   if (env.NODE_ENV === "development") {
     console.log("Error from Global Error Handler: ", err);
@@ -8643,7 +8816,7 @@ var globalErrorHandler = async (err, req, res, next) => {
     await Promise.all(imageUrls.map((url) => deleteFileFromCloudinary(url)));
   }
   let errorSources = [];
-  let statusCode = status5.INTERNAL_SERVER_ERROR;
+  let statusCode = status6.INTERNAL_SERVER_ERROR;
   let message = "Internal Server Error";
   let stack = void 0;
   if (err instanceof z.ZodError) {
@@ -8652,13 +8825,13 @@ var globalErrorHandler = async (err, req, res, next) => {
     message = simplifiedError.message;
     errorSources = simplifiedError.errorSources || [];
     stack = err.stack;
-  } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+  } else if (err instanceof import_prisma3.Prisma.PrismaClientKnownRequestError) {
     const simplifiedError = handlePrismaKnownRequestError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSources = simplifiedError.errorSources || [];
     stack = err.stack;
-  } else if (err instanceof Prisma.PrismaClientValidationError) {
+  } else if (err instanceof import_prisma3.Prisma.PrismaClientValidationError) {
     const simplifiedError = handlePrismaValidationError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
@@ -8675,7 +8848,7 @@ var globalErrorHandler = async (err, req, res, next) => {
       }
     ];
   } else if (err instanceof Error) {
-    statusCode = status5.INTERNAL_SERVER_ERROR;
+    statusCode = status6.INTERNAL_SERVER_ERROR;
     message = err.message;
     stack = err.stack;
     errorSources = [
@@ -8701,7 +8874,7 @@ import cookieParser from "cookie-parser";
 
 // src/app/routes/index.ts
 init_esm_shims();
-import { Router as Router7 } from "express";
+import { Router as Router8 } from "express";
 
 // src/app/modules/category/category.route.ts
 init_esm_shims();
@@ -8913,7 +9086,7 @@ init_esm_shims();
 
 // src/app/modules/tutor/tutor.service.ts
 init_esm_shims();
-var import_prisma4 = __toESM(require_prisma(), 1);
+var import_prisma5 = __toESM(require_prisma(), 1);
 var createTutorProfile = async (payload) => {
   const { categoryIds, userId, ...tutorData } = payload;
   const user = await prisma.user.findUnique({
@@ -9239,10 +9412,10 @@ var getAvailability = async (tutorId) => {
   });
   return result;
 };
-var getTutorBookings = async (tutorId, status6) => {
+var getTutorBookings = async (tutorId, status12) => {
   const whereClause = { tutorId };
-  if (status6) {
-    whereClause.status = status6;
+  if (status12) {
+    whereClause.status = status12;
   }
   const result = await prisma.booking.findMany({
     where: whereClause,
@@ -9289,13 +9462,13 @@ var getTutorStats = async (userId) => {
         gte: now,
         lte: weekFromNow
       },
-      status: import_prisma4.BookingStatus.CONFIRMED
+      status: import_prisma5.BookingStatus.CONFIRMED
     }
   });
-  const revenue = await prisma.booking.aggregate({
+  const earnings = await prisma.booking.aggregate({
     where: {
       tutorId: tutor.id,
-      status: import_prisma4.BookingStatus.COMPLETED
+      paymentStatus: "PAID"
     },
     _sum: {
       totalPrice: true
@@ -9305,7 +9478,8 @@ var getTutorStats = async (userId) => {
     totalBookings,
     upcomingBookings,
     totalSessions: tutor.totalSessions,
-    totalRevenue: revenue._sum.totalPrice || 0,
+    totalRevenue: earnings._sum.totalPrice || 0,
+    totalEarnings: earnings._sum.totalPrice || 0,
     rating: tutor.rating
   };
 };
@@ -9564,7 +9738,7 @@ var getAvailability2 = async (req, res, next) => {
 var getMyBookings = async (req, res, next) => {
   try {
     const userId = req.user?.id;
-    const { status: status6 } = req.query;
+    const { status: status12 } = req.query;
     if (!userId) {
       return res.status(401).json({
         success: false,
@@ -9581,7 +9755,7 @@ var getMyBookings = async (req, res, next) => {
     }
     const result = await TutorService.getTutorBookings(
       tutor.id,
-      status6
+      status12
     );
     res.status(200).json({
       success: true,
@@ -9733,6 +9907,7 @@ init_esm_shims();
 
 // src/app/modules/booking/booking.service.ts
 init_esm_shims();
+import status7 from "http-status";
 var createBooking = async (payload) => {
   const { studentId, tutorId, sessionDate, startTime, endTime } = payload;
   const tutor = await prisma.tutorProfile.findUnique({
@@ -9786,7 +9961,13 @@ var createBooking = async (payload) => {
   }
   const [startHour = 0, startMin = 0] = startTime.split(":").map(Number);
   const [endHour = 0, endMin = 0] = endTime.split(":").map(Number);
-  const hours = endHour - startHour + (endMin - startMin) / 60;
+  const startTotalMinutes = startHour * 60 + startMin;
+  const endTotalMinutes = endHour * 60 + endMin;
+  const durationMinutes = endTotalMinutes - startTotalMinutes;
+  if (durationMinutes <= 0) {
+    throw new Error("End time must be after start time");
+  }
+  const hours = durationMinutes / 60;
   const totalPrice = tutor.hourlyRate * hours;
   const result = await prisma.booking.create({
     data: {
@@ -9828,7 +10009,7 @@ var getBookingById = async (bookingId) => {
   });
   return result;
 };
-var getUserBookings = async (userId, role, status6) => {
+var getUserBookings = async (userId, role, status12) => {
   const whereClause = {};
   if (role === "STUDENT") {
     whereClause.studentId = userId;
@@ -9841,8 +10022,8 @@ var getUserBookings = async (userId, role, status6) => {
     }
     whereClause.tutorId = tutorProfile.id;
   }
-  if (status6) {
-    whereClause.status = status6;
+  if (status12) {
+    whereClause.status = status12;
   }
   const result = await prisma.booking.findMany({
     where: whereClause,
@@ -9911,10 +10092,14 @@ var cancelBooking = async (bookingId, studentId) => {
     }
   });
   if (!booking) {
-    throw new Error("Booking not found or you don't have permission");
+    throw new AppError_default(status7.NOT_FOUND, "Booking not found or you don't have permission");
   }
-  if (booking.status !== "CONFIRMED") {
-    throw new Error("Only confirmed bookings can be cancelled");
+  const cancellableStatuses = ["PENDING", "CONFIRMED"];
+  if (!cancellableStatuses.includes(booking.status)) {
+    throw new AppError_default(
+      status7.BAD_REQUEST,
+      `Only pending or confirmed bookings can be cancelled. Current status: ${booking.status}`
+    );
   }
   const result = await prisma.booking.update({
     where: { id: bookingId },
@@ -9939,6 +10124,7 @@ import Stripe from "stripe";
 var stripe = new Stripe(env.STRIPE.STRIPE_SECRET_KEY);
 
 // src/app/modules/booking/booking.payment.service.ts
+import status8 from "http-status";
 var createCheckoutSession = async (bookingId) => {
   const booking = await prisma.booking.findUnique({
     where: { id: bookingId },
@@ -9952,52 +10138,97 @@ var createCheckoutSession = async (bookingId) => {
     }
   });
   if (!booking) {
-    throw new Error("Booking not found");
+    throw new AppError_default(status8.NOT_FOUND, "Booking not found");
   }
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    mode: "payment",
-    customer_email: booking.student.email,
-    line_items: [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: `Tutoring Session with ${booking.tutor.user.name}`,
-            description: `Subject: ${booking.subject} | Date: ${new Date(booking.sessionDate).toLocaleDateString()} | Time: ${booking.startTime} - ${booking.endTime}`
+  if (!booking.student?.email) {
+    throw new AppError_default(
+      status8.BAD_REQUEST,
+      "Student email is required for payment"
+    );
+  }
+  if (booking.totalPrice < 0.5) {
+    throw new AppError_default(
+      status8.BAD_REQUEST,
+      "Total price must be at least $0.50 for Stripe payments"
+    );
+  }
+  if (!booking.tutor?.user?.name) {
+    throw new AppError_default(status8.BAD_REQUEST, "Tutor information is missing");
+  }
+  const frontendUrl = env.FRONTEND_URL.endsWith("/") ? env.FRONTEND_URL.slice(0, -1) : env.FRONTEND_URL;
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      customer_email: booking.student.email,
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: `Tutoring: ${booking.subject}`,
+              description: `Session with ${booking.tutor.user.name} on ${new Date(booking.sessionDate).toDateString()}`
+            },
+            unit_amount: Math.round(booking.totalPrice * 100)
           },
-          unit_amount: Math.round(booking.totalPrice * 100)
-          // Stripe expects amount in cents
-        },
-        quantity: 1
+          quantity: 1
+        }
+      ],
+      success_url: `${frontendUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&booking_id=${booking.id}`,
+      cancel_url: `${frontendUrl}/payment-cancel?booking_id=${booking.id}`,
+      metadata: {
+        bookingId: booking.id
       }
-    ],
-    success_url: `${env.FRONTEND_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}&booking_id=${booking.id}`,
-    cancel_url: `${env.FRONTEND_URL}/payment-cancel?booking_id=${booking.id}`,
-    metadata: {
-      bookingId: booking.id
-    }
-  });
-  await prisma.booking.update({
-    where: { id: bookingId },
-    data: {
-      transactionId: session.id
-    }
-  });
-  return session.url;
+    });
+    await prisma.booking.update({
+      where: { id: bookingId },
+      data: {
+        transactionId: session.id
+      }
+    });
+    return session.url;
+  } catch (error) {
+    console.error("Stripe Checkout Error:", error);
+    throw new AppError_default(
+      status8.INTERNAL_SERVER_ERROR,
+      error.message || "Failed to create Stripe checkout session"
+    );
+  }
 };
 var verifyPayment = async (sessionId) => {
   const session = await stripe.checkout.sessions.retrieve(sessionId);
   if (session.payment_status === "paid") {
     const bookingId = session.metadata?.bookingId;
     if (bookingId) {
-      await prisma.booking.update({
+      const booking = await prisma.booking.findUnique({
         where: { id: bookingId },
-        data: {
-          paymentStatus: "PAID",
-          status: "CONFIRMED"
-        }
+        include: { tutor: true }
       });
+      if (!booking || booking.paymentStatus === "PAID") {
+        return true;
+      }
+      const feeSetting = await prisma.platformSetting.findUnique({
+        where: { key: "PLATFORM_FEE_PERCENT" }
+      });
+      const feePercent = feeSetting ? parseFloat(feeSetting.value) : 10;
+      const feeAmount = booking.totalPrice * feePercent / 100;
+      const tutorEarnings = booking.totalPrice - feeAmount;
+      await prisma.$transaction([
+        prisma.booking.update({
+          where: { id: bookingId },
+          data: {
+            paymentStatus: "PAID",
+            status: "CONFIRMED"
+          }
+        }),
+        prisma.tutorProfile.update({
+          where: { id: booking.tutorId },
+          data: {
+            totalEarnings: { increment: tutorEarnings },
+            withdrawableBalance: { increment: tutorEarnings }
+          }
+        })
+      ]);
     }
     return true;
   }
@@ -10063,7 +10294,7 @@ var getMyBookings2 = async (req, res, next) => {
   try {
     const userId = req.user?.id;
     const role = req.user?.role;
-    const { status: status6 } = req.query;
+    const { status: status12 } = req.query;
     if (!userId || !role) {
       return res.status(401).json({
         success: false,
@@ -10073,7 +10304,7 @@ var getMyBookings2 = async (req, res, next) => {
     const result = await BookingService.getUserBookings(
       userId,
       role,
-      status6
+      status12
     );
     res.status(200).json({
       success: true,
@@ -10147,7 +10378,9 @@ var cancelBooking2 = async (req, res, next) => {
 var createCheckoutSession2 = async (req, res, next) => {
   try {
     const { bookingId } = req.params;
-    const result = await BookingPaymentService.createCheckoutSession(bookingId);
+    const result = await BookingPaymentService.createCheckoutSession(
+      bookingId
+    );
     res.status(200).json({
       success: true,
       message: "Checkout session created successfully",
@@ -10512,7 +10745,8 @@ var getDashboardStats = async () => {
       completedBookings,
       cancelledBookings,
       revenueData,
-      totalCategories
+      totalCategories,
+      totalPayments
     ] = await Promise.all([
       tx.user.count(),
       tx.user.count({ where: { emailVerified: true } }),
@@ -10528,10 +10762,11 @@ var getDashboardStats = async () => {
       tx.booking.count({ where: { status: "COMPLETED" } }),
       tx.booking.count({ where: { status: "CANCELLED" } }),
       tx.booking.aggregate({
-        where: { status: "COMPLETED" },
+        where: { paymentStatus: "PAID" },
         _sum: { totalPrice: true }
       }),
-      tx.category.count()
+      tx.category.count(),
+      tx.booking.count({ where: { paymentStatus: "PAID" } })
     ]);
     return {
       totalUsers,
@@ -10548,7 +10783,8 @@ var getDashboardStats = async () => {
       completedBookings,
       cancelledBookings,
       totalRevenue: revenueData._sum.totalPrice || 0,
-      totalCategories
+      totalCategories,
+      totalPayments
     };
   });
 };
@@ -10735,11 +10971,21 @@ var getStudentStats = async (studentId) => {
     const hours = endHour - startHour + (endMin - startMin) / 60;
     return sum + hours;
   }, 0);
+  const totalSpent = await prisma.booking.aggregate({
+    where: {
+      studentId,
+      paymentStatus: "PAID"
+    },
+    _sum: {
+      totalPrice: true
+    }
+  });
   return {
     totalBookings: allBookings.length,
     upcomingClasses: upcomingBookings.length,
     completedClasses: completedBookings.length,
-    totalHours: Math.round(totalHours * 10) / 10
+    totalHours: Math.round(totalHours * 10) / 10,
+    totalSpent: totalSpent._sum.totalPrice || 0
   };
 };
 var UserService = {
@@ -10783,7 +11029,11 @@ var updateProfile = async (req, res, next) => {
         message: "User not authenticated"
       });
     }
-    const result = await UserService.updateUserProfile(userId, req.body);
+    const payload = { ...req.body };
+    if (req.file) {
+      payload.image = req.file.path;
+    }
+    const result = await UserService.updateUserProfile(userId, payload);
     res.status(200).json({
       success: true,
       message: "User profile updated successfully",
@@ -10818,6 +11068,27 @@ var UserController = {
   getStudentStats: getStudentStats2
 };
 
+// src/app/config/multer.config.ts
+init_esm_shims();
+import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+var storage = new CloudinaryStorage({
+  cloudinary: cloudinaryUpload,
+  params: async (req, file) => {
+    const originalName = file.originalname;
+    const extension = originalName.split(".").pop()?.toLowerCase();
+    const fileNameWithoutExtension = originalName.split(".").slice(0, -1).join(".").toLowerCase().replace(/\s+/g, "-").replace(/[^a-zA-Z0-9\-]/g, "");
+    const uniqueName = Math.random().toString(36).substring(2) + "-" + Date.now() + "-" + fileNameWithoutExtension;
+    const folder = extension === "pdf" ? "pdfs" : "images";
+    return {
+      folder: `amar-shikkhok/${folder}`,
+      public_id: uniqueName,
+      resource_type: "auto"
+    };
+  }
+});
+var multerUpload = multer({ storage });
+
 // src/app/modules/user/user.route.ts
 var router6 = express6.Router();
 router6.get(
@@ -10828,23 +11099,503 @@ router6.get(
 router6.put(
   "/profile",
   auth_default("STUDENT" /* STUDENT */, "TUTOR" /* TUTOR */, "ADMIN" /* ADMIN */),
+  multerUpload.single("image"),
   UserController.updateProfile
 );
 router6.get("/stats", auth_default("STUDENT" /* STUDENT */), UserController.getStudentStats);
 var UserRouter = router6;
 
+// src/app/modules/payment/payment.route.ts
+init_esm_shims();
+import express7 from "express";
+
+// src/app/modules/payment/payment.controller.ts
+init_esm_shims();
+
+// src/app/modules/payment/payment.service.ts
+init_esm_shims();
+var getPaymentStats = async (userId, role) => {
+  if (role === "STUDENT") {
+    const totalSpent = await prisma.booking.aggregate({
+      where: {
+        studentId: userId,
+        paymentStatus: "PAID"
+      },
+      _sum: {
+        totalPrice: true
+      }
+    });
+    const totalBookings = await prisma.booking.count({
+      where: {
+        studentId: userId,
+        paymentStatus: "PAID"
+      }
+    });
+    return {
+      totalSpent: totalSpent._sum.totalPrice || 0,
+      totalBookings
+    };
+  }
+  if (role === "TUTOR") {
+    const tutorProfile = await prisma.tutorProfile.findUnique({
+      where: { userId }
+    });
+    if (!tutorProfile) {
+      throw new Error("Tutor profile not found");
+    }
+    const totalEarnings = await prisma.booking.aggregate({
+      where: {
+        tutorId: tutorProfile.id,
+        paymentStatus: "PAID"
+      },
+      _sum: {
+        totalPrice: true
+      }
+    });
+    const totalSessions = await prisma.booking.count({
+      where: {
+        tutorId: tutorProfile.id,
+        paymentStatus: "PAID"
+      }
+    });
+    return {
+      totalEarnings: totalEarnings._sum.totalPrice || 0,
+      totalSessions
+    };
+  }
+  if (role === "ADMIN") {
+    const totalRevenue = await prisma.booking.aggregate({
+      where: {
+        paymentStatus: "PAID"
+      },
+      _sum: {
+        totalPrice: true
+      }
+    });
+    const totalPayments = await prisma.booking.count({
+      where: {
+        paymentStatus: "PAID"
+      }
+    });
+    const totalUsers = await prisma.user.count();
+    const totalTutors = await prisma.tutorProfile.count();
+    return {
+      totalRevenue: totalRevenue._sum.totalPrice || 0,
+      totalPayments,
+      totalUsers,
+      totalTutors
+    };
+  }
+  return null;
+};
+var getPaymentHistory = async (userId, role) => {
+  const whereClause = {
+    paymentStatus: "PAID"
+  };
+  if (role === "STUDENT") {
+    whereClause.studentId = userId;
+  } else if (role === "TUTOR") {
+    const tutorProfile = await prisma.tutorProfile.findUnique({
+      where: { userId }
+    });
+    if (tutorProfile) {
+      whereClause.tutorId = tutorProfile.id;
+    }
+  }
+  const history = await prisma.booking.findMany({
+    where: whereClause,
+    include: {
+      student: {
+        select: {
+          name: true,
+          email: true,
+          image: true
+        }
+      },
+      tutor: {
+        include: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+              image: true
+            }
+          }
+        }
+      }
+    },
+    orderBy: {
+      updatedAt: "desc"
+    }
+  });
+  return history;
+};
+var PaymentService = {
+  getPaymentStats,
+  getPaymentHistory
+};
+
+// src/app/modules/payment/payment.controller.ts
+var getPaymentStats2 = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+    const role = req.user?.role;
+    if (!userId || !role) {
+      return res.status(401).json({
+        success: false,
+        message: "User not authenticated"
+      });
+    }
+    const result = await PaymentService.getPaymentStats(userId, role);
+    res.status(200).json({
+      success: true,
+      message: "Payment statistics retrieved successfully",
+      data: result
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+var getPaymentHistory2 = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+    const role = req.user?.role;
+    if (!userId || !role) {
+      return res.status(401).json({
+        success: false,
+        message: "User not authenticated"
+      });
+    }
+    const result = await PaymentService.getPaymentHistory(userId, role);
+    res.status(200).json({
+      success: true,
+      message: "Payment history retrieved successfully",
+      data: result
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+var PaymentController = {
+  getPaymentStats: getPaymentStats2,
+  getPaymentHistory: getPaymentHistory2
+};
+
+// src/app/modules/payment/withdrawal.controller.ts
+init_esm_shims();
+
+// src/app/modules/payment/withdrawal.service.ts
+init_esm_shims();
+import status9 from "http-status";
+var createWithdrawalRequest = async (userId, amount, notes) => {
+  const tutorProfile = await prisma.tutorProfile.findUnique({
+    where: { userId }
+  });
+  if (!tutorProfile) {
+    throw new AppError_default(status9.NOT_FOUND, "Tutor profile not found");
+  }
+  if (tutorProfile.withdrawableBalance < amount) {
+    throw new AppError_default(status9.BAD_REQUEST, "Insufficient balance");
+  }
+  const result = await prisma.$transaction(async (tx) => {
+    const withdrawal = await tx.withdrawal.create({
+      data: {
+        tutorId: tutorProfile.id,
+        amount,
+        notes,
+        status: "PENDING"
+      }
+    });
+    await tx.tutorProfile.update({
+      where: { id: tutorProfile.id },
+      data: {
+        withdrawableBalance: {
+          decrement: amount
+        }
+      }
+    });
+    return withdrawal;
+  });
+  return result;
+};
+var getTutorWithdrawals = async (userId) => {
+  const tutorProfile = await prisma.tutorProfile.findUnique({
+    where: { userId }
+  });
+  if (!tutorProfile) {
+    throw new AppError_default(status9.NOT_FOUND, "Tutor profile not found");
+  }
+  return await prisma.withdrawal.findMany({
+    where: { tutorId: tutorProfile.id },
+    orderBy: { createdAt: "desc" }
+  });
+};
+var getAllWithdrawals = async (query) => {
+  const { status: withdrawalStatus } = query;
+  return await prisma.withdrawal.findMany({
+    where: withdrawalStatus ? { status: withdrawalStatus } : {},
+    include: {
+      tutor: {
+        include: {
+          user: {
+            select: { name: true, email: true }
+          }
+        }
+      }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+};
+var updateWithdrawalStatus = async (withdrawalId, withdrawalStatus, transactionId) => {
+  const withdrawal = await prisma.withdrawal.findUnique({
+    where: { id: withdrawalId }
+  });
+  if (!withdrawal) {
+    throw new AppError_default(status9.NOT_FOUND, "Withdrawal request not found");
+  }
+  if (withdrawal.status !== "PENDING") {
+    throw new AppError_default(
+      status9.BAD_REQUEST,
+      "Withdrawal request is already processed"
+    );
+  }
+  const result = await prisma.$transaction(async (tx) => {
+    const updatedWithdrawal = await tx.withdrawal.update({
+      where: { id: withdrawalId },
+      data: {
+        status: withdrawalStatus,
+        transactionId
+      }
+    });
+    if (withdrawalStatus === "REJECTED") {
+      await tx.tutorProfile.update({
+        where: { id: withdrawal.tutorId },
+        data: {
+          withdrawableBalance: {
+            increment: withdrawal.amount
+          }
+        }
+      });
+    }
+    return updatedWithdrawal;
+  });
+  return result;
+};
+var WithdrawalService = {
+  createWithdrawalRequest,
+  getTutorWithdrawals,
+  getAllWithdrawals,
+  updateWithdrawalStatus
+};
+
+// src/app/modules/payment/withdrawal.controller.ts
+import status10 from "http-status";
+
+// src/app/utils/catchAsync.ts
+init_esm_shims();
+var catchAsync = (fn) => {
+  return async (req, res, next) => {
+    try {
+      return await fn(req, res, next);
+    } catch (error) {
+      next(error);
+    }
+  };
+};
+
+// src/app/utils/sendResponse.ts
+init_esm_shims();
+var sendResponse = (res, responseData) => {
+  const { statusCode, success, message, data } = responseData;
+  res.status(statusCode).json({
+    success,
+    message,
+    data
+  });
+};
+
+// src/app/modules/payment/withdrawal.controller.ts
+var createWithdrawalRequest2 = catchAsync(
+  async (req, res) => {
+    const { amount, notes } = req.body;
+    const user = req.user;
+    const result = await WithdrawalService.createWithdrawalRequest(
+      user.id,
+      amount,
+      notes
+    );
+    sendResponse(res, {
+      statusCode: status10.OK,
+      success: true,
+      message: "Withdrawal request created successfully",
+      data: result
+    });
+  }
+);
+var getTutorWithdrawals2 = catchAsync(async (req, res) => {
+  const user = req.user;
+  const result = await WithdrawalService.getTutorWithdrawals(user.id);
+  sendResponse(res, {
+    statusCode: status10.OK,
+    success: true,
+    message: "Withdrawal history retrieved successfully",
+    data: result
+  });
+});
+var getAllWithdrawals2 = catchAsync(async (req, res) => {
+  const result = await WithdrawalService.getAllWithdrawals(req.query);
+  sendResponse(res, {
+    statusCode: status10.OK,
+    success: true,
+    message: "All withdrawal requests retrieved successfully",
+    data: result
+  });
+});
+var updateWithdrawalStatus2 = catchAsync(
+  async (req, res) => {
+    const { withdrawalId } = req.params;
+    const { status: withdrawalStatus, transactionId } = req.body;
+    const result = await WithdrawalService.updateWithdrawalStatus(
+      withdrawalId,
+      withdrawalStatus,
+      transactionId
+    );
+    sendResponse(res, {
+      statusCode: status10.OK,
+      success: true,
+      message: "Withdrawal status updated successfully",
+      data: result
+    });
+  }
+);
+var WithdrawalController = {
+  createWithdrawalRequest: createWithdrawalRequest2,
+  getTutorWithdrawals: getTutorWithdrawals2,
+  getAllWithdrawals: getAllWithdrawals2,
+  updateWithdrawalStatus: updateWithdrawalStatus2
+};
+
+// src/app/modules/payment/payment.route.ts
+var router7 = express7.Router();
+router7.get(
+  "/stats",
+  auth_default("STUDENT" /* STUDENT */, "TUTOR" /* TUTOR */, "ADMIN" /* ADMIN */),
+  PaymentController.getPaymentStats
+);
+router7.get(
+  "/history",
+  auth_default("STUDENT" /* STUDENT */, "TUTOR" /* TUTOR */, "ADMIN" /* ADMIN */),
+  PaymentController.getPaymentHistory
+);
+router7.post(
+  "/withdrawals",
+  auth_default("TUTOR" /* TUTOR */),
+  WithdrawalController.createWithdrawalRequest
+);
+router7.get(
+  "/withdrawals/my",
+  auth_default("TUTOR" /* TUTOR */),
+  WithdrawalController.getTutorWithdrawals
+);
+router7.get(
+  "/withdrawals",
+  auth_default("ADMIN" /* ADMIN */),
+  WithdrawalController.getAllWithdrawals
+);
+router7.patch(
+  "/withdrawals/:withdrawalId",
+  auth_default("ADMIN" /* ADMIN */),
+  WithdrawalController.updateWithdrawalStatus
+);
+var PaymentRouter = router7;
+
+// src/app/modules/setting/setting.route.ts
+init_esm_shims();
+import express8 from "express";
+
+// src/app/modules/setting/setting.controller.ts
+init_esm_shims();
+
+// src/app/modules/setting/setting.service.ts
+init_esm_shims();
+var getSetting = async (key) => {
+  const setting = await prisma.platformSetting.findUnique({
+    where: { key }
+  });
+  return setting?.value;
+};
+var updateSetting = async (key, value) => {
+  const setting = await prisma.platformSetting.upsert({
+    where: { key },
+    update: { value },
+    create: { key, value }
+  });
+  return setting;
+};
+var getAllSettings = async () => {
+  const settings = await prisma.platformSetting.findMany();
+  return settings;
+};
+var SettingService = {
+  getSetting,
+  updateSetting,
+  getAllSettings
+};
+
+// src/app/modules/setting/setting.controller.ts
+import status11 from "http-status";
+var updateSetting2 = catchAsync(async (req, res) => {
+  const { key, value } = req.body;
+  const result = await SettingService.updateSetting(key, value);
+  sendResponse(res, {
+    statusCode: status11.OK,
+    success: true,
+    message: "Setting updated successfully",
+    data: result
+  });
+});
+var getAllSettings2 = catchAsync(async (req, res) => {
+  const result = await SettingService.getAllSettings();
+  sendResponse(res, {
+    statusCode: status11.OK,
+    success: true,
+    message: "Settings retrieved successfully",
+    data: result
+  });
+});
+var SettingController = {
+  updateSetting: updateSetting2,
+  getAllSettings: getAllSettings2
+};
+
+// src/app/modules/setting/setting.route.ts
+var router8 = express8.Router();
+router8.get(
+  "/",
+  auth_default("ADMIN" /* ADMIN */),
+  SettingController.getAllSettings
+);
+router8.post(
+  "/",
+  auth_default("ADMIN" /* ADMIN */),
+  SettingController.updateSetting
+);
+var SettingRouter = router8;
+
 // src/app/routes/index.ts
-var router7 = Router7();
-router7.use("/categories", CategoryRouter);
-router7.use("/tutors", TutorRouter);
-router7.use("/bookings", BookingRouter);
-router7.use("/reviews", ReviewRouter);
-router7.use("/users", UserRouter);
-router7.use("/admins", AdminRouter);
-var IndexRoutes = router7;
+var router9 = Router8();
+router9.use("/categories", CategoryRouter);
+router9.use("/tutors", TutorRouter);
+router9.use("/bookings", BookingRouter);
+router9.use("/reviews", ReviewRouter);
+router9.use("/users", UserRouter);
+router9.use("/admins", AdminRouter);
+router9.use("/payments", PaymentRouter);
+router9.use("/settings", SettingRouter);
+var IndexRoutes = router9;
 
 // src/app.ts
-import path2 from "path";
+import path3 from "path";
 
 // src/app/modules/booking/booking.webhook.ts
 init_esm_shims();
@@ -10883,12 +11634,12 @@ var handleStripeWebhook = async (req, res) => {
 };
 
 // src/app.ts
-var app = express7();
+var app = express9();
 app.set("view engine", "ejs");
-app.set("views", path2.resolve(process.cwd(), "src/app/templates"));
+app.set("views", path3.resolve(process.cwd(), "src/app/templates"));
 app.post(
   "/webhook",
-  express7.raw({ type: "application/json" }),
+  express9.raw({ type: "application/json" }),
   handleStripeWebhook
 );
 app.use(
@@ -10904,12 +11655,12 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
-app.use(express7.json());
+app.use(express9.json());
 app.all("/api/auth/*splat", toNodeHandler(auth));
-app.use(express7.urlencoded({ extended: true }));
-app.use(express7.json());
+app.use(express9.urlencoded({ extended: true }));
+app.use(express9.json());
 app.use(cookieParser());
-app.use(express7.urlencoded({ extended: true }));
+app.use(express9.urlencoded({ extended: true }));
 app.use("/api/v1", IndexRoutes);
 app.get("/", (_req, res) => {
   res.send("Amar Shikkhok Server is running");

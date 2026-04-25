@@ -172,6 +172,18 @@ exports.Prisma.CategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RefundScalarFieldEnum = {
+  id: 'id',
+  bookingId: 'bookingId',
+  studentId: 'studentId',
+  amount: 'amount',
+  status: 'status',
+  reason: 'reason',
+  transactionId: 'transactionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ReviewScalarFieldEnum = {
   id: 'id',
   bookingId: 'bookingId',
@@ -194,6 +206,12 @@ exports.Prisma.SessionScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.PlatformSettingScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  value: 'value'
+};
+
 exports.Prisma.TutorProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -205,6 +223,8 @@ exports.Prisma.TutorProfileScalarFieldEnum = {
   rating: 'rating',
   totalReviews: 'totalReviews',
   totalSessions: 'totalSessions',
+  totalEarnings: 'totalEarnings',
+  withdrawableBalance: 'withdrawableBalance',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -229,6 +249,18 @@ exports.Prisma.VerificationScalarFieldEnum = {
   identifier: 'identifier',
   value: 'value',
   expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WithdrawalScalarFieldEnum = {
+  id: 'id',
+  tutorId: 'tutorId',
+  amount: 'amount',
+  status: 'status',
+  method: 'method',
+  transactionId: 'transactionId',
+  notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -260,10 +292,22 @@ exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   FAILED: 'FAILED'
 };
 
+exports.RefundStatus = exports.$Enums.RefundStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
 exports.Role = exports.$Enums.Role = {
   STUDENT: 'STUDENT',
   TUTOR: 'TUTOR',
   ADMIN: 'ADMIN'
+};
+
+exports.WithdrawalStatus = exports.$Enums.WithdrawalStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
 };
 
 exports.Prisma.ModelName = {
@@ -271,11 +315,14 @@ exports.Prisma.ModelName = {
   Availability: 'Availability',
   Booking: 'Booking',
   Category: 'Category',
+  Refund: 'Refund',
   Review: 'Review',
   Session: 'Session',
+  PlatformSetting: 'PlatformSetting',
   TutorProfile: 'TutorProfile',
   User: 'User',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Withdrawal: 'Withdrawal'
 };
 
 /**

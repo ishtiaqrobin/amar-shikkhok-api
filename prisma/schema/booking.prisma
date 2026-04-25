@@ -19,6 +19,7 @@ model Booking {
     student User         @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
     tutor   TutorProfile @relation("TutorBookings", fields: [tutorId], references: [id], onDelete: Cascade)
     review  Review?
+    refund  Refund?
 
     @@map("bookings")
 }

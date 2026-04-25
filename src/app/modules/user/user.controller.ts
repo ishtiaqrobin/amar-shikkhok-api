@@ -48,7 +48,14 @@ const updateProfile = async (
       });
     }
 
-    const result = await UserService.updateUserProfile(userId, req.body);
+    const payload = { ...req.body };
+
+    // Add image to payload if a file was uploaded
+    if (req.file) {
+      payload.image = req.file.path;
+    }
+
+    const result = await UserService.updateUserProfile(userId, payload);
 
     res.status(200).json({
       success: true,

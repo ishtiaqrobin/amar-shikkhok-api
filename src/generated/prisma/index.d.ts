@@ -34,6 +34,11 @@ export type Booking = $Result.DefaultSelection<Prisma.$BookingPayload>
  */
 export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
 /**
+ * Model Refund
+ * 
+ */
+export type Refund = $Result.DefaultSelection<Prisma.$RefundPayload>
+/**
  * Model Review
  * 
  */
@@ -43,6 +48,11 @@ export type Review = $Result.DefaultSelection<Prisma.$ReviewPayload>
  * 
  */
 export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
+/**
+ * Model PlatformSetting
+ * 
+ */
+export type PlatformSetting = $Result.DefaultSelection<Prisma.$PlatformSettingPayload>
 /**
  * Model TutorProfile
  * 
@@ -58,6 +68,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
+/**
+ * Model Withdrawal
+ * 
+ */
+export type Withdrawal = $Result.DefaultSelection<Prisma.$WithdrawalPayload>
 
 /**
  * Enums
@@ -82,6 +97,15 @@ export const PaymentStatus: {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 
+export const RefundStatus: {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type RefundStatus = (typeof RefundStatus)[keyof typeof RefundStatus]
+
+
 export const Role: {
   STUDENT: 'STUDENT',
   TUTOR: 'TUTOR',
@@ -89,6 +113,15 @@ export const Role: {
 };
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const WithdrawalStatus: {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type WithdrawalStatus = (typeof WithdrawalStatus)[keyof typeof WithdrawalStatus]
 
 }
 
@@ -100,9 +133,17 @@ export type PaymentStatus = $Enums.PaymentStatus
 
 export const PaymentStatus: typeof $Enums.PaymentStatus
 
+export type RefundStatus = $Enums.RefundStatus
+
+export const RefundStatus: typeof $Enums.RefundStatus
+
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type WithdrawalStatus = $Enums.WithdrawalStatus
+
+export const WithdrawalStatus: typeof $Enums.WithdrawalStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -262,6 +303,16 @@ export class PrismaClient<
   get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.refund`: Exposes CRUD operations for the **Refund** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Refunds
+    * const refunds = await prisma.refund.findMany()
+    * ```
+    */
+  get refund(): Prisma.RefundDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.review`: Exposes CRUD operations for the **Review** model.
     * Example usage:
     * ```ts
@@ -280,6 +331,16 @@ export class PrismaClient<
     * ```
     */
   get session(): Prisma.SessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.platformSetting`: Exposes CRUD operations for the **PlatformSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlatformSettings
+    * const platformSettings = await prisma.platformSetting.findMany()
+    * ```
+    */
+  get platformSetting(): Prisma.PlatformSettingDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tutorProfile`: Exposes CRUD operations for the **TutorProfile** model.
@@ -310,6 +371,16 @@ export class PrismaClient<
     * ```
     */
   get verification(): Prisma.VerificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.withdrawal`: Exposes CRUD operations for the **Withdrawal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Withdrawals
+    * const withdrawals = await prisma.withdrawal.findMany()
+    * ```
+    */
+  get withdrawal(): Prisma.WithdrawalDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -748,11 +819,14 @@ export namespace Prisma {
     Availability: 'Availability',
     Booking: 'Booking',
     Category: 'Category',
+    Refund: 'Refund',
     Review: 'Review',
     Session: 'Session',
+    PlatformSetting: 'PlatformSetting',
     TutorProfile: 'TutorProfile',
     User: 'User',
-    Verification: 'Verification'
+    Verification: 'Verification',
+    Withdrawal: 'Withdrawal'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -768,7 +842,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "availability" | "booking" | "category" | "review" | "session" | "tutorProfile" | "user" | "verification"
+      modelProps: "account" | "availability" | "booking" | "category" | "refund" | "review" | "session" | "platformSetting" | "tutorProfile" | "user" | "verification" | "withdrawal"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1068,6 +1142,80 @@ export namespace Prisma {
           }
         }
       }
+      Refund: {
+        payload: Prisma.$RefundPayload<ExtArgs>
+        fields: Prisma.RefundFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RefundFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RefundFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          findFirst: {
+            args: Prisma.RefundFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RefundFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          findMany: {
+            args: Prisma.RefundFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>[]
+          }
+          create: {
+            args: Prisma.RefundCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          createMany: {
+            args: Prisma.RefundCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RefundCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>[]
+          }
+          delete: {
+            args: Prisma.RefundDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          update: {
+            args: Prisma.RefundUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          deleteMany: {
+            args: Prisma.RefundDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RefundUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RefundUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>[]
+          }
+          upsert: {
+            args: Prisma.RefundUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          aggregate: {
+            args: Prisma.RefundAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRefund>
+          }
+          groupBy: {
+            args: Prisma.RefundGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RefundGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RefundCountArgs<ExtArgs>
+            result: $Utils.Optional<RefundCountAggregateOutputType> | number
+          }
+        }
+      }
       Review: {
         payload: Prisma.$ReviewPayload<ExtArgs>
         fields: Prisma.ReviewFieldRefs
@@ -1213,6 +1361,80 @@ export namespace Prisma {
           count: {
             args: Prisma.SessionCountArgs<ExtArgs>
             result: $Utils.Optional<SessionCountAggregateOutputType> | number
+          }
+        }
+      }
+      PlatformSetting: {
+        payload: Prisma.$PlatformSettingPayload<ExtArgs>
+        fields: Prisma.PlatformSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlatformSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlatformSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.PlatformSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlatformSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          findMany: {
+            args: Prisma.PlatformSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>[]
+          }
+          create: {
+            args: Prisma.PlatformSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          createMany: {
+            args: Prisma.PlatformSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlatformSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.PlatformSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          update: {
+            args: Prisma.PlatformSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlatformSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlatformSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlatformSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlatformSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlatformSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.PlatformSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlatformSetting>
+          }
+          groupBy: {
+            args: Prisma.PlatformSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlatformSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlatformSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<PlatformSettingCountAggregateOutputType> | number
           }
         }
       }
@@ -1438,6 +1660,80 @@ export namespace Prisma {
           }
         }
       }
+      Withdrawal: {
+        payload: Prisma.$WithdrawalPayload<ExtArgs>
+        fields: Prisma.WithdrawalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WithdrawalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WithdrawalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload>
+          }
+          findFirst: {
+            args: Prisma.WithdrawalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WithdrawalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload>
+          }
+          findMany: {
+            args: Prisma.WithdrawalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload>[]
+          }
+          create: {
+            args: Prisma.WithdrawalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload>
+          }
+          createMany: {
+            args: Prisma.WithdrawalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WithdrawalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload>[]
+          }
+          delete: {
+            args: Prisma.WithdrawalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload>
+          }
+          update: {
+            args: Prisma.WithdrawalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload>
+          }
+          deleteMany: {
+            args: Prisma.WithdrawalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WithdrawalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WithdrawalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload>[]
+          }
+          upsert: {
+            args: Prisma.WithdrawalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WithdrawalPayload>
+          }
+          aggregate: {
+            args: Prisma.WithdrawalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWithdrawal>
+          }
+          groupBy: {
+            args: Prisma.WithdrawalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WithdrawalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WithdrawalCountArgs<ExtArgs>
+            result: $Utils.Optional<WithdrawalCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1550,11 +1846,14 @@ export namespace Prisma {
     availability?: AvailabilityOmit
     booking?: BookingOmit
     category?: CategoryOmit
+    refund?: RefundOmit
     review?: ReviewOmit
     session?: SessionOmit
+    platformSetting?: PlatformSettingOmit
     tutorProfile?: TutorProfileOmit
     user?: UserOmit
     verification?: VerificationOmit
+    withdrawal?: WithdrawalOmit
   }
 
   /* Types for Logging */
@@ -1670,6 +1969,7 @@ export namespace Prisma {
     availabilities: number
     bookings: number
     reviews: number
+    withdrawals: number
   }
 
   export type TutorProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1677,6 +1977,7 @@ export namespace Prisma {
     availabilities?: boolean | TutorProfileCountOutputTypeCountAvailabilitiesArgs
     bookings?: boolean | TutorProfileCountOutputTypeCountBookingsArgs
     reviews?: boolean | TutorProfileCountOutputTypeCountReviewsArgs
+    withdrawals?: boolean | TutorProfileCountOutputTypeCountWithdrawalsArgs
   }
 
   // Custom InputTypes
@@ -1718,6 +2019,13 @@ export namespace Prisma {
     where?: ReviewWhereInput
   }
 
+  /**
+   * TutorProfileCountOutputType without action
+   */
+  export type TutorProfileCountOutputTypeCountWithdrawalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WithdrawalWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -1728,6 +2036,7 @@ export namespace Prisma {
     accounts: number
     bookings: number
     reviews: number
+    refunds: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1735,6 +2044,7 @@ export namespace Prisma {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     bookings?: boolean | UserCountOutputTypeCountBookingsArgs
     reviews?: boolean | UserCountOutputTypeCountReviewsArgs
+    refunds?: boolean | UserCountOutputTypeCountRefundsArgs
   }
 
   // Custom InputTypes
@@ -1774,6 +2084,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReviewWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRefundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RefundWhereInput
   }
 
 
@@ -4347,6 +4664,7 @@ export namespace Prisma {
     student?: boolean | UserDefaultArgs<ExtArgs>
     tutor?: boolean | TutorProfileDefaultArgs<ExtArgs>
     review?: boolean | Booking$reviewArgs<ExtArgs>
+    refund?: boolean | Booking$refundArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4409,6 +4727,7 @@ export namespace Prisma {
     student?: boolean | UserDefaultArgs<ExtArgs>
     tutor?: boolean | TutorProfileDefaultArgs<ExtArgs>
     review?: boolean | Booking$reviewArgs<ExtArgs>
+    refund?: boolean | Booking$refundArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
@@ -4425,6 +4744,7 @@ export namespace Prisma {
       student: Prisma.$UserPayload<ExtArgs>
       tutor: Prisma.$TutorProfilePayload<ExtArgs>
       review: Prisma.$ReviewPayload<ExtArgs> | null
+      refund: Prisma.$RefundPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4838,6 +5158,7 @@ export namespace Prisma {
     student<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tutor<T extends TutorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TutorProfileDefaultArgs<ExtArgs>>): Prisma__TutorProfileClient<$Result.GetResult<Prisma.$TutorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     review<T extends Booking$reviewArgs<ExtArgs> = {}>(args?: Subset<T, Booking$reviewArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    refund<T extends Booking$refundArgs<ExtArgs> = {}>(args?: Subset<T, Booking$refundArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5293,6 +5614,25 @@ export namespace Prisma {
      */
     include?: ReviewInclude<ExtArgs> | null
     where?: ReviewWhereInput
+  }
+
+  /**
+   * Booking.refund
+   */
+  export type Booking$refundArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    where?: RefundWhereInput
   }
 
   /**
@@ -6381,6 +6721,1158 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Refund
+   */
+
+  export type AggregateRefund = {
+    _count: RefundCountAggregateOutputType | null
+    _avg: RefundAvgAggregateOutputType | null
+    _sum: RefundSumAggregateOutputType | null
+    _min: RefundMinAggregateOutputType | null
+    _max: RefundMaxAggregateOutputType | null
+  }
+
+  export type RefundAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type RefundSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type RefundMinAggregateOutputType = {
+    id: string | null
+    bookingId: string | null
+    studentId: string | null
+    amount: number | null
+    status: $Enums.RefundStatus | null
+    reason: string | null
+    transactionId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RefundMaxAggregateOutputType = {
+    id: string | null
+    bookingId: string | null
+    studentId: string | null
+    amount: number | null
+    status: $Enums.RefundStatus | null
+    reason: string | null
+    transactionId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RefundCountAggregateOutputType = {
+    id: number
+    bookingId: number
+    studentId: number
+    amount: number
+    status: number
+    reason: number
+    transactionId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RefundAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type RefundSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type RefundMinAggregateInputType = {
+    id?: true
+    bookingId?: true
+    studentId?: true
+    amount?: true
+    status?: true
+    reason?: true
+    transactionId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RefundMaxAggregateInputType = {
+    id?: true
+    bookingId?: true
+    studentId?: true
+    amount?: true
+    status?: true
+    reason?: true
+    transactionId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RefundCountAggregateInputType = {
+    id?: true
+    bookingId?: true
+    studentId?: true
+    amount?: true
+    status?: true
+    reason?: true
+    transactionId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RefundAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Refund to aggregate.
+     */
+    where?: RefundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RefundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Refunds
+    **/
+    _count?: true | RefundCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RefundAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RefundSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RefundMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RefundMaxAggregateInputType
+  }
+
+  export type GetRefundAggregateType<T extends RefundAggregateArgs> = {
+        [P in keyof T & keyof AggregateRefund]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRefund[P]>
+      : GetScalarType<T[P], AggregateRefund[P]>
+  }
+
+
+
+
+  export type RefundGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RefundWhereInput
+    orderBy?: RefundOrderByWithAggregationInput | RefundOrderByWithAggregationInput[]
+    by: RefundScalarFieldEnum[] | RefundScalarFieldEnum
+    having?: RefundScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RefundCountAggregateInputType | true
+    _avg?: RefundAvgAggregateInputType
+    _sum?: RefundSumAggregateInputType
+    _min?: RefundMinAggregateInputType
+    _max?: RefundMaxAggregateInputType
+  }
+
+  export type RefundGroupByOutputType = {
+    id: string
+    bookingId: string
+    studentId: string
+    amount: number
+    status: $Enums.RefundStatus
+    reason: string | null
+    transactionId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: RefundCountAggregateOutputType | null
+    _avg: RefundAvgAggregateOutputType | null
+    _sum: RefundSumAggregateOutputType | null
+    _min: RefundMinAggregateOutputType | null
+    _max: RefundMaxAggregateOutputType | null
+  }
+
+  type GetRefundGroupByPayload<T extends RefundGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RefundGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RefundGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RefundGroupByOutputType[P]>
+            : GetScalarType<T[P], RefundGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RefundSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    studentId?: boolean
+    amount?: boolean
+    status?: boolean
+    reason?: boolean
+    transactionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["refund"]>
+
+  export type RefundSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    studentId?: boolean
+    amount?: boolean
+    status?: boolean
+    reason?: boolean
+    transactionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["refund"]>
+
+  export type RefundSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookingId?: boolean
+    studentId?: boolean
+    amount?: boolean
+    status?: boolean
+    reason?: boolean
+    transactionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["refund"]>
+
+  export type RefundSelectScalar = {
+    id?: boolean
+    bookingId?: boolean
+    studentId?: boolean
+    amount?: boolean
+    status?: boolean
+    reason?: boolean
+    transactionId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RefundOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookingId" | "studentId" | "amount" | "status" | "reason" | "transactionId" | "createdAt" | "updatedAt", ExtArgs["result"]["refund"]>
+  export type RefundInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RefundIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RefundIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    booking?: boolean | BookingDefaultArgs<ExtArgs>
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RefundPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Refund"
+    objects: {
+      booking: Prisma.$BookingPayload<ExtArgs>
+      student: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      bookingId: string
+      studentId: string
+      amount: number
+      status: $Enums.RefundStatus
+      reason: string | null
+      transactionId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["refund"]>
+    composites: {}
+  }
+
+  type RefundGetPayload<S extends boolean | null | undefined | RefundDefaultArgs> = $Result.GetResult<Prisma.$RefundPayload, S>
+
+  type RefundCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RefundFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RefundCountAggregateInputType | true
+    }
+
+  export interface RefundDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Refund'], meta: { name: 'Refund' } }
+    /**
+     * Find zero or one Refund that matches the filter.
+     * @param {RefundFindUniqueArgs} args - Arguments to find a Refund
+     * @example
+     * // Get one Refund
+     * const refund = await prisma.refund.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RefundFindUniqueArgs>(args: SelectSubset<T, RefundFindUniqueArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Refund that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RefundFindUniqueOrThrowArgs} args - Arguments to find a Refund
+     * @example
+     * // Get one Refund
+     * const refund = await prisma.refund.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RefundFindUniqueOrThrowArgs>(args: SelectSubset<T, RefundFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Refund that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundFindFirstArgs} args - Arguments to find a Refund
+     * @example
+     * // Get one Refund
+     * const refund = await prisma.refund.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RefundFindFirstArgs>(args?: SelectSubset<T, RefundFindFirstArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Refund that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundFindFirstOrThrowArgs} args - Arguments to find a Refund
+     * @example
+     * // Get one Refund
+     * const refund = await prisma.refund.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RefundFindFirstOrThrowArgs>(args?: SelectSubset<T, RefundFindFirstOrThrowArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Refunds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Refunds
+     * const refunds = await prisma.refund.findMany()
+     * 
+     * // Get first 10 Refunds
+     * const refunds = await prisma.refund.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const refundWithIdOnly = await prisma.refund.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RefundFindManyArgs>(args?: SelectSubset<T, RefundFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Refund.
+     * @param {RefundCreateArgs} args - Arguments to create a Refund.
+     * @example
+     * // Create one Refund
+     * const Refund = await prisma.refund.create({
+     *   data: {
+     *     // ... data to create a Refund
+     *   }
+     * })
+     * 
+     */
+    create<T extends RefundCreateArgs>(args: SelectSubset<T, RefundCreateArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Refunds.
+     * @param {RefundCreateManyArgs} args - Arguments to create many Refunds.
+     * @example
+     * // Create many Refunds
+     * const refund = await prisma.refund.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RefundCreateManyArgs>(args?: SelectSubset<T, RefundCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Refunds and returns the data saved in the database.
+     * @param {RefundCreateManyAndReturnArgs} args - Arguments to create many Refunds.
+     * @example
+     * // Create many Refunds
+     * const refund = await prisma.refund.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Refunds and only return the `id`
+     * const refundWithIdOnly = await prisma.refund.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RefundCreateManyAndReturnArgs>(args?: SelectSubset<T, RefundCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Refund.
+     * @param {RefundDeleteArgs} args - Arguments to delete one Refund.
+     * @example
+     * // Delete one Refund
+     * const Refund = await prisma.refund.delete({
+     *   where: {
+     *     // ... filter to delete one Refund
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RefundDeleteArgs>(args: SelectSubset<T, RefundDeleteArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Refund.
+     * @param {RefundUpdateArgs} args - Arguments to update one Refund.
+     * @example
+     * // Update one Refund
+     * const refund = await prisma.refund.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RefundUpdateArgs>(args: SelectSubset<T, RefundUpdateArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Refunds.
+     * @param {RefundDeleteManyArgs} args - Arguments to filter Refunds to delete.
+     * @example
+     * // Delete a few Refunds
+     * const { count } = await prisma.refund.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RefundDeleteManyArgs>(args?: SelectSubset<T, RefundDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Refunds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Refunds
+     * const refund = await prisma.refund.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RefundUpdateManyArgs>(args: SelectSubset<T, RefundUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Refunds and returns the data updated in the database.
+     * @param {RefundUpdateManyAndReturnArgs} args - Arguments to update many Refunds.
+     * @example
+     * // Update many Refunds
+     * const refund = await prisma.refund.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Refunds and only return the `id`
+     * const refundWithIdOnly = await prisma.refund.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RefundUpdateManyAndReturnArgs>(args: SelectSubset<T, RefundUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Refund.
+     * @param {RefundUpsertArgs} args - Arguments to update or create a Refund.
+     * @example
+     * // Update or create a Refund
+     * const refund = await prisma.refund.upsert({
+     *   create: {
+     *     // ... data to create a Refund
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Refund we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RefundUpsertArgs>(args: SelectSubset<T, RefundUpsertArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Refunds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundCountArgs} args - Arguments to filter Refunds to count.
+     * @example
+     * // Count the number of Refunds
+     * const count = await prisma.refund.count({
+     *   where: {
+     *     // ... the filter for the Refunds we want to count
+     *   }
+     * })
+    **/
+    count<T extends RefundCountArgs>(
+      args?: Subset<T, RefundCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RefundCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Refund.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RefundAggregateArgs>(args: Subset<T, RefundAggregateArgs>): Prisma.PrismaPromise<GetRefundAggregateType<T>>
+
+    /**
+     * Group by Refund.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RefundGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RefundGroupByArgs['orderBy'] }
+        : { orderBy?: RefundGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RefundGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRefundGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Refund model
+   */
+  readonly fields: RefundFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Refund.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RefundClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    booking<T extends BookingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookingDefaultArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    student<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Refund model
+   */
+  interface RefundFieldRefs {
+    readonly id: FieldRef<"Refund", 'String'>
+    readonly bookingId: FieldRef<"Refund", 'String'>
+    readonly studentId: FieldRef<"Refund", 'String'>
+    readonly amount: FieldRef<"Refund", 'Float'>
+    readonly status: FieldRef<"Refund", 'RefundStatus'>
+    readonly reason: FieldRef<"Refund", 'String'>
+    readonly transactionId: FieldRef<"Refund", 'String'>
+    readonly createdAt: FieldRef<"Refund", 'DateTime'>
+    readonly updatedAt: FieldRef<"Refund", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Refund findUnique
+   */
+  export type RefundFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refund to fetch.
+     */
+    where: RefundWhereUniqueInput
+  }
+
+  /**
+   * Refund findUniqueOrThrow
+   */
+  export type RefundFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refund to fetch.
+     */
+    where: RefundWhereUniqueInput
+  }
+
+  /**
+   * Refund findFirst
+   */
+  export type RefundFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refund to fetch.
+     */
+    where?: RefundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Refunds.
+     */
+    cursor?: RefundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Refunds.
+     */
+    distinct?: RefundScalarFieldEnum | RefundScalarFieldEnum[]
+  }
+
+  /**
+   * Refund findFirstOrThrow
+   */
+  export type RefundFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refund to fetch.
+     */
+    where?: RefundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Refunds.
+     */
+    cursor?: RefundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Refunds.
+     */
+    distinct?: RefundScalarFieldEnum | RefundScalarFieldEnum[]
+  }
+
+  /**
+   * Refund findMany
+   */
+  export type RefundFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refunds to fetch.
+     */
+    where?: RefundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Refunds.
+     */
+    cursor?: RefundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    distinct?: RefundScalarFieldEnum | RefundScalarFieldEnum[]
+  }
+
+  /**
+   * Refund create
+   */
+  export type RefundCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Refund.
+     */
+    data: XOR<RefundCreateInput, RefundUncheckedCreateInput>
+  }
+
+  /**
+   * Refund createMany
+   */
+  export type RefundCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Refunds.
+     */
+    data: RefundCreateManyInput | RefundCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Refund createManyAndReturn
+   */
+  export type RefundCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * The data used to create many Refunds.
+     */
+    data: RefundCreateManyInput | RefundCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Refund update
+   */
+  export type RefundUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Refund.
+     */
+    data: XOR<RefundUpdateInput, RefundUncheckedUpdateInput>
+    /**
+     * Choose, which Refund to update.
+     */
+    where: RefundWhereUniqueInput
+  }
+
+  /**
+   * Refund updateMany
+   */
+  export type RefundUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Refunds.
+     */
+    data: XOR<RefundUpdateManyMutationInput, RefundUncheckedUpdateManyInput>
+    /**
+     * Filter which Refunds to update
+     */
+    where?: RefundWhereInput
+    /**
+     * Limit how many Refunds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Refund updateManyAndReturn
+   */
+  export type RefundUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * The data used to update Refunds.
+     */
+    data: XOR<RefundUpdateManyMutationInput, RefundUncheckedUpdateManyInput>
+    /**
+     * Filter which Refunds to update
+     */
+    where?: RefundWhereInput
+    /**
+     * Limit how many Refunds to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Refund upsert
+   */
+  export type RefundUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Refund to update in case it exists.
+     */
+    where: RefundWhereUniqueInput
+    /**
+     * In case the Refund found by the `where` argument doesn't exist, create a new Refund with this data.
+     */
+    create: XOR<RefundCreateInput, RefundUncheckedCreateInput>
+    /**
+     * In case the Refund was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RefundUpdateInput, RefundUncheckedUpdateInput>
+  }
+
+  /**
+   * Refund delete
+   */
+  export type RefundDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter which Refund to delete.
+     */
+    where: RefundWhereUniqueInput
+  }
+
+  /**
+   * Refund deleteMany
+   */
+  export type RefundDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Refunds to delete
+     */
+    where?: RefundWhereInput
+    /**
+     * Limit how many Refunds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Refund without action
+   */
+  export type RefundDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
   }
 
 
@@ -8629,6 +10121,975 @@ export namespace Prisma {
 
 
   /**
+   * Model PlatformSetting
+   */
+
+  export type AggregatePlatformSetting = {
+    _count: PlatformSettingCountAggregateOutputType | null
+    _min: PlatformSettingMinAggregateOutputType | null
+    _max: PlatformSettingMaxAggregateOutputType | null
+  }
+
+  export type PlatformSettingMinAggregateOutputType = {
+    id: string | null
+    key: string | null
+    value: string | null
+  }
+
+  export type PlatformSettingMaxAggregateOutputType = {
+    id: string | null
+    key: string | null
+    value: string | null
+  }
+
+  export type PlatformSettingCountAggregateOutputType = {
+    id: number
+    key: number
+    value: number
+    _all: number
+  }
+
+
+  export type PlatformSettingMinAggregateInputType = {
+    id?: true
+    key?: true
+    value?: true
+  }
+
+  export type PlatformSettingMaxAggregateInputType = {
+    id?: true
+    key?: true
+    value?: true
+  }
+
+  export type PlatformSettingCountAggregateInputType = {
+    id?: true
+    key?: true
+    value?: true
+    _all?: true
+  }
+
+  export type PlatformSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformSetting to aggregate.
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSettings to fetch.
+     */
+    orderBy?: PlatformSettingOrderByWithRelationInput | PlatformSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlatformSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlatformSettings
+    **/
+    _count?: true | PlatformSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlatformSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlatformSettingMaxAggregateInputType
+  }
+
+  export type GetPlatformSettingAggregateType<T extends PlatformSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlatformSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlatformSetting[P]>
+      : GetScalarType<T[P], AggregatePlatformSetting[P]>
+  }
+
+
+
+
+  export type PlatformSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlatformSettingWhereInput
+    orderBy?: PlatformSettingOrderByWithAggregationInput | PlatformSettingOrderByWithAggregationInput[]
+    by: PlatformSettingScalarFieldEnum[] | PlatformSettingScalarFieldEnum
+    having?: PlatformSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlatformSettingCountAggregateInputType | true
+    _min?: PlatformSettingMinAggregateInputType
+    _max?: PlatformSettingMaxAggregateInputType
+  }
+
+  export type PlatformSettingGroupByOutputType = {
+    id: string
+    key: string
+    value: string
+    _count: PlatformSettingCountAggregateOutputType | null
+    _min: PlatformSettingMinAggregateOutputType | null
+    _max: PlatformSettingMaxAggregateOutputType | null
+  }
+
+  type GetPlatformSettingGroupByPayload<T extends PlatformSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlatformSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlatformSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlatformSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], PlatformSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlatformSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    value?: boolean
+  }, ExtArgs["result"]["platformSetting"]>
+
+  export type PlatformSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    value?: boolean
+  }, ExtArgs["result"]["platformSetting"]>
+
+  export type PlatformSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    value?: boolean
+  }, ExtArgs["result"]["platformSetting"]>
+
+  export type PlatformSettingSelectScalar = {
+    id?: boolean
+    key?: boolean
+    value?: boolean
+  }
+
+  export type PlatformSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "value", ExtArgs["result"]["platformSetting"]>
+
+  export type $PlatformSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlatformSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      key: string
+      value: string
+    }, ExtArgs["result"]["platformSetting"]>
+    composites: {}
+  }
+
+  type PlatformSettingGetPayload<S extends boolean | null | undefined | PlatformSettingDefaultArgs> = $Result.GetResult<Prisma.$PlatformSettingPayload, S>
+
+  type PlatformSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlatformSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlatformSettingCountAggregateInputType | true
+    }
+
+  export interface PlatformSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlatformSetting'], meta: { name: 'PlatformSetting' } }
+    /**
+     * Find zero or one PlatformSetting that matches the filter.
+     * @param {PlatformSettingFindUniqueArgs} args - Arguments to find a PlatformSetting
+     * @example
+     * // Get one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlatformSettingFindUniqueArgs>(args: SelectSubset<T, PlatformSettingFindUniqueArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PlatformSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlatformSettingFindUniqueOrThrowArgs} args - Arguments to find a PlatformSetting
+     * @example
+     * // Get one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlatformSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, PlatformSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingFindFirstArgs} args - Arguments to find a PlatformSetting
+     * @example
+     * // Get one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlatformSettingFindFirstArgs>(args?: SelectSubset<T, PlatformSettingFindFirstArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PlatformSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingFindFirstOrThrowArgs} args - Arguments to find a PlatformSetting
+     * @example
+     * // Get one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlatformSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, PlatformSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PlatformSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlatformSettings
+     * const platformSettings = await prisma.platformSetting.findMany()
+     * 
+     * // Get first 10 PlatformSettings
+     * const platformSettings = await prisma.platformSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const platformSettingWithIdOnly = await prisma.platformSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlatformSettingFindManyArgs>(args?: SelectSubset<T, PlatformSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PlatformSetting.
+     * @param {PlatformSettingCreateArgs} args - Arguments to create a PlatformSetting.
+     * @example
+     * // Create one PlatformSetting
+     * const PlatformSetting = await prisma.platformSetting.create({
+     *   data: {
+     *     // ... data to create a PlatformSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlatformSettingCreateArgs>(args: SelectSubset<T, PlatformSettingCreateArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PlatformSettings.
+     * @param {PlatformSettingCreateManyArgs} args - Arguments to create many PlatformSettings.
+     * @example
+     * // Create many PlatformSettings
+     * const platformSetting = await prisma.platformSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlatformSettingCreateManyArgs>(args?: SelectSubset<T, PlatformSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlatformSettings and returns the data saved in the database.
+     * @param {PlatformSettingCreateManyAndReturnArgs} args - Arguments to create many PlatformSettings.
+     * @example
+     * // Create many PlatformSettings
+     * const platformSetting = await prisma.platformSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlatformSettings and only return the `id`
+     * const platformSettingWithIdOnly = await prisma.platformSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlatformSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, PlatformSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PlatformSetting.
+     * @param {PlatformSettingDeleteArgs} args - Arguments to delete one PlatformSetting.
+     * @example
+     * // Delete one PlatformSetting
+     * const PlatformSetting = await prisma.platformSetting.delete({
+     *   where: {
+     *     // ... filter to delete one PlatformSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlatformSettingDeleteArgs>(args: SelectSubset<T, PlatformSettingDeleteArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PlatformSetting.
+     * @param {PlatformSettingUpdateArgs} args - Arguments to update one PlatformSetting.
+     * @example
+     * // Update one PlatformSetting
+     * const platformSetting = await prisma.platformSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlatformSettingUpdateArgs>(args: SelectSubset<T, PlatformSettingUpdateArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PlatformSettings.
+     * @param {PlatformSettingDeleteManyArgs} args - Arguments to filter PlatformSettings to delete.
+     * @example
+     * // Delete a few PlatformSettings
+     * const { count } = await prisma.platformSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlatformSettingDeleteManyArgs>(args?: SelectSubset<T, PlatformSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlatformSettings
+     * const platformSetting = await prisma.platformSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlatformSettingUpdateManyArgs>(args: SelectSubset<T, PlatformSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlatformSettings and returns the data updated in the database.
+     * @param {PlatformSettingUpdateManyAndReturnArgs} args - Arguments to update many PlatformSettings.
+     * @example
+     * // Update many PlatformSettings
+     * const platformSetting = await prisma.platformSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PlatformSettings and only return the `id`
+     * const platformSettingWithIdOnly = await prisma.platformSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlatformSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, PlatformSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PlatformSetting.
+     * @param {PlatformSettingUpsertArgs} args - Arguments to update or create a PlatformSetting.
+     * @example
+     * // Update or create a PlatformSetting
+     * const platformSetting = await prisma.platformSetting.upsert({
+     *   create: {
+     *     // ... data to create a PlatformSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlatformSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlatformSettingUpsertArgs>(args: SelectSubset<T, PlatformSettingUpsertArgs<ExtArgs>>): Prisma__PlatformSettingClient<$Result.GetResult<Prisma.$PlatformSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PlatformSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingCountArgs} args - Arguments to filter PlatformSettings to count.
+     * @example
+     * // Count the number of PlatformSettings
+     * const count = await prisma.platformSetting.count({
+     *   where: {
+     *     // ... the filter for the PlatformSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlatformSettingCountArgs>(
+      args?: Subset<T, PlatformSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlatformSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlatformSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlatformSettingAggregateArgs>(args: Subset<T, PlatformSettingAggregateArgs>): Prisma.PrismaPromise<GetPlatformSettingAggregateType<T>>
+
+    /**
+     * Group by PlatformSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlatformSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlatformSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlatformSettingGroupByArgs['orderBy'] }
+        : { orderBy?: PlatformSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlatformSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlatformSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlatformSetting model
+   */
+  readonly fields: PlatformSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlatformSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlatformSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlatformSetting model
+   */
+  interface PlatformSettingFieldRefs {
+    readonly id: FieldRef<"PlatformSetting", 'String'>
+    readonly key: FieldRef<"PlatformSetting", 'String'>
+    readonly value: FieldRef<"PlatformSetting", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlatformSetting findUnique
+   */
+  export type PlatformSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformSetting to fetch.
+     */
+    where: PlatformSettingWhereUniqueInput
+  }
+
+  /**
+   * PlatformSetting findUniqueOrThrow
+   */
+  export type PlatformSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformSetting to fetch.
+     */
+    where: PlatformSettingWhereUniqueInput
+  }
+
+  /**
+   * PlatformSetting findFirst
+   */
+  export type PlatformSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformSetting to fetch.
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSettings to fetch.
+     */
+    orderBy?: PlatformSettingOrderByWithRelationInput | PlatformSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformSettings.
+     */
+    cursor?: PlatformSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformSettings.
+     */
+    distinct?: PlatformSettingScalarFieldEnum | PlatformSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformSetting findFirstOrThrow
+   */
+  export type PlatformSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformSetting to fetch.
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSettings to fetch.
+     */
+    orderBy?: PlatformSettingOrderByWithRelationInput | PlatformSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlatformSettings.
+     */
+    cursor?: PlatformSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlatformSettings.
+     */
+    distinct?: PlatformSettingScalarFieldEnum | PlatformSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformSetting findMany
+   */
+  export type PlatformSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which PlatformSettings to fetch.
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlatformSettings to fetch.
+     */
+    orderBy?: PlatformSettingOrderByWithRelationInput | PlatformSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlatformSettings.
+     */
+    cursor?: PlatformSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlatformSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlatformSettings.
+     */
+    skip?: number
+    distinct?: PlatformSettingScalarFieldEnum | PlatformSettingScalarFieldEnum[]
+  }
+
+  /**
+   * PlatformSetting create
+   */
+  export type PlatformSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PlatformSetting.
+     */
+    data: XOR<PlatformSettingCreateInput, PlatformSettingUncheckedCreateInput>
+  }
+
+  /**
+   * PlatformSetting createMany
+   */
+  export type PlatformSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlatformSettings.
+     */
+    data: PlatformSettingCreateManyInput | PlatformSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PlatformSetting createManyAndReturn
+   */
+  export type PlatformSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many PlatformSettings.
+     */
+    data: PlatformSettingCreateManyInput | PlatformSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PlatformSetting update
+   */
+  export type PlatformSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PlatformSetting.
+     */
+    data: XOR<PlatformSettingUpdateInput, PlatformSettingUncheckedUpdateInput>
+    /**
+     * Choose, which PlatformSetting to update.
+     */
+    where: PlatformSettingWhereUniqueInput
+  }
+
+  /**
+   * PlatformSetting updateMany
+   */
+  export type PlatformSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlatformSettings.
+     */
+    data: XOR<PlatformSettingUpdateManyMutationInput, PlatformSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformSettings to update
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * Limit how many PlatformSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformSetting updateManyAndReturn
+   */
+  export type PlatformSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update PlatformSettings.
+     */
+    data: XOR<PlatformSettingUpdateManyMutationInput, PlatformSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which PlatformSettings to update
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * Limit how many PlatformSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformSetting upsert
+   */
+  export type PlatformSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PlatformSetting to update in case it exists.
+     */
+    where: PlatformSettingWhereUniqueInput
+    /**
+     * In case the PlatformSetting found by the `where` argument doesn't exist, create a new PlatformSetting with this data.
+     */
+    create: XOR<PlatformSettingCreateInput, PlatformSettingUncheckedCreateInput>
+    /**
+     * In case the PlatformSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlatformSettingUpdateInput, PlatformSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * PlatformSetting delete
+   */
+  export type PlatformSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+    /**
+     * Filter which PlatformSetting to delete.
+     */
+    where: PlatformSettingWhereUniqueInput
+  }
+
+  /**
+   * PlatformSetting deleteMany
+   */
+  export type PlatformSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlatformSettings to delete
+     */
+    where?: PlatformSettingWhereInput
+    /**
+     * Limit how many PlatformSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PlatformSetting without action
+   */
+  export type PlatformSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlatformSetting
+     */
+    select?: PlatformSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PlatformSetting
+     */
+    omit?: PlatformSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model TutorProfile
    */
 
@@ -8646,6 +11107,8 @@ export namespace Prisma {
     rating: number | null
     totalReviews: number | null
     totalSessions: number | null
+    totalEarnings: number | null
+    withdrawableBalance: number | null
   }
 
   export type TutorProfileSumAggregateOutputType = {
@@ -8654,6 +11117,8 @@ export namespace Prisma {
     rating: number | null
     totalReviews: number | null
     totalSessions: number | null
+    totalEarnings: number | null
+    withdrawableBalance: number | null
   }
 
   export type TutorProfileMinAggregateOutputType = {
@@ -8666,6 +11131,8 @@ export namespace Prisma {
     rating: number | null
     totalReviews: number | null
     totalSessions: number | null
+    totalEarnings: number | null
+    withdrawableBalance: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8680,6 +11147,8 @@ export namespace Prisma {
     rating: number | null
     totalReviews: number | null
     totalSessions: number | null
+    totalEarnings: number | null
+    withdrawableBalance: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8695,6 +11164,8 @@ export namespace Prisma {
     rating: number
     totalReviews: number
     totalSessions: number
+    totalEarnings: number
+    withdrawableBalance: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -8707,6 +11178,8 @@ export namespace Prisma {
     rating?: true
     totalReviews?: true
     totalSessions?: true
+    totalEarnings?: true
+    withdrawableBalance?: true
   }
 
   export type TutorProfileSumAggregateInputType = {
@@ -8715,6 +11188,8 @@ export namespace Prisma {
     rating?: true
     totalReviews?: true
     totalSessions?: true
+    totalEarnings?: true
+    withdrawableBalance?: true
   }
 
   export type TutorProfileMinAggregateInputType = {
@@ -8727,6 +11202,8 @@ export namespace Prisma {
     rating?: true
     totalReviews?: true
     totalSessions?: true
+    totalEarnings?: true
+    withdrawableBalance?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8741,6 +11218,8 @@ export namespace Prisma {
     rating?: true
     totalReviews?: true
     totalSessions?: true
+    totalEarnings?: true
+    withdrawableBalance?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8756,6 +11235,8 @@ export namespace Prisma {
     rating?: true
     totalReviews?: true
     totalSessions?: true
+    totalEarnings?: true
+    withdrawableBalance?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -8858,6 +11339,8 @@ export namespace Prisma {
     rating: number
     totalReviews: number
     totalSessions: number
+    totalEarnings: number
+    withdrawableBalance: number
     createdAt: Date
     updatedAt: Date
     _count: TutorProfileCountAggregateOutputType | null
@@ -8892,6 +11375,8 @@ export namespace Prisma {
     rating?: boolean
     totalReviews?: boolean
     totalSessions?: boolean
+    totalEarnings?: boolean
+    withdrawableBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8899,6 +11384,7 @@ export namespace Prisma {
     availabilities?: boolean | TutorProfile$availabilitiesArgs<ExtArgs>
     bookings?: boolean | TutorProfile$bookingsArgs<ExtArgs>
     reviews?: boolean | TutorProfile$reviewsArgs<ExtArgs>
+    withdrawals?: boolean | TutorProfile$withdrawalsArgs<ExtArgs>
     _count?: boolean | TutorProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tutorProfile"]>
 
@@ -8913,6 +11399,8 @@ export namespace Prisma {
     rating?: boolean
     totalReviews?: boolean
     totalSessions?: boolean
+    totalEarnings?: boolean
+    withdrawableBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8929,6 +11417,8 @@ export namespace Prisma {
     rating?: boolean
     totalReviews?: boolean
     totalSessions?: boolean
+    totalEarnings?: boolean
+    withdrawableBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8945,17 +11435,20 @@ export namespace Prisma {
     rating?: boolean
     totalReviews?: boolean
     totalSessions?: boolean
+    totalEarnings?: boolean
+    withdrawableBalance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TutorProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "bio" | "expertise" | "hourlyRate" | "experience" | "education" | "rating" | "totalReviews" | "totalSessions" | "createdAt" | "updatedAt", ExtArgs["result"]["tutorProfile"]>
+  export type TutorProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "bio" | "expertise" | "hourlyRate" | "experience" | "education" | "rating" | "totalReviews" | "totalSessions" | "totalEarnings" | "withdrawableBalance" | "createdAt" | "updatedAt", ExtArgs["result"]["tutorProfile"]>
   export type TutorProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     categories?: boolean | TutorProfile$categoriesArgs<ExtArgs>
     availabilities?: boolean | TutorProfile$availabilitiesArgs<ExtArgs>
     bookings?: boolean | TutorProfile$bookingsArgs<ExtArgs>
     reviews?: boolean | TutorProfile$reviewsArgs<ExtArgs>
+    withdrawals?: boolean | TutorProfile$withdrawalsArgs<ExtArgs>
     _count?: boolean | TutorProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TutorProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8973,6 +11466,7 @@ export namespace Prisma {
       availabilities: Prisma.$AvailabilityPayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      withdrawals: Prisma.$WithdrawalPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8985,6 +11479,8 @@ export namespace Prisma {
       rating: number
       totalReviews: number
       totalSessions: number
+      totalEarnings: number
+      withdrawableBalance: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tutorProfile"]>
@@ -9386,6 +11882,7 @@ export namespace Prisma {
     availabilities<T extends TutorProfile$availabilitiesArgs<ExtArgs> = {}>(args?: Subset<T, TutorProfile$availabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends TutorProfile$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, TutorProfile$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends TutorProfile$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, TutorProfile$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    withdrawals<T extends TutorProfile$withdrawalsArgs<ExtArgs> = {}>(args?: Subset<T, TutorProfile$withdrawalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9425,6 +11922,8 @@ export namespace Prisma {
     readonly rating: FieldRef<"TutorProfile", 'Float'>
     readonly totalReviews: FieldRef<"TutorProfile", 'Int'>
     readonly totalSessions: FieldRef<"TutorProfile", 'Int'>
+    readonly totalEarnings: FieldRef<"TutorProfile", 'Float'>
+    readonly withdrawableBalance: FieldRef<"TutorProfile", 'Float'>
     readonly createdAt: FieldRef<"TutorProfile", 'DateTime'>
     readonly updatedAt: FieldRef<"TutorProfile", 'DateTime'>
   }
@@ -9919,6 +12418,30 @@ export namespace Prisma {
   }
 
   /**
+   * TutorProfile.withdrawals
+   */
+  export type TutorProfile$withdrawalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    where?: WithdrawalWhereInput
+    orderBy?: WithdrawalOrderByWithRelationInput | WithdrawalOrderByWithRelationInput[]
+    cursor?: WithdrawalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WithdrawalScalarFieldEnum | WithdrawalScalarFieldEnum[]
+  }
+
+  /**
    * TutorProfile without action
    */
   export type TutorProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10162,6 +12685,7 @@ export namespace Prisma {
     tutorProfile?: boolean | User$tutorProfileArgs<ExtArgs>
     bookings?: boolean | User$bookingsArgs<ExtArgs>
     reviews?: boolean | User$reviewsArgs<ExtArgs>
+    refunds?: boolean | User$refundsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -10217,6 +12741,7 @@ export namespace Prisma {
     tutorProfile?: boolean | User$tutorProfileArgs<ExtArgs>
     bookings?: boolean | User$bookingsArgs<ExtArgs>
     reviews?: boolean | User$reviewsArgs<ExtArgs>
+    refunds?: boolean | User$refundsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -10230,6 +12755,7 @@ export namespace Prisma {
       tutorProfile: Prisma.$TutorProfilePayload<ExtArgs> | null
       bookings: Prisma.$BookingPayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      refunds: Prisma.$RefundPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10643,6 +13169,7 @@ export namespace Prisma {
     tutorProfile<T extends User$tutorProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$tutorProfileArgs<ExtArgs>>): Prisma__TutorProfileClient<$Result.GetResult<Prisma.$TutorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    refunds<T extends User$refundsArgs<ExtArgs> = {}>(args?: Subset<T, User$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11184,6 +13711,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * User.refunds
+   */
+  export type User$refundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    where?: RefundWhereInput
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    cursor?: RefundWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RefundScalarFieldEnum | RefundScalarFieldEnum[]
   }
 
   /**
@@ -12214,6 +14765,1150 @@ export namespace Prisma {
 
 
   /**
+   * Model Withdrawal
+   */
+
+  export type AggregateWithdrawal = {
+    _count: WithdrawalCountAggregateOutputType | null
+    _avg: WithdrawalAvgAggregateOutputType | null
+    _sum: WithdrawalSumAggregateOutputType | null
+    _min: WithdrawalMinAggregateOutputType | null
+    _max: WithdrawalMaxAggregateOutputType | null
+  }
+
+  export type WithdrawalAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type WithdrawalSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type WithdrawalMinAggregateOutputType = {
+    id: string | null
+    tutorId: string | null
+    amount: number | null
+    status: $Enums.WithdrawalStatus | null
+    method: string | null
+    transactionId: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WithdrawalMaxAggregateOutputType = {
+    id: string | null
+    tutorId: string | null
+    amount: number | null
+    status: $Enums.WithdrawalStatus | null
+    method: string | null
+    transactionId: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WithdrawalCountAggregateOutputType = {
+    id: number
+    tutorId: number
+    amount: number
+    status: number
+    method: number
+    transactionId: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WithdrawalAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type WithdrawalSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type WithdrawalMinAggregateInputType = {
+    id?: true
+    tutorId?: true
+    amount?: true
+    status?: true
+    method?: true
+    transactionId?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WithdrawalMaxAggregateInputType = {
+    id?: true
+    tutorId?: true
+    amount?: true
+    status?: true
+    method?: true
+    transactionId?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WithdrawalCountAggregateInputType = {
+    id?: true
+    tutorId?: true
+    amount?: true
+    status?: true
+    method?: true
+    transactionId?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WithdrawalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Withdrawal to aggregate.
+     */
+    where?: WithdrawalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Withdrawals to fetch.
+     */
+    orderBy?: WithdrawalOrderByWithRelationInput | WithdrawalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WithdrawalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Withdrawals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Withdrawals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Withdrawals
+    **/
+    _count?: true | WithdrawalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WithdrawalAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WithdrawalSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WithdrawalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WithdrawalMaxAggregateInputType
+  }
+
+  export type GetWithdrawalAggregateType<T extends WithdrawalAggregateArgs> = {
+        [P in keyof T & keyof AggregateWithdrawal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWithdrawal[P]>
+      : GetScalarType<T[P], AggregateWithdrawal[P]>
+  }
+
+
+
+
+  export type WithdrawalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WithdrawalWhereInput
+    orderBy?: WithdrawalOrderByWithAggregationInput | WithdrawalOrderByWithAggregationInput[]
+    by: WithdrawalScalarFieldEnum[] | WithdrawalScalarFieldEnum
+    having?: WithdrawalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WithdrawalCountAggregateInputType | true
+    _avg?: WithdrawalAvgAggregateInputType
+    _sum?: WithdrawalSumAggregateInputType
+    _min?: WithdrawalMinAggregateInputType
+    _max?: WithdrawalMaxAggregateInputType
+  }
+
+  export type WithdrawalGroupByOutputType = {
+    id: string
+    tutorId: string
+    amount: number
+    status: $Enums.WithdrawalStatus
+    method: string
+    transactionId: string | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: WithdrawalCountAggregateOutputType | null
+    _avg: WithdrawalAvgAggregateOutputType | null
+    _sum: WithdrawalSumAggregateOutputType | null
+    _min: WithdrawalMinAggregateOutputType | null
+    _max: WithdrawalMaxAggregateOutputType | null
+  }
+
+  type GetWithdrawalGroupByPayload<T extends WithdrawalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WithdrawalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WithdrawalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WithdrawalGroupByOutputType[P]>
+            : GetScalarType<T[P], WithdrawalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WithdrawalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tutorId?: boolean
+    amount?: boolean
+    status?: boolean
+    method?: boolean
+    transactionId?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tutor?: boolean | TutorProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["withdrawal"]>
+
+  export type WithdrawalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tutorId?: boolean
+    amount?: boolean
+    status?: boolean
+    method?: boolean
+    transactionId?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tutor?: boolean | TutorProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["withdrawal"]>
+
+  export type WithdrawalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tutorId?: boolean
+    amount?: boolean
+    status?: boolean
+    method?: boolean
+    transactionId?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tutor?: boolean | TutorProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["withdrawal"]>
+
+  export type WithdrawalSelectScalar = {
+    id?: boolean
+    tutorId?: boolean
+    amount?: boolean
+    status?: boolean
+    method?: boolean
+    transactionId?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type WithdrawalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tutorId" | "amount" | "status" | "method" | "transactionId" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["withdrawal"]>
+  export type WithdrawalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tutor?: boolean | TutorProfileDefaultArgs<ExtArgs>
+  }
+  export type WithdrawalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tutor?: boolean | TutorProfileDefaultArgs<ExtArgs>
+  }
+  export type WithdrawalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tutor?: boolean | TutorProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $WithdrawalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Withdrawal"
+    objects: {
+      tutor: Prisma.$TutorProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tutorId: string
+      amount: number
+      status: $Enums.WithdrawalStatus
+      method: string
+      transactionId: string | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["withdrawal"]>
+    composites: {}
+  }
+
+  type WithdrawalGetPayload<S extends boolean | null | undefined | WithdrawalDefaultArgs> = $Result.GetResult<Prisma.$WithdrawalPayload, S>
+
+  type WithdrawalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WithdrawalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WithdrawalCountAggregateInputType | true
+    }
+
+  export interface WithdrawalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Withdrawal'], meta: { name: 'Withdrawal' } }
+    /**
+     * Find zero or one Withdrawal that matches the filter.
+     * @param {WithdrawalFindUniqueArgs} args - Arguments to find a Withdrawal
+     * @example
+     * // Get one Withdrawal
+     * const withdrawal = await prisma.withdrawal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WithdrawalFindUniqueArgs>(args: SelectSubset<T, WithdrawalFindUniqueArgs<ExtArgs>>): Prisma__WithdrawalClient<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Withdrawal that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WithdrawalFindUniqueOrThrowArgs} args - Arguments to find a Withdrawal
+     * @example
+     * // Get one Withdrawal
+     * const withdrawal = await prisma.withdrawal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WithdrawalFindUniqueOrThrowArgs>(args: SelectSubset<T, WithdrawalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WithdrawalClient<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Withdrawal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WithdrawalFindFirstArgs} args - Arguments to find a Withdrawal
+     * @example
+     * // Get one Withdrawal
+     * const withdrawal = await prisma.withdrawal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WithdrawalFindFirstArgs>(args?: SelectSubset<T, WithdrawalFindFirstArgs<ExtArgs>>): Prisma__WithdrawalClient<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Withdrawal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WithdrawalFindFirstOrThrowArgs} args - Arguments to find a Withdrawal
+     * @example
+     * // Get one Withdrawal
+     * const withdrawal = await prisma.withdrawal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WithdrawalFindFirstOrThrowArgs>(args?: SelectSubset<T, WithdrawalFindFirstOrThrowArgs<ExtArgs>>): Prisma__WithdrawalClient<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Withdrawals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WithdrawalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Withdrawals
+     * const withdrawals = await prisma.withdrawal.findMany()
+     * 
+     * // Get first 10 Withdrawals
+     * const withdrawals = await prisma.withdrawal.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const withdrawalWithIdOnly = await prisma.withdrawal.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WithdrawalFindManyArgs>(args?: SelectSubset<T, WithdrawalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Withdrawal.
+     * @param {WithdrawalCreateArgs} args - Arguments to create a Withdrawal.
+     * @example
+     * // Create one Withdrawal
+     * const Withdrawal = await prisma.withdrawal.create({
+     *   data: {
+     *     // ... data to create a Withdrawal
+     *   }
+     * })
+     * 
+     */
+    create<T extends WithdrawalCreateArgs>(args: SelectSubset<T, WithdrawalCreateArgs<ExtArgs>>): Prisma__WithdrawalClient<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Withdrawals.
+     * @param {WithdrawalCreateManyArgs} args - Arguments to create many Withdrawals.
+     * @example
+     * // Create many Withdrawals
+     * const withdrawal = await prisma.withdrawal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WithdrawalCreateManyArgs>(args?: SelectSubset<T, WithdrawalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Withdrawals and returns the data saved in the database.
+     * @param {WithdrawalCreateManyAndReturnArgs} args - Arguments to create many Withdrawals.
+     * @example
+     * // Create many Withdrawals
+     * const withdrawal = await prisma.withdrawal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Withdrawals and only return the `id`
+     * const withdrawalWithIdOnly = await prisma.withdrawal.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WithdrawalCreateManyAndReturnArgs>(args?: SelectSubset<T, WithdrawalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Withdrawal.
+     * @param {WithdrawalDeleteArgs} args - Arguments to delete one Withdrawal.
+     * @example
+     * // Delete one Withdrawal
+     * const Withdrawal = await prisma.withdrawal.delete({
+     *   where: {
+     *     // ... filter to delete one Withdrawal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WithdrawalDeleteArgs>(args: SelectSubset<T, WithdrawalDeleteArgs<ExtArgs>>): Prisma__WithdrawalClient<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Withdrawal.
+     * @param {WithdrawalUpdateArgs} args - Arguments to update one Withdrawal.
+     * @example
+     * // Update one Withdrawal
+     * const withdrawal = await prisma.withdrawal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WithdrawalUpdateArgs>(args: SelectSubset<T, WithdrawalUpdateArgs<ExtArgs>>): Prisma__WithdrawalClient<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Withdrawals.
+     * @param {WithdrawalDeleteManyArgs} args - Arguments to filter Withdrawals to delete.
+     * @example
+     * // Delete a few Withdrawals
+     * const { count } = await prisma.withdrawal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WithdrawalDeleteManyArgs>(args?: SelectSubset<T, WithdrawalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Withdrawals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WithdrawalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Withdrawals
+     * const withdrawal = await prisma.withdrawal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WithdrawalUpdateManyArgs>(args: SelectSubset<T, WithdrawalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Withdrawals and returns the data updated in the database.
+     * @param {WithdrawalUpdateManyAndReturnArgs} args - Arguments to update many Withdrawals.
+     * @example
+     * // Update many Withdrawals
+     * const withdrawal = await prisma.withdrawal.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Withdrawals and only return the `id`
+     * const withdrawalWithIdOnly = await prisma.withdrawal.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WithdrawalUpdateManyAndReturnArgs>(args: SelectSubset<T, WithdrawalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Withdrawal.
+     * @param {WithdrawalUpsertArgs} args - Arguments to update or create a Withdrawal.
+     * @example
+     * // Update or create a Withdrawal
+     * const withdrawal = await prisma.withdrawal.upsert({
+     *   create: {
+     *     // ... data to create a Withdrawal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Withdrawal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WithdrawalUpsertArgs>(args: SelectSubset<T, WithdrawalUpsertArgs<ExtArgs>>): Prisma__WithdrawalClient<$Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Withdrawals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WithdrawalCountArgs} args - Arguments to filter Withdrawals to count.
+     * @example
+     * // Count the number of Withdrawals
+     * const count = await prisma.withdrawal.count({
+     *   where: {
+     *     // ... the filter for the Withdrawals we want to count
+     *   }
+     * })
+    **/
+    count<T extends WithdrawalCountArgs>(
+      args?: Subset<T, WithdrawalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WithdrawalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Withdrawal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WithdrawalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WithdrawalAggregateArgs>(args: Subset<T, WithdrawalAggregateArgs>): Prisma.PrismaPromise<GetWithdrawalAggregateType<T>>
+
+    /**
+     * Group by Withdrawal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WithdrawalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WithdrawalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WithdrawalGroupByArgs['orderBy'] }
+        : { orderBy?: WithdrawalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WithdrawalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWithdrawalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Withdrawal model
+   */
+  readonly fields: WithdrawalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Withdrawal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WithdrawalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tutor<T extends TutorProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TutorProfileDefaultArgs<ExtArgs>>): Prisma__TutorProfileClient<$Result.GetResult<Prisma.$TutorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Withdrawal model
+   */
+  interface WithdrawalFieldRefs {
+    readonly id: FieldRef<"Withdrawal", 'String'>
+    readonly tutorId: FieldRef<"Withdrawal", 'String'>
+    readonly amount: FieldRef<"Withdrawal", 'Float'>
+    readonly status: FieldRef<"Withdrawal", 'WithdrawalStatus'>
+    readonly method: FieldRef<"Withdrawal", 'String'>
+    readonly transactionId: FieldRef<"Withdrawal", 'String'>
+    readonly notes: FieldRef<"Withdrawal", 'String'>
+    readonly createdAt: FieldRef<"Withdrawal", 'DateTime'>
+    readonly updatedAt: FieldRef<"Withdrawal", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Withdrawal findUnique
+   */
+  export type WithdrawalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    /**
+     * Filter, which Withdrawal to fetch.
+     */
+    where: WithdrawalWhereUniqueInput
+  }
+
+  /**
+   * Withdrawal findUniqueOrThrow
+   */
+  export type WithdrawalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    /**
+     * Filter, which Withdrawal to fetch.
+     */
+    where: WithdrawalWhereUniqueInput
+  }
+
+  /**
+   * Withdrawal findFirst
+   */
+  export type WithdrawalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    /**
+     * Filter, which Withdrawal to fetch.
+     */
+    where?: WithdrawalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Withdrawals to fetch.
+     */
+    orderBy?: WithdrawalOrderByWithRelationInput | WithdrawalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Withdrawals.
+     */
+    cursor?: WithdrawalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Withdrawals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Withdrawals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Withdrawals.
+     */
+    distinct?: WithdrawalScalarFieldEnum | WithdrawalScalarFieldEnum[]
+  }
+
+  /**
+   * Withdrawal findFirstOrThrow
+   */
+  export type WithdrawalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    /**
+     * Filter, which Withdrawal to fetch.
+     */
+    where?: WithdrawalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Withdrawals to fetch.
+     */
+    orderBy?: WithdrawalOrderByWithRelationInput | WithdrawalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Withdrawals.
+     */
+    cursor?: WithdrawalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Withdrawals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Withdrawals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Withdrawals.
+     */
+    distinct?: WithdrawalScalarFieldEnum | WithdrawalScalarFieldEnum[]
+  }
+
+  /**
+   * Withdrawal findMany
+   */
+  export type WithdrawalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    /**
+     * Filter, which Withdrawals to fetch.
+     */
+    where?: WithdrawalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Withdrawals to fetch.
+     */
+    orderBy?: WithdrawalOrderByWithRelationInput | WithdrawalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Withdrawals.
+     */
+    cursor?: WithdrawalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Withdrawals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Withdrawals.
+     */
+    skip?: number
+    distinct?: WithdrawalScalarFieldEnum | WithdrawalScalarFieldEnum[]
+  }
+
+  /**
+   * Withdrawal create
+   */
+  export type WithdrawalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Withdrawal.
+     */
+    data: XOR<WithdrawalCreateInput, WithdrawalUncheckedCreateInput>
+  }
+
+  /**
+   * Withdrawal createMany
+   */
+  export type WithdrawalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Withdrawals.
+     */
+    data: WithdrawalCreateManyInput | WithdrawalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Withdrawal createManyAndReturn
+   */
+  export type WithdrawalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * The data used to create many Withdrawals.
+     */
+    data: WithdrawalCreateManyInput | WithdrawalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Withdrawal update
+   */
+  export type WithdrawalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Withdrawal.
+     */
+    data: XOR<WithdrawalUpdateInput, WithdrawalUncheckedUpdateInput>
+    /**
+     * Choose, which Withdrawal to update.
+     */
+    where: WithdrawalWhereUniqueInput
+  }
+
+  /**
+   * Withdrawal updateMany
+   */
+  export type WithdrawalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Withdrawals.
+     */
+    data: XOR<WithdrawalUpdateManyMutationInput, WithdrawalUncheckedUpdateManyInput>
+    /**
+     * Filter which Withdrawals to update
+     */
+    where?: WithdrawalWhereInput
+    /**
+     * Limit how many Withdrawals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Withdrawal updateManyAndReturn
+   */
+  export type WithdrawalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * The data used to update Withdrawals.
+     */
+    data: XOR<WithdrawalUpdateManyMutationInput, WithdrawalUncheckedUpdateManyInput>
+    /**
+     * Filter which Withdrawals to update
+     */
+    where?: WithdrawalWhereInput
+    /**
+     * Limit how many Withdrawals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Withdrawal upsert
+   */
+  export type WithdrawalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Withdrawal to update in case it exists.
+     */
+    where: WithdrawalWhereUniqueInput
+    /**
+     * In case the Withdrawal found by the `where` argument doesn't exist, create a new Withdrawal with this data.
+     */
+    create: XOR<WithdrawalCreateInput, WithdrawalUncheckedCreateInput>
+    /**
+     * In case the Withdrawal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WithdrawalUpdateInput, WithdrawalUncheckedUpdateInput>
+  }
+
+  /**
+   * Withdrawal delete
+   */
+  export type WithdrawalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+    /**
+     * Filter which Withdrawal to delete.
+     */
+    where: WithdrawalWhereUniqueInput
+  }
+
+  /**
+   * Withdrawal deleteMany
+   */
+  export type WithdrawalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Withdrawals to delete
+     */
+    where?: WithdrawalWhereInput
+    /**
+     * Limit how many Withdrawals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Withdrawal without action
+   */
+  export type WithdrawalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Withdrawal
+     */
+    select?: WithdrawalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Withdrawal
+     */
+    omit?: WithdrawalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WithdrawalInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -12291,6 +15986,21 @@ export namespace Prisma {
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
+  export const RefundScalarFieldEnum: {
+    id: 'id',
+    bookingId: 'bookingId',
+    studentId: 'studentId',
+    amount: 'amount',
+    status: 'status',
+    reason: 'reason',
+    transactionId: 'transactionId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RefundScalarFieldEnum = (typeof RefundScalarFieldEnum)[keyof typeof RefundScalarFieldEnum]
+
+
   export const ReviewScalarFieldEnum: {
     id: 'id',
     bookingId: 'bookingId',
@@ -12319,6 +16029,15 @@ export namespace Prisma {
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+  export const PlatformSettingScalarFieldEnum: {
+    id: 'id',
+    key: 'key',
+    value: 'value'
+  };
+
+  export type PlatformSettingScalarFieldEnum = (typeof PlatformSettingScalarFieldEnum)[keyof typeof PlatformSettingScalarFieldEnum]
+
+
   export const TutorProfileScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -12330,6 +16049,8 @@ export namespace Prisma {
     rating: 'rating',
     totalReviews: 'totalReviews',
     totalSessions: 'totalSessions',
+    totalEarnings: 'totalEarnings',
+    withdrawableBalance: 'withdrawableBalance',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12365,6 +16086,21 @@ export namespace Prisma {
   };
 
   export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+  export const WithdrawalScalarFieldEnum: {
+    id: 'id',
+    tutorId: 'tutorId',
+    amount: 'amount',
+    status: 'status',
+    method: 'method',
+    transactionId: 'transactionId',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WithdrawalScalarFieldEnum = (typeof WithdrawalScalarFieldEnum)[keyof typeof WithdrawalScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -12488,6 +16224,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'RefundStatus'
+   */
+  export type EnumRefundStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RefundStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'RefundStatus[]'
+   */
+  export type ListEnumRefundStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RefundStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Role'
    */
   export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -12498,6 +16248,20 @@ export namespace Prisma {
    * Reference to a field of type 'Role[]'
    */
   export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'WithdrawalStatus'
+   */
+  export type EnumWithdrawalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WithdrawalStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'WithdrawalStatus[]'
+   */
+  export type ListEnumWithdrawalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WithdrawalStatus[]'>
     
   /**
    * Deep Input Types
@@ -12692,6 +16456,7 @@ export namespace Prisma {
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
     tutor?: XOR<TutorProfileScalarRelationFilter, TutorProfileWhereInput>
     review?: XOR<ReviewNullableScalarRelationFilter, ReviewWhereInput> | null
+    refund?: XOR<RefundNullableScalarRelationFilter, RefundWhereInput> | null
   }
 
   export type BookingOrderByWithRelationInput = {
@@ -12712,6 +16477,7 @@ export namespace Prisma {
     student?: UserOrderByWithRelationInput
     tutor?: TutorProfileOrderByWithRelationInput
     review?: ReviewOrderByWithRelationInput
+    refund?: RefundOrderByWithRelationInput
   }
 
   export type BookingWhereUniqueInput = Prisma.AtLeast<{
@@ -12735,6 +16501,7 @@ export namespace Prisma {
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
     tutor?: XOR<TutorProfileScalarRelationFilter, TutorProfileWhereInput>
     review?: XOR<ReviewNullableScalarRelationFilter, ReviewWhereInput> | null
+    refund?: XOR<RefundNullableScalarRelationFilter, RefundWhereInput> | null
   }, "id">
 
   export type BookingOrderByWithAggregationInput = {
@@ -12832,6 +16599,86 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Category"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
+  }
+
+  export type RefundWhereInput = {
+    AND?: RefundWhereInput | RefundWhereInput[]
+    OR?: RefundWhereInput[]
+    NOT?: RefundWhereInput | RefundWhereInput[]
+    id?: StringFilter<"Refund"> | string
+    bookingId?: StringFilter<"Refund"> | string
+    studentId?: StringFilter<"Refund"> | string
+    amount?: FloatFilter<"Refund"> | number
+    status?: EnumRefundStatusFilter<"Refund"> | $Enums.RefundStatus
+    reason?: StringNullableFilter<"Refund"> | string | null
+    transactionId?: StringNullableFilter<"Refund"> | string | null
+    createdAt?: DateTimeFilter<"Refund"> | Date | string
+    updatedAt?: DateTimeFilter<"Refund"> | Date | string
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
+    student?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type RefundOrderByWithRelationInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    studentId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    booking?: BookingOrderByWithRelationInput
+    student?: UserOrderByWithRelationInput
+  }
+
+  export type RefundWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    bookingId?: string
+    AND?: RefundWhereInput | RefundWhereInput[]
+    OR?: RefundWhereInput[]
+    NOT?: RefundWhereInput | RefundWhereInput[]
+    studentId?: StringFilter<"Refund"> | string
+    amount?: FloatFilter<"Refund"> | number
+    status?: EnumRefundStatusFilter<"Refund"> | $Enums.RefundStatus
+    reason?: StringNullableFilter<"Refund"> | string | null
+    transactionId?: StringNullableFilter<"Refund"> | string | null
+    createdAt?: DateTimeFilter<"Refund"> | Date | string
+    updatedAt?: DateTimeFilter<"Refund"> | Date | string
+    booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
+    student?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "bookingId">
+
+  export type RefundOrderByWithAggregationInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    studentId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RefundCountOrderByAggregateInput
+    _avg?: RefundAvgOrderByAggregateInput
+    _max?: RefundMaxOrderByAggregateInput
+    _min?: RefundMinOrderByAggregateInput
+    _sum?: RefundSumOrderByAggregateInput
+  }
+
+  export type RefundScalarWhereWithAggregatesInput = {
+    AND?: RefundScalarWhereWithAggregatesInput | RefundScalarWhereWithAggregatesInput[]
+    OR?: RefundScalarWhereWithAggregatesInput[]
+    NOT?: RefundScalarWhereWithAggregatesInput | RefundScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Refund"> | string
+    bookingId?: StringWithAggregatesFilter<"Refund"> | string
+    studentId?: StringWithAggregatesFilter<"Refund"> | string
+    amount?: FloatWithAggregatesFilter<"Refund"> | number
+    status?: EnumRefundStatusWithAggregatesFilter<"Refund"> | $Enums.RefundStatus
+    reason?: StringNullableWithAggregatesFilter<"Refund"> | string | null
+    transactionId?: StringNullableWithAggregatesFilter<"Refund"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Refund"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Refund"> | Date | string
   }
 
   export type ReviewWhereInput = {
@@ -12982,6 +16829,48 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Session"> | string
   }
 
+  export type PlatformSettingWhereInput = {
+    AND?: PlatformSettingWhereInput | PlatformSettingWhereInput[]
+    OR?: PlatformSettingWhereInput[]
+    NOT?: PlatformSettingWhereInput | PlatformSettingWhereInput[]
+    id?: StringFilter<"PlatformSetting"> | string
+    key?: StringFilter<"PlatformSetting"> | string
+    value?: StringFilter<"PlatformSetting"> | string
+  }
+
+  export type PlatformSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+  }
+
+  export type PlatformSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    key?: string
+    AND?: PlatformSettingWhereInput | PlatformSettingWhereInput[]
+    OR?: PlatformSettingWhereInput[]
+    NOT?: PlatformSettingWhereInput | PlatformSettingWhereInput[]
+    value?: StringFilter<"PlatformSetting"> | string
+  }, "id" | "key">
+
+  export type PlatformSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    _count?: PlatformSettingCountOrderByAggregateInput
+    _max?: PlatformSettingMaxOrderByAggregateInput
+    _min?: PlatformSettingMinOrderByAggregateInput
+  }
+
+  export type PlatformSettingScalarWhereWithAggregatesInput = {
+    AND?: PlatformSettingScalarWhereWithAggregatesInput | PlatformSettingScalarWhereWithAggregatesInput[]
+    OR?: PlatformSettingScalarWhereWithAggregatesInput[]
+    NOT?: PlatformSettingScalarWhereWithAggregatesInput | PlatformSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlatformSetting"> | string
+    key?: StringWithAggregatesFilter<"PlatformSetting"> | string
+    value?: StringWithAggregatesFilter<"PlatformSetting"> | string
+  }
+
   export type TutorProfileWhereInput = {
     AND?: TutorProfileWhereInput | TutorProfileWhereInput[]
     OR?: TutorProfileWhereInput[]
@@ -12996,6 +16885,8 @@ export namespace Prisma {
     rating?: FloatFilter<"TutorProfile"> | number
     totalReviews?: IntFilter<"TutorProfile"> | number
     totalSessions?: IntFilter<"TutorProfile"> | number
+    totalEarnings?: FloatFilter<"TutorProfile"> | number
+    withdrawableBalance?: FloatFilter<"TutorProfile"> | number
     createdAt?: DateTimeFilter<"TutorProfile"> | Date | string
     updatedAt?: DateTimeFilter<"TutorProfile"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -13003,6 +16894,7 @@ export namespace Prisma {
     availabilities?: AvailabilityListRelationFilter
     bookings?: BookingListRelationFilter
     reviews?: ReviewListRelationFilter
+    withdrawals?: WithdrawalListRelationFilter
   }
 
   export type TutorProfileOrderByWithRelationInput = {
@@ -13016,6 +16908,8 @@ export namespace Prisma {
     rating?: SortOrder
     totalReviews?: SortOrder
     totalSessions?: SortOrder
+    totalEarnings?: SortOrder
+    withdrawableBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -13023,6 +16917,7 @@ export namespace Prisma {
     availabilities?: AvailabilityOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
+    withdrawals?: WithdrawalOrderByRelationAggregateInput
   }
 
   export type TutorProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -13039,6 +16934,8 @@ export namespace Prisma {
     rating?: FloatFilter<"TutorProfile"> | number
     totalReviews?: IntFilter<"TutorProfile"> | number
     totalSessions?: IntFilter<"TutorProfile"> | number
+    totalEarnings?: FloatFilter<"TutorProfile"> | number
+    withdrawableBalance?: FloatFilter<"TutorProfile"> | number
     createdAt?: DateTimeFilter<"TutorProfile"> | Date | string
     updatedAt?: DateTimeFilter<"TutorProfile"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -13046,6 +16943,7 @@ export namespace Prisma {
     availabilities?: AvailabilityListRelationFilter
     bookings?: BookingListRelationFilter
     reviews?: ReviewListRelationFilter
+    withdrawals?: WithdrawalListRelationFilter
   }, "id" | "userId">
 
   export type TutorProfileOrderByWithAggregationInput = {
@@ -13059,6 +16957,8 @@ export namespace Prisma {
     rating?: SortOrder
     totalReviews?: SortOrder
     totalSessions?: SortOrder
+    totalEarnings?: SortOrder
+    withdrawableBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TutorProfileCountOrderByAggregateInput
@@ -13082,6 +16982,8 @@ export namespace Prisma {
     rating?: FloatWithAggregatesFilter<"TutorProfile"> | number
     totalReviews?: IntWithAggregatesFilter<"TutorProfile"> | number
     totalSessions?: IntWithAggregatesFilter<"TutorProfile"> | number
+    totalEarnings?: FloatWithAggregatesFilter<"TutorProfile"> | number
+    withdrawableBalance?: FloatWithAggregatesFilter<"TutorProfile"> | number
     createdAt?: DateTimeWithAggregatesFilter<"TutorProfile"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TutorProfile"> | Date | string
   }
@@ -13107,6 +17009,7 @@ export namespace Prisma {
     tutorProfile?: XOR<TutorProfileNullableScalarRelationFilter, TutorProfileWhereInput> | null
     bookings?: BookingListRelationFilter
     reviews?: ReviewListRelationFilter
+    refunds?: RefundListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13127,6 +17030,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileOrderByWithRelationInput
     bookings?: BookingOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
+    refunds?: RefundOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13150,6 +17054,7 @@ export namespace Prisma {
     tutorProfile?: XOR<TutorProfileNullableScalarRelationFilter, TutorProfileWhereInput> | null
     bookings?: BookingListRelationFilter
     reviews?: ReviewListRelationFilter
+    refunds?: RefundListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -13243,6 +17148,83 @@ export namespace Prisma {
     expiresAt?: DateTimeWithAggregatesFilter<"Verification"> | Date | string
     createdAt?: DateTimeNullableWithAggregatesFilter<"Verification"> | Date | string | null
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Verification"> | Date | string | null
+  }
+
+  export type WithdrawalWhereInput = {
+    AND?: WithdrawalWhereInput | WithdrawalWhereInput[]
+    OR?: WithdrawalWhereInput[]
+    NOT?: WithdrawalWhereInput | WithdrawalWhereInput[]
+    id?: StringFilter<"Withdrawal"> | string
+    tutorId?: StringFilter<"Withdrawal"> | string
+    amount?: FloatFilter<"Withdrawal"> | number
+    status?: EnumWithdrawalStatusFilter<"Withdrawal"> | $Enums.WithdrawalStatus
+    method?: StringFilter<"Withdrawal"> | string
+    transactionId?: StringNullableFilter<"Withdrawal"> | string | null
+    notes?: StringNullableFilter<"Withdrawal"> | string | null
+    createdAt?: DateTimeFilter<"Withdrawal"> | Date | string
+    updatedAt?: DateTimeFilter<"Withdrawal"> | Date | string
+    tutor?: XOR<TutorProfileScalarRelationFilter, TutorProfileWhereInput>
+  }
+
+  export type WithdrawalOrderByWithRelationInput = {
+    id?: SortOrder
+    tutorId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    method?: SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tutor?: TutorProfileOrderByWithRelationInput
+  }
+
+  export type WithdrawalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WithdrawalWhereInput | WithdrawalWhereInput[]
+    OR?: WithdrawalWhereInput[]
+    NOT?: WithdrawalWhereInput | WithdrawalWhereInput[]
+    tutorId?: StringFilter<"Withdrawal"> | string
+    amount?: FloatFilter<"Withdrawal"> | number
+    status?: EnumWithdrawalStatusFilter<"Withdrawal"> | $Enums.WithdrawalStatus
+    method?: StringFilter<"Withdrawal"> | string
+    transactionId?: StringNullableFilter<"Withdrawal"> | string | null
+    notes?: StringNullableFilter<"Withdrawal"> | string | null
+    createdAt?: DateTimeFilter<"Withdrawal"> | Date | string
+    updatedAt?: DateTimeFilter<"Withdrawal"> | Date | string
+    tutor?: XOR<TutorProfileScalarRelationFilter, TutorProfileWhereInput>
+  }, "id">
+
+  export type WithdrawalOrderByWithAggregationInput = {
+    id?: SortOrder
+    tutorId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    method?: SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WithdrawalCountOrderByAggregateInput
+    _avg?: WithdrawalAvgOrderByAggregateInput
+    _max?: WithdrawalMaxOrderByAggregateInput
+    _min?: WithdrawalMinOrderByAggregateInput
+    _sum?: WithdrawalSumOrderByAggregateInput
+  }
+
+  export type WithdrawalScalarWhereWithAggregatesInput = {
+    AND?: WithdrawalScalarWhereWithAggregatesInput | WithdrawalScalarWhereWithAggregatesInput[]
+    OR?: WithdrawalScalarWhereWithAggregatesInput[]
+    NOT?: WithdrawalScalarWhereWithAggregatesInput | WithdrawalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Withdrawal"> | string
+    tutorId?: StringWithAggregatesFilter<"Withdrawal"> | string
+    amount?: FloatWithAggregatesFilter<"Withdrawal"> | number
+    status?: EnumWithdrawalStatusWithAggregatesFilter<"Withdrawal"> | $Enums.WithdrawalStatus
+    method?: StringWithAggregatesFilter<"Withdrawal"> | string
+    transactionId?: StringNullableWithAggregatesFilter<"Withdrawal"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"Withdrawal"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Withdrawal"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Withdrawal"> | Date | string
   }
 
   export type AccountCreateInput = {
@@ -13448,6 +17430,7 @@ export namespace Prisma {
     student: UserCreateNestedOneWithoutBookingsInput
     tutor: TutorProfileCreateNestedOneWithoutBookingsInput
     review?: ReviewCreateNestedOneWithoutBookingInput
+    refund?: RefundCreateNestedOneWithoutBookingInput
   }
 
   export type BookingUncheckedCreateInput = {
@@ -13466,6 +17449,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
+    refund?: RefundUncheckedCreateNestedOneWithoutBookingInput
   }
 
   export type BookingUpdateInput = {
@@ -13484,6 +17468,7 @@ export namespace Prisma {
     student?: UserUpdateOneRequiredWithoutBookingsNestedInput
     tutor?: TutorProfileUpdateOneRequiredWithoutBookingsNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
+    refund?: RefundUpdateOneWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateInput = {
@@ -13502,6 +17487,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
+    refund?: RefundUncheckedUpdateOneWithoutBookingNestedInput
   }
 
   export type BookingCreateManyInput = {
@@ -13609,6 +17595,88 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundCreateInput = {
+    id?: string
+    amount: number
+    status?: $Enums.RefundStatus
+    reason?: string | null
+    transactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    booking: BookingCreateNestedOneWithoutRefundInput
+    student: UserCreateNestedOneWithoutRefundsInput
+  }
+
+  export type RefundUncheckedCreateInput = {
+    id?: string
+    bookingId: string
+    studentId: string
+    amount: number
+    status?: $Enums.RefundStatus
+    reason?: string | null
+    transactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RefundUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    booking?: BookingUpdateOneRequiredWithoutRefundNestedInput
+    student?: UserUpdateOneRequiredWithoutRefundsNestedInput
+  }
+
+  export type RefundUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundCreateManyInput = {
+    id?: string
+    bookingId: string
+    studentId: string
+    amount: number
+    status?: $Enums.RefundStatus
+    reason?: string | null
+    transactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RefundUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13763,6 +17831,48 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type PlatformSettingCreateInput = {
+    id?: string
+    key: string
+    value: string
+  }
+
+  export type PlatformSettingUncheckedCreateInput = {
+    id?: string
+    key: string
+    value: string
+  }
+
+  export type PlatformSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PlatformSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PlatformSettingCreateManyInput = {
+    id?: string
+    key: string
+    value: string
+  }
+
+  export type PlatformSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PlatformSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
   export type TutorProfileCreateInput = {
     id?: string
     bio?: string | null
@@ -13773,6 +17883,8 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTutorProfileInput
@@ -13780,6 +17892,7 @@ export namespace Prisma {
     availabilities?: AvailabilityCreateNestedManyWithoutTutorInput
     bookings?: BookingCreateNestedManyWithoutTutorInput
     reviews?: ReviewCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileUncheckedCreateInput = {
@@ -13793,12 +17906,15 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     categories?: CategoryUncheckedCreateNestedManyWithoutTutorsInput
     availabilities?: AvailabilityUncheckedCreateNestedManyWithoutTutorInput
     bookings?: BookingUncheckedCreateNestedManyWithoutTutorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalUncheckedCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileUpdateInput = {
@@ -13811,6 +17927,8 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTutorProfileNestedInput
@@ -13818,6 +17936,7 @@ export namespace Prisma {
     availabilities?: AvailabilityUpdateManyWithoutTutorNestedInput
     bookings?: BookingUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUpdateManyWithoutTutorNestedInput
   }
 
   export type TutorProfileUncheckedUpdateInput = {
@@ -13831,12 +17950,15 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categories?: CategoryUncheckedUpdateManyWithoutTutorsNestedInput
     availabilities?: AvailabilityUncheckedUpdateManyWithoutTutorNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUncheckedUpdateManyWithoutTutorNestedInput
   }
 
   export type TutorProfileCreateManyInput = {
@@ -13850,6 +17972,8 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13864,6 +17988,8 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13879,6 +18005,8 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13901,6 +18029,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
     bookings?: BookingCreateNestedManyWithoutStudentInput
     reviews?: ReviewCreateNestedManyWithoutStudentInput
+    refunds?: RefundCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -13921,6 +18050,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
     bookings?: BookingUncheckedCreateNestedManyWithoutStudentInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutStudentInput
+    refunds?: RefundUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserUpdateInput = {
@@ -13941,6 +18071,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
     bookings?: BookingUpdateManyWithoutStudentNestedInput
     reviews?: ReviewUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -13961,6 +18092,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutStudentNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -14069,6 +18201,89 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WithdrawalCreateInput = {
+    id?: string
+    amount: number
+    status?: $Enums.WithdrawalStatus
+    method?: string
+    transactionId?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tutor: TutorProfileCreateNestedOneWithoutWithdrawalsInput
+  }
+
+  export type WithdrawalUncheckedCreateInput = {
+    id?: string
+    tutorId: string
+    amount: number
+    status?: $Enums.WithdrawalStatus
+    method?: string
+    transactionId?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WithdrawalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumWithdrawalStatusFieldUpdateOperationsInput | $Enums.WithdrawalStatus
+    method?: StringFieldUpdateOperationsInput | string
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tutor?: TutorProfileUpdateOneRequiredWithoutWithdrawalsNestedInput
+  }
+
+  export type WithdrawalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tutorId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumWithdrawalStatusFieldUpdateOperationsInput | $Enums.WithdrawalStatus
+    method?: StringFieldUpdateOperationsInput | string
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WithdrawalCreateManyInput = {
+    id?: string
+    tutorId: string
+    amount: number
+    status?: $Enums.WithdrawalStatus
+    method?: string
+    transactionId?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WithdrawalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumWithdrawalStatusFieldUpdateOperationsInput | $Enums.WithdrawalStatus
+    method?: StringFieldUpdateOperationsInput | string
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WithdrawalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tutorId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumWithdrawalStatusFieldUpdateOperationsInput | $Enums.WithdrawalStatus
+    method?: StringFieldUpdateOperationsInput | string
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -14361,6 +18576,11 @@ export namespace Prisma {
     isNot?: ReviewWhereInput | null
   }
 
+  export type RefundNullableScalarRelationFilter = {
+    is?: RefundWhereInput | null
+    isNot?: RefundWhereInput | null
+  }
+
   export type BookingCountOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
@@ -14490,9 +18710,70 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumRefundStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.RefundStatus | EnumRefundStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRefundStatusFilter<$PrismaModel> | $Enums.RefundStatus
+  }
+
   export type BookingScalarRelationFilter = {
     is?: BookingWhereInput
     isNot?: BookingWhereInput
+  }
+
+  export type RefundCountOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    studentId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrder
+    transactionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RefundAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type RefundMaxOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    studentId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrder
+    transactionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RefundMinOrderByAggregateInput = {
+    id?: SortOrder
+    bookingId?: SortOrder
+    studentId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    reason?: SortOrder
+    transactionId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RefundSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type EnumRefundStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RefundStatus | EnumRefundStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRefundStatusWithAggregatesFilter<$PrismaModel> | $Enums.RefundStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRefundStatusFilter<$PrismaModel>
+    _max?: NestedEnumRefundStatusFilter<$PrismaModel>
   }
 
   export type ReviewCountOrderByAggregateInput = {
@@ -14569,6 +18850,24 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type PlatformSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+  }
+
+  export type PlatformSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+  }
+
+  export type PlatformSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+  }
+
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -14601,6 +18900,12 @@ export namespace Prisma {
     none?: ReviewWhereInput
   }
 
+  export type WithdrawalListRelationFilter = {
+    every?: WithdrawalWhereInput
+    some?: WithdrawalWhereInput
+    none?: WithdrawalWhereInput
+  }
+
   export type CategoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -14617,6 +18922,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type WithdrawalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type TutorProfileCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -14628,6 +18937,8 @@ export namespace Prisma {
     rating?: SortOrder
     totalReviews?: SortOrder
     totalSessions?: SortOrder
+    totalEarnings?: SortOrder
+    withdrawableBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14638,6 +18949,8 @@ export namespace Prisma {
     rating?: SortOrder
     totalReviews?: SortOrder
     totalSessions?: SortOrder
+    totalEarnings?: SortOrder
+    withdrawableBalance?: SortOrder
   }
 
   export type TutorProfileMaxOrderByAggregateInput = {
@@ -14650,6 +18963,8 @@ export namespace Prisma {
     rating?: SortOrder
     totalReviews?: SortOrder
     totalSessions?: SortOrder
+    totalEarnings?: SortOrder
+    withdrawableBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14664,6 +18979,8 @@ export namespace Prisma {
     rating?: SortOrder
     totalReviews?: SortOrder
     totalSessions?: SortOrder
+    totalEarnings?: SortOrder
+    withdrawableBalance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14674,6 +18991,8 @@ export namespace Prisma {
     rating?: SortOrder
     totalReviews?: SortOrder
     totalSessions?: SortOrder
+    totalEarnings?: SortOrder
+    withdrawableBalance?: SortOrder
   }
 
   export type EnumRoleFilter<$PrismaModel = never> = {
@@ -14700,11 +19019,21 @@ export namespace Prisma {
     isNot?: TutorProfileWhereInput | null
   }
 
+  export type RefundListRelationFilter = {
+    every?: RefundWhereInput
+    some?: RefundWhereInput
+    none?: RefundWhereInput
+  }
+
   export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type AccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RefundOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14790,6 +19119,67 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumWithdrawalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WithdrawalStatus | EnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WithdrawalStatus[] | ListEnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WithdrawalStatus[] | ListEnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWithdrawalStatusFilter<$PrismaModel> | $Enums.WithdrawalStatus
+  }
+
+  export type WithdrawalCountOrderByAggregateInput = {
+    id?: SortOrder
+    tutorId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    method?: SortOrder
+    transactionId?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WithdrawalAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type WithdrawalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tutorId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    method?: SortOrder
+    transactionId?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WithdrawalMinOrderByAggregateInput = {
+    id?: SortOrder
+    tutorId?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    method?: SortOrder
+    transactionId?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WithdrawalSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type EnumWithdrawalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WithdrawalStatus | EnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WithdrawalStatus[] | ListEnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WithdrawalStatus[] | ListEnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWithdrawalStatusWithAggregatesFilter<$PrismaModel> | $Enums.WithdrawalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWithdrawalStatusFilter<$PrismaModel>
+    _max?: NestedEnumWithdrawalStatusFilter<$PrismaModel>
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -14864,10 +19254,22 @@ export namespace Prisma {
     connect?: ReviewWhereUniqueInput
   }
 
+  export type RefundCreateNestedOneWithoutBookingInput = {
+    create?: XOR<RefundCreateWithoutBookingInput, RefundUncheckedCreateWithoutBookingInput>
+    connectOrCreate?: RefundCreateOrConnectWithoutBookingInput
+    connect?: RefundWhereUniqueInput
+  }
+
   export type ReviewUncheckedCreateNestedOneWithoutBookingInput = {
     create?: XOR<ReviewCreateWithoutBookingInput, ReviewUncheckedCreateWithoutBookingInput>
     connectOrCreate?: ReviewCreateOrConnectWithoutBookingInput
     connect?: ReviewWhereUniqueInput
+  }
+
+  export type RefundUncheckedCreateNestedOneWithoutBookingInput = {
+    create?: XOR<RefundCreateWithoutBookingInput, RefundUncheckedCreateWithoutBookingInput>
+    connectOrCreate?: RefundCreateOrConnectWithoutBookingInput
+    connect?: RefundWhereUniqueInput
   }
 
   export type EnumBookingStatusFieldUpdateOperationsInput = {
@@ -14912,6 +19314,16 @@ export namespace Prisma {
     update?: XOR<XOR<ReviewUpdateToOneWithWhereWithoutBookingInput, ReviewUpdateWithoutBookingInput>, ReviewUncheckedUpdateWithoutBookingInput>
   }
 
+  export type RefundUpdateOneWithoutBookingNestedInput = {
+    create?: XOR<RefundCreateWithoutBookingInput, RefundUncheckedCreateWithoutBookingInput>
+    connectOrCreate?: RefundCreateOrConnectWithoutBookingInput
+    upsert?: RefundUpsertWithoutBookingInput
+    disconnect?: RefundWhereInput | boolean
+    delete?: RefundWhereInput | boolean
+    connect?: RefundWhereUniqueInput
+    update?: XOR<XOR<RefundUpdateToOneWithWhereWithoutBookingInput, RefundUpdateWithoutBookingInput>, RefundUncheckedUpdateWithoutBookingInput>
+  }
+
   export type ReviewUncheckedUpdateOneWithoutBookingNestedInput = {
     create?: XOR<ReviewCreateWithoutBookingInput, ReviewUncheckedCreateWithoutBookingInput>
     connectOrCreate?: ReviewCreateOrConnectWithoutBookingInput
@@ -14920,6 +19332,16 @@ export namespace Prisma {
     delete?: ReviewWhereInput | boolean
     connect?: ReviewWhereUniqueInput
     update?: XOR<XOR<ReviewUpdateToOneWithWhereWithoutBookingInput, ReviewUpdateWithoutBookingInput>, ReviewUncheckedUpdateWithoutBookingInput>
+  }
+
+  export type RefundUncheckedUpdateOneWithoutBookingNestedInput = {
+    create?: XOR<RefundCreateWithoutBookingInput, RefundUncheckedCreateWithoutBookingInput>
+    connectOrCreate?: RefundCreateOrConnectWithoutBookingInput
+    upsert?: RefundUpsertWithoutBookingInput
+    disconnect?: RefundWhereInput | boolean
+    delete?: RefundWhereInput | boolean
+    connect?: RefundWhereUniqueInput
+    update?: XOR<XOR<RefundUpdateToOneWithWhereWithoutBookingInput, RefundUpdateWithoutBookingInput>, RefundUncheckedUpdateWithoutBookingInput>
   }
 
   export type TutorProfileCreateNestedManyWithoutCategoriesInput = {
@@ -14958,6 +19380,38 @@ export namespace Prisma {
     update?: TutorProfileUpdateWithWhereUniqueWithoutCategoriesInput | TutorProfileUpdateWithWhereUniqueWithoutCategoriesInput[]
     updateMany?: TutorProfileUpdateManyWithWhereWithoutCategoriesInput | TutorProfileUpdateManyWithWhereWithoutCategoriesInput[]
     deleteMany?: TutorProfileScalarWhereInput | TutorProfileScalarWhereInput[]
+  }
+
+  export type BookingCreateNestedOneWithoutRefundInput = {
+    create?: XOR<BookingCreateWithoutRefundInput, BookingUncheckedCreateWithoutRefundInput>
+    connectOrCreate?: BookingCreateOrConnectWithoutRefundInput
+    connect?: BookingWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutRefundsInput = {
+    create?: XOR<UserCreateWithoutRefundsInput, UserUncheckedCreateWithoutRefundsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRefundsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumRefundStatusFieldUpdateOperationsInput = {
+    set?: $Enums.RefundStatus
+  }
+
+  export type BookingUpdateOneRequiredWithoutRefundNestedInput = {
+    create?: XOR<BookingCreateWithoutRefundInput, BookingUncheckedCreateWithoutRefundInput>
+    connectOrCreate?: BookingCreateOrConnectWithoutRefundInput
+    upsert?: BookingUpsertWithoutRefundInput
+    connect?: BookingWhereUniqueInput
+    update?: XOR<XOR<BookingUpdateToOneWithWhereWithoutRefundInput, BookingUpdateWithoutRefundInput>, BookingUncheckedUpdateWithoutRefundInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutRefundsNestedInput = {
+    create?: XOR<UserCreateWithoutRefundsInput, UserUncheckedCreateWithoutRefundsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRefundsInput
+    upsert?: UserUpsertWithoutRefundsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRefundsInput, UserUpdateWithoutRefundsInput>, UserUncheckedUpdateWithoutRefundsInput>
   }
 
   export type BookingCreateNestedOneWithoutReviewInput = {
@@ -15053,6 +19507,13 @@ export namespace Prisma {
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
   }
 
+  export type WithdrawalCreateNestedManyWithoutTutorInput = {
+    create?: XOR<WithdrawalCreateWithoutTutorInput, WithdrawalUncheckedCreateWithoutTutorInput> | WithdrawalCreateWithoutTutorInput[] | WithdrawalUncheckedCreateWithoutTutorInput[]
+    connectOrCreate?: WithdrawalCreateOrConnectWithoutTutorInput | WithdrawalCreateOrConnectWithoutTutorInput[]
+    createMany?: WithdrawalCreateManyTutorInputEnvelope
+    connect?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
+  }
+
   export type CategoryUncheckedCreateNestedManyWithoutTutorsInput = {
     create?: XOR<CategoryCreateWithoutTutorsInput, CategoryUncheckedCreateWithoutTutorsInput> | CategoryCreateWithoutTutorsInput[] | CategoryUncheckedCreateWithoutTutorsInput[]
     connectOrCreate?: CategoryCreateOrConnectWithoutTutorsInput | CategoryCreateOrConnectWithoutTutorsInput[]
@@ -15078,6 +19539,13 @@ export namespace Prisma {
     connectOrCreate?: ReviewCreateOrConnectWithoutTutorInput | ReviewCreateOrConnectWithoutTutorInput[]
     createMany?: ReviewCreateManyTutorInputEnvelope
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type WithdrawalUncheckedCreateNestedManyWithoutTutorInput = {
+    create?: XOR<WithdrawalCreateWithoutTutorInput, WithdrawalUncheckedCreateWithoutTutorInput> | WithdrawalCreateWithoutTutorInput[] | WithdrawalUncheckedCreateWithoutTutorInput[]
+    connectOrCreate?: WithdrawalCreateOrConnectWithoutTutorInput | WithdrawalCreateOrConnectWithoutTutorInput[]
+    createMany?: WithdrawalCreateManyTutorInputEnvelope
+    connect?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
   }
 
   export type TutorProfileUpdateexpertiseInput = {
@@ -15148,6 +19616,20 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type WithdrawalUpdateManyWithoutTutorNestedInput = {
+    create?: XOR<WithdrawalCreateWithoutTutorInput, WithdrawalUncheckedCreateWithoutTutorInput> | WithdrawalCreateWithoutTutorInput[] | WithdrawalUncheckedCreateWithoutTutorInput[]
+    connectOrCreate?: WithdrawalCreateOrConnectWithoutTutorInput | WithdrawalCreateOrConnectWithoutTutorInput[]
+    upsert?: WithdrawalUpsertWithWhereUniqueWithoutTutorInput | WithdrawalUpsertWithWhereUniqueWithoutTutorInput[]
+    createMany?: WithdrawalCreateManyTutorInputEnvelope
+    set?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
+    disconnect?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
+    delete?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
+    connect?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
+    update?: WithdrawalUpdateWithWhereUniqueWithoutTutorInput | WithdrawalUpdateWithWhereUniqueWithoutTutorInput[]
+    updateMany?: WithdrawalUpdateManyWithWhereWithoutTutorInput | WithdrawalUpdateManyWithWhereWithoutTutorInput[]
+    deleteMany?: WithdrawalScalarWhereInput | WithdrawalScalarWhereInput[]
+  }
+
   export type CategoryUncheckedUpdateManyWithoutTutorsNestedInput = {
     create?: XOR<CategoryCreateWithoutTutorsInput, CategoryUncheckedCreateWithoutTutorsInput> | CategoryCreateWithoutTutorsInput[] | CategoryUncheckedCreateWithoutTutorsInput[]
     connectOrCreate?: CategoryCreateOrConnectWithoutTutorsInput | CategoryCreateOrConnectWithoutTutorsInput[]
@@ -15203,6 +19685,20 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type WithdrawalUncheckedUpdateManyWithoutTutorNestedInput = {
+    create?: XOR<WithdrawalCreateWithoutTutorInput, WithdrawalUncheckedCreateWithoutTutorInput> | WithdrawalCreateWithoutTutorInput[] | WithdrawalUncheckedCreateWithoutTutorInput[]
+    connectOrCreate?: WithdrawalCreateOrConnectWithoutTutorInput | WithdrawalCreateOrConnectWithoutTutorInput[]
+    upsert?: WithdrawalUpsertWithWhereUniqueWithoutTutorInput | WithdrawalUpsertWithWhereUniqueWithoutTutorInput[]
+    createMany?: WithdrawalCreateManyTutorInputEnvelope
+    set?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
+    disconnect?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
+    delete?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
+    connect?: WithdrawalWhereUniqueInput | WithdrawalWhereUniqueInput[]
+    update?: WithdrawalUpdateWithWhereUniqueWithoutTutorInput | WithdrawalUpdateWithWhereUniqueWithoutTutorInput[]
+    updateMany?: WithdrawalUpdateManyWithWhereWithoutTutorInput | WithdrawalUpdateManyWithWhereWithoutTutorInput[]
+    deleteMany?: WithdrawalScalarWhereInput | WithdrawalScalarWhereInput[]
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -15237,6 +19733,13 @@ export namespace Prisma {
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
   }
 
+  export type RefundCreateNestedManyWithoutStudentInput = {
+    create?: XOR<RefundCreateWithoutStudentInput, RefundUncheckedCreateWithoutStudentInput> | RefundCreateWithoutStudentInput[] | RefundUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: RefundCreateOrConnectWithoutStudentInput | RefundCreateOrConnectWithoutStudentInput[]
+    createMany?: RefundCreateManyStudentInputEnvelope
+    connect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -15269,6 +19772,13 @@ export namespace Prisma {
     connectOrCreate?: ReviewCreateOrConnectWithoutStudentInput | ReviewCreateOrConnectWithoutStudentInput[]
     createMany?: ReviewCreateManyStudentInputEnvelope
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type RefundUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<RefundCreateWithoutStudentInput, RefundUncheckedCreateWithoutStudentInput> | RefundCreateWithoutStudentInput[] | RefundUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: RefundCreateOrConnectWithoutStudentInput | RefundCreateOrConnectWithoutStudentInput[]
+    createMany?: RefundCreateManyStudentInputEnvelope
+    connect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
   }
 
   export type EnumRoleFieldUpdateOperationsInput = {
@@ -15341,6 +19851,20 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type RefundUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<RefundCreateWithoutStudentInput, RefundUncheckedCreateWithoutStudentInput> | RefundCreateWithoutStudentInput[] | RefundUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: RefundCreateOrConnectWithoutStudentInput | RefundCreateOrConnectWithoutStudentInput[]
+    upsert?: RefundUpsertWithWhereUniqueWithoutStudentInput | RefundUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: RefundCreateManyStudentInputEnvelope
+    set?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    disconnect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    delete?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    connect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    update?: RefundUpdateWithWhereUniqueWithoutStudentInput | RefundUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: RefundUpdateManyWithWhereWithoutStudentInput | RefundUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: RefundScalarWhereInput | RefundScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -15405,6 +19929,38 @@ export namespace Prisma {
     update?: ReviewUpdateWithWhereUniqueWithoutStudentInput | ReviewUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: ReviewUpdateManyWithWhereWithoutStudentInput | ReviewUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type RefundUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<RefundCreateWithoutStudentInput, RefundUncheckedCreateWithoutStudentInput> | RefundCreateWithoutStudentInput[] | RefundUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: RefundCreateOrConnectWithoutStudentInput | RefundCreateOrConnectWithoutStudentInput[]
+    upsert?: RefundUpsertWithWhereUniqueWithoutStudentInput | RefundUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: RefundCreateManyStudentInputEnvelope
+    set?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    disconnect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    delete?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    connect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    update?: RefundUpdateWithWhereUniqueWithoutStudentInput | RefundUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: RefundUpdateManyWithWhereWithoutStudentInput | RefundUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: RefundScalarWhereInput | RefundScalarWhereInput[]
+  }
+
+  export type TutorProfileCreateNestedOneWithoutWithdrawalsInput = {
+    create?: XOR<TutorProfileCreateWithoutWithdrawalsInput, TutorProfileUncheckedCreateWithoutWithdrawalsInput>
+    connectOrCreate?: TutorProfileCreateOrConnectWithoutWithdrawalsInput
+    connect?: TutorProfileWhereUniqueInput
+  }
+
+  export type EnumWithdrawalStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WithdrawalStatus
+  }
+
+  export type TutorProfileUpdateOneRequiredWithoutWithdrawalsNestedInput = {
+    create?: XOR<TutorProfileCreateWithoutWithdrawalsInput, TutorProfileUncheckedCreateWithoutWithdrawalsInput>
+    connectOrCreate?: TutorProfileCreateOrConnectWithoutWithdrawalsInput
+    upsert?: TutorProfileUpsertWithoutWithdrawalsInput
+    connect?: TutorProfileWhereUniqueInput
+    update?: XOR<XOR<TutorProfileUpdateToOneWithWhereWithoutWithdrawalsInput, TutorProfileUpdateWithoutWithdrawalsInput>, TutorProfileUncheckedUpdateWithoutWithdrawalsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -15631,6 +20187,23 @@ export namespace Prisma {
     _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumRefundStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.RefundStatus | EnumRefundStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRefundStatusFilter<$PrismaModel> | $Enums.RefundStatus
+  }
+
+  export type NestedEnumRefundStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RefundStatus | EnumRefundStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RefundStatus[] | ListEnumRefundStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumRefundStatusWithAggregatesFilter<$PrismaModel> | $Enums.RefundStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRefundStatusFilter<$PrismaModel>
+    _max?: NestedEnumRefundStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -15646,6 +20219,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWithdrawalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WithdrawalStatus | EnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WithdrawalStatus[] | ListEnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WithdrawalStatus[] | ListEnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWithdrawalStatusFilter<$PrismaModel> | $Enums.WithdrawalStatus
+  }
+
+  export type NestedEnumWithdrawalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WithdrawalStatus | EnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WithdrawalStatus[] | ListEnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WithdrawalStatus[] | ListEnumWithdrawalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWithdrawalStatusWithAggregatesFilter<$PrismaModel> | $Enums.WithdrawalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWithdrawalStatusFilter<$PrismaModel>
+    _max?: NestedEnumWithdrawalStatusFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -15665,6 +20255,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
     bookings?: BookingCreateNestedManyWithoutStudentInput
     reviews?: ReviewCreateNestedManyWithoutStudentInput
+    refunds?: RefundCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -15684,6 +20275,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
     bookings?: BookingUncheckedCreateNestedManyWithoutStudentInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutStudentInput
+    refunds?: RefundUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -15719,6 +20311,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
     bookings?: BookingUpdateManyWithoutStudentNestedInput
     reviews?: ReviewUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -15738,6 +20331,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutStudentNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type TutorProfileCreateWithoutAvailabilitiesInput = {
@@ -15750,12 +20344,15 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTutorProfileInput
     categories?: CategoryCreateNestedManyWithoutTutorsInput
     bookings?: BookingCreateNestedManyWithoutTutorInput
     reviews?: ReviewCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileUncheckedCreateWithoutAvailabilitiesInput = {
@@ -15769,11 +20366,14 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     categories?: CategoryUncheckedCreateNestedManyWithoutTutorsInput
     bookings?: BookingUncheckedCreateNestedManyWithoutTutorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalUncheckedCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileCreateOrConnectWithoutAvailabilitiesInput = {
@@ -15802,12 +20402,15 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTutorProfileNestedInput
     categories?: CategoryUpdateManyWithoutTutorsNestedInput
     bookings?: BookingUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUpdateManyWithoutTutorNestedInput
   }
 
   export type TutorProfileUncheckedUpdateWithoutAvailabilitiesInput = {
@@ -15821,11 +20424,14 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categories?: CategoryUncheckedUpdateManyWithoutTutorsNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUncheckedUpdateManyWithoutTutorNestedInput
   }
 
   export type UserCreateWithoutBookingsInput = {
@@ -15845,6 +20451,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutStudentInput
+    refunds?: RefundCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutBookingsInput = {
@@ -15864,6 +20471,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutStudentInput
+    refunds?: RefundUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutBookingsInput = {
@@ -15881,12 +20489,15 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTutorProfileInput
     categories?: CategoryCreateNestedManyWithoutTutorsInput
     availabilities?: AvailabilityCreateNestedManyWithoutTutorInput
     reviews?: ReviewCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileUncheckedCreateWithoutBookingsInput = {
@@ -15900,11 +20511,14 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     categories?: CategoryUncheckedCreateNestedManyWithoutTutorsInput
     availabilities?: AvailabilityUncheckedCreateNestedManyWithoutTutorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalUncheckedCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileCreateOrConnectWithoutBookingsInput = {
@@ -15937,6 +20551,33 @@ export namespace Prisma {
     create: XOR<ReviewCreateWithoutBookingInput, ReviewUncheckedCreateWithoutBookingInput>
   }
 
+  export type RefundCreateWithoutBookingInput = {
+    id?: string
+    amount: number
+    status?: $Enums.RefundStatus
+    reason?: string | null
+    transactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    student: UserCreateNestedOneWithoutRefundsInput
+  }
+
+  export type RefundUncheckedCreateWithoutBookingInput = {
+    id?: string
+    studentId: string
+    amount: number
+    status?: $Enums.RefundStatus
+    reason?: string | null
+    transactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RefundCreateOrConnectWithoutBookingInput = {
+    where: RefundWhereUniqueInput
+    create: XOR<RefundCreateWithoutBookingInput, RefundUncheckedCreateWithoutBookingInput>
+  }
+
   export type UserUpsertWithoutBookingsInput = {
     update: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
     create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
@@ -15965,6 +20606,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookingsInput = {
@@ -15984,6 +20626,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type TutorProfileUpsertWithoutBookingsInput = {
@@ -16007,12 +20650,15 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTutorProfileNestedInput
     categories?: CategoryUpdateManyWithoutTutorsNestedInput
     availabilities?: AvailabilityUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUpdateManyWithoutTutorNestedInput
   }
 
   export type TutorProfileUncheckedUpdateWithoutBookingsInput = {
@@ -16026,11 +20672,14 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categories?: CategoryUncheckedUpdateManyWithoutTutorsNestedInput
     availabilities?: AvailabilityUncheckedUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUncheckedUpdateManyWithoutTutorNestedInput
   }
 
   export type ReviewUpsertWithoutBookingInput = {
@@ -16064,6 +20713,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RefundUpsertWithoutBookingInput = {
+    update: XOR<RefundUpdateWithoutBookingInput, RefundUncheckedUpdateWithoutBookingInput>
+    create: XOR<RefundCreateWithoutBookingInput, RefundUncheckedCreateWithoutBookingInput>
+    where?: RefundWhereInput
+  }
+
+  export type RefundUpdateToOneWithWhereWithoutBookingInput = {
+    where?: RefundWhereInput
+    data: XOR<RefundUpdateWithoutBookingInput, RefundUncheckedUpdateWithoutBookingInput>
+  }
+
+  export type RefundUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutRefundsNestedInput
+  }
+
+  export type RefundUncheckedUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TutorProfileCreateWithoutCategoriesInput = {
     id?: string
     bio?: string | null
@@ -16074,12 +20756,15 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTutorProfileInput
     availabilities?: AvailabilityCreateNestedManyWithoutTutorInput
     bookings?: BookingCreateNestedManyWithoutTutorInput
     reviews?: ReviewCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileUncheckedCreateWithoutCategoriesInput = {
@@ -16093,11 +20778,14 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     availabilities?: AvailabilityUncheckedCreateNestedManyWithoutTutorInput
     bookings?: BookingUncheckedCreateNestedManyWithoutTutorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalUncheckedCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileCreateOrConnectWithoutCategoriesInput = {
@@ -16135,8 +20823,194 @@ export namespace Prisma {
     rating?: FloatFilter<"TutorProfile"> | number
     totalReviews?: IntFilter<"TutorProfile"> | number
     totalSessions?: IntFilter<"TutorProfile"> | number
+    totalEarnings?: FloatFilter<"TutorProfile"> | number
+    withdrawableBalance?: FloatFilter<"TutorProfile"> | number
     createdAt?: DateTimeFilter<"TutorProfile"> | Date | string
     updatedAt?: DateTimeFilter<"TutorProfile"> | Date | string
+  }
+
+  export type BookingCreateWithoutRefundInput = {
+    id?: string
+    subject: string
+    sessionDate: Date | string
+    startTime: string
+    endTime: string
+    status?: $Enums.BookingStatus
+    notes?: string | null
+    totalPrice: number
+    paymentStatus?: $Enums.PaymentStatus
+    transactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    student: UserCreateNestedOneWithoutBookingsInput
+    tutor: TutorProfileCreateNestedOneWithoutBookingsInput
+    review?: ReviewCreateNestedOneWithoutBookingInput
+  }
+
+  export type BookingUncheckedCreateWithoutRefundInput = {
+    id?: string
+    studentId: string
+    tutorId: string
+    subject: string
+    sessionDate: Date | string
+    startTime: string
+    endTime: string
+    status?: $Enums.BookingStatus
+    notes?: string | null
+    totalPrice: number
+    paymentStatus?: $Enums.PaymentStatus
+    transactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
+  }
+
+  export type BookingCreateOrConnectWithoutRefundInput = {
+    where: BookingWhereUniqueInput
+    create: XOR<BookingCreateWithoutRefundInput, BookingUncheckedCreateWithoutRefundInput>
+  }
+
+  export type UserCreateWithoutRefundsInput = {
+    id?: string
+    email: string
+    emailVerified?: boolean
+    name: string
+    image?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    phone?: string | null
+    isActive?: boolean
+    isBanned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
+    bookings?: BookingCreateNestedManyWithoutStudentInput
+    reviews?: ReviewCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserUncheckedCreateWithoutRefundsInput = {
+    id?: string
+    email: string
+    emailVerified?: boolean
+    name: string
+    image?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    phone?: string | null
+    isActive?: boolean
+    isBanned?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutStudentInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type UserCreateOrConnectWithoutRefundsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRefundsInput, UserUncheckedCreateWithoutRefundsInput>
+  }
+
+  export type BookingUpsertWithoutRefundInput = {
+    update: XOR<BookingUpdateWithoutRefundInput, BookingUncheckedUpdateWithoutRefundInput>
+    create: XOR<BookingCreateWithoutRefundInput, BookingUncheckedCreateWithoutRefundInput>
+    where?: BookingWhereInput
+  }
+
+  export type BookingUpdateToOneWithWhereWithoutRefundInput = {
+    where?: BookingWhereInput
+    data: XOR<BookingUpdateWithoutRefundInput, BookingUncheckedUpdateWithoutRefundInput>
+  }
+
+  export type BookingUpdateWithoutRefundInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    sessionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    tutor?: TutorProfileUpdateOneRequiredWithoutBookingsNestedInput
+    review?: ReviewUpdateOneWithoutBookingNestedInput
+  }
+
+  export type BookingUncheckedUpdateWithoutRefundInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    tutorId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    sessionDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
+  }
+
+  export type UserUpsertWithoutRefundsInput = {
+    update: XOR<UserUpdateWithoutRefundsInput, UserUncheckedUpdateWithoutRefundsInput>
+    create: XOR<UserCreateWithoutRefundsInput, UserUncheckedCreateWithoutRefundsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRefundsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRefundsInput, UserUncheckedUpdateWithoutRefundsInput>
+  }
+
+  export type UserUpdateWithoutRefundsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
+    bookings?: BookingUpdateManyWithoutStudentNestedInput
+    reviews?: ReviewUpdateManyWithoutStudentNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRefundsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    name?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutStudentNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type BookingCreateWithoutReviewInput = {
@@ -16154,6 +21028,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     student: UserCreateNestedOneWithoutBookingsInput
     tutor: TutorProfileCreateNestedOneWithoutBookingsInput
+    refund?: RefundCreateNestedOneWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutReviewInput = {
@@ -16171,6 +21046,7 @@ export namespace Prisma {
     transactionId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    refund?: RefundUncheckedCreateNestedOneWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutReviewInput = {
@@ -16195,6 +21071,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
     bookings?: BookingCreateNestedManyWithoutStudentInput
+    refunds?: RefundCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutReviewsInput = {
@@ -16214,6 +21091,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
     bookings?: BookingUncheckedCreateNestedManyWithoutStudentInput
+    refunds?: RefundUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutReviewsInput = {
@@ -16231,12 +21109,15 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTutorProfileInput
     categories?: CategoryCreateNestedManyWithoutTutorsInput
     availabilities?: AvailabilityCreateNestedManyWithoutTutorInput
     bookings?: BookingCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileUncheckedCreateWithoutReviewsInput = {
@@ -16250,11 +21131,14 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     categories?: CategoryUncheckedCreateNestedManyWithoutTutorsInput
     availabilities?: AvailabilityUncheckedCreateNestedManyWithoutTutorInput
     bookings?: BookingUncheckedCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalUncheckedCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileCreateOrConnectWithoutReviewsInput = {
@@ -16288,6 +21172,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutBookingsNestedInput
     tutor?: TutorProfileUpdateOneRequiredWithoutBookingsNestedInput
+    refund?: RefundUpdateOneWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutReviewInput = {
@@ -16305,6 +21190,7 @@ export namespace Prisma {
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    refund?: RefundUncheckedUpdateOneWithoutBookingNestedInput
   }
 
   export type UserUpsertWithoutReviewsInput = {
@@ -16335,6 +21221,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
     bookings?: BookingUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -16354,6 +21241,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type TutorProfileUpsertWithoutReviewsInput = {
@@ -16377,12 +21265,15 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTutorProfileNestedInput
     categories?: CategoryUpdateManyWithoutTutorsNestedInput
     availabilities?: AvailabilityUpdateManyWithoutTutorNestedInput
     bookings?: BookingUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUpdateManyWithoutTutorNestedInput
   }
 
   export type TutorProfileUncheckedUpdateWithoutReviewsInput = {
@@ -16396,11 +21287,14 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categories?: CategoryUncheckedUpdateManyWithoutTutorsNestedInput
     availabilities?: AvailabilityUncheckedUpdateManyWithoutTutorNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUncheckedUpdateManyWithoutTutorNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -16420,6 +21314,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
     bookings?: BookingCreateNestedManyWithoutStudentInput
     reviews?: ReviewCreateNestedManyWithoutStudentInput
+    refunds?: RefundCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -16439,6 +21334,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
     bookings?: BookingUncheckedCreateNestedManyWithoutStudentInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutStudentInput
+    refunds?: RefundUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -16474,6 +21370,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
     bookings?: BookingUpdateManyWithoutStudentNestedInput
     reviews?: ReviewUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -16493,6 +21390,7 @@ export namespace Prisma {
     tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutStudentNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateWithoutTutorProfileInput = {
@@ -16512,6 +21410,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     bookings?: BookingCreateNestedManyWithoutStudentInput
     reviews?: ReviewCreateNestedManyWithoutStudentInput
+    refunds?: RefundCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutTutorProfileInput = {
@@ -16531,6 +21430,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     bookings?: BookingUncheckedCreateNestedManyWithoutStudentInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutStudentInput
+    refunds?: RefundUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutTutorProfileInput = {
@@ -16604,6 +21504,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     student: UserCreateNestedOneWithoutBookingsInput
     review?: ReviewCreateNestedOneWithoutBookingInput
+    refund?: RefundCreateNestedOneWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutTutorInput = {
@@ -16621,6 +21522,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
+    refund?: RefundUncheckedCreateNestedOneWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutTutorInput = {
@@ -16663,6 +21565,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WithdrawalCreateWithoutTutorInput = {
+    id?: string
+    amount: number
+    status?: $Enums.WithdrawalStatus
+    method?: string
+    transactionId?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WithdrawalUncheckedCreateWithoutTutorInput = {
+    id?: string
+    amount: number
+    status?: $Enums.WithdrawalStatus
+    method?: string
+    transactionId?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WithdrawalCreateOrConnectWithoutTutorInput = {
+    where: WithdrawalWhereUniqueInput
+    create: XOR<WithdrawalCreateWithoutTutorInput, WithdrawalUncheckedCreateWithoutTutorInput>
+  }
+
+  export type WithdrawalCreateManyTutorInputEnvelope = {
+    data: WithdrawalCreateManyTutorInput | WithdrawalCreateManyTutorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutTutorProfileInput = {
     update: XOR<UserUpdateWithoutTutorProfileInput, UserUncheckedUpdateWithoutTutorProfileInput>
     create: XOR<UserCreateWithoutTutorProfileInput, UserUncheckedCreateWithoutTutorProfileInput>
@@ -16691,6 +21625,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     bookings?: BookingUpdateManyWithoutStudentNestedInput
     reviews?: ReviewUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTutorProfileInput = {
@@ -16710,6 +21645,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutStudentNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutStudentNestedInput
+    refunds?: RefundUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type CategoryUpsertWithWhereUniqueWithoutTutorsInput = {
@@ -16835,6 +21771,37 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Review"> | Date | string
   }
 
+  export type WithdrawalUpsertWithWhereUniqueWithoutTutorInput = {
+    where: WithdrawalWhereUniqueInput
+    update: XOR<WithdrawalUpdateWithoutTutorInput, WithdrawalUncheckedUpdateWithoutTutorInput>
+    create: XOR<WithdrawalCreateWithoutTutorInput, WithdrawalUncheckedCreateWithoutTutorInput>
+  }
+
+  export type WithdrawalUpdateWithWhereUniqueWithoutTutorInput = {
+    where: WithdrawalWhereUniqueInput
+    data: XOR<WithdrawalUpdateWithoutTutorInput, WithdrawalUncheckedUpdateWithoutTutorInput>
+  }
+
+  export type WithdrawalUpdateManyWithWhereWithoutTutorInput = {
+    where: WithdrawalScalarWhereInput
+    data: XOR<WithdrawalUpdateManyMutationInput, WithdrawalUncheckedUpdateManyWithoutTutorInput>
+  }
+
+  export type WithdrawalScalarWhereInput = {
+    AND?: WithdrawalScalarWhereInput | WithdrawalScalarWhereInput[]
+    OR?: WithdrawalScalarWhereInput[]
+    NOT?: WithdrawalScalarWhereInput | WithdrawalScalarWhereInput[]
+    id?: StringFilter<"Withdrawal"> | string
+    tutorId?: StringFilter<"Withdrawal"> | string
+    amount?: FloatFilter<"Withdrawal"> | number
+    status?: EnumWithdrawalStatusFilter<"Withdrawal"> | $Enums.WithdrawalStatus
+    method?: StringFilter<"Withdrawal"> | string
+    transactionId?: StringNullableFilter<"Withdrawal"> | string | null
+    notes?: StringNullableFilter<"Withdrawal"> | string | null
+    createdAt?: DateTimeFilter<"Withdrawal"> | Date | string
+    updatedAt?: DateTimeFilter<"Withdrawal"> | Date | string
+  }
+
   export type SessionCreateWithoutUserInput = {
     id: string
     expiresAt: Date | string
@@ -16915,12 +21882,15 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     categories?: CategoryCreateNestedManyWithoutTutorsInput
     availabilities?: AvailabilityCreateNestedManyWithoutTutorInput
     bookings?: BookingCreateNestedManyWithoutTutorInput
     reviews?: ReviewCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileUncheckedCreateWithoutUserInput = {
@@ -16933,12 +21903,15 @@ export namespace Prisma {
     rating?: number
     totalReviews?: number
     totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     categories?: CategoryUncheckedCreateNestedManyWithoutTutorsInput
     availabilities?: AvailabilityUncheckedCreateNestedManyWithoutTutorInput
     bookings?: BookingUncheckedCreateNestedManyWithoutTutorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutTutorInput
+    withdrawals?: WithdrawalUncheckedCreateNestedManyWithoutTutorInput
   }
 
   export type TutorProfileCreateOrConnectWithoutUserInput = {
@@ -16961,6 +21934,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tutor: TutorProfileCreateNestedOneWithoutBookingsInput
     review?: ReviewCreateNestedOneWithoutBookingInput
+    refund?: RefundCreateNestedOneWithoutBookingInput
   }
 
   export type BookingUncheckedCreateWithoutStudentInput = {
@@ -16978,6 +21952,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     review?: ReviewUncheckedCreateNestedOneWithoutBookingInput
+    refund?: RefundUncheckedCreateNestedOneWithoutBookingInput
   }
 
   export type BookingCreateOrConnectWithoutStudentInput = {
@@ -17017,6 +21992,38 @@ export namespace Prisma {
 
   export type ReviewCreateManyStudentInputEnvelope = {
     data: ReviewCreateManyStudentInput | ReviewCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RefundCreateWithoutStudentInput = {
+    id?: string
+    amount: number
+    status?: $Enums.RefundStatus
+    reason?: string | null
+    transactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    booking: BookingCreateNestedOneWithoutRefundInput
+  }
+
+  export type RefundUncheckedCreateWithoutStudentInput = {
+    id?: string
+    bookingId: string
+    amount: number
+    status?: $Enums.RefundStatus
+    reason?: string | null
+    transactionId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RefundCreateOrConnectWithoutStudentInput = {
+    where: RefundWhereUniqueInput
+    create: XOR<RefundCreateWithoutStudentInput, RefundUncheckedCreateWithoutStudentInput>
+  }
+
+  export type RefundCreateManyStudentInputEnvelope = {
+    data: RefundCreateManyStudentInput | RefundCreateManyStudentInput[]
     skipDuplicates?: boolean
   }
 
@@ -17106,12 +22113,15 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categories?: CategoryUpdateManyWithoutTutorsNestedInput
     availabilities?: AvailabilityUpdateManyWithoutTutorNestedInput
     bookings?: BookingUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUpdateManyWithoutTutorNestedInput
   }
 
   export type TutorProfileUncheckedUpdateWithoutUserInput = {
@@ -17124,12 +22134,15 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categories?: CategoryUncheckedUpdateManyWithoutTutorsNestedInput
     availabilities?: AvailabilityUncheckedUpdateManyWithoutTutorNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUncheckedUpdateManyWithoutTutorNestedInput
   }
 
   export type BookingUpsertWithWhereUniqueWithoutStudentInput = {
@@ -17164,6 +22177,137 @@ export namespace Prisma {
     data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutStudentInput>
   }
 
+  export type RefundUpsertWithWhereUniqueWithoutStudentInput = {
+    where: RefundWhereUniqueInput
+    update: XOR<RefundUpdateWithoutStudentInput, RefundUncheckedUpdateWithoutStudentInput>
+    create: XOR<RefundCreateWithoutStudentInput, RefundUncheckedCreateWithoutStudentInput>
+  }
+
+  export type RefundUpdateWithWhereUniqueWithoutStudentInput = {
+    where: RefundWhereUniqueInput
+    data: XOR<RefundUpdateWithoutStudentInput, RefundUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type RefundUpdateManyWithWhereWithoutStudentInput = {
+    where: RefundScalarWhereInput
+    data: XOR<RefundUpdateManyMutationInput, RefundUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type RefundScalarWhereInput = {
+    AND?: RefundScalarWhereInput | RefundScalarWhereInput[]
+    OR?: RefundScalarWhereInput[]
+    NOT?: RefundScalarWhereInput | RefundScalarWhereInput[]
+    id?: StringFilter<"Refund"> | string
+    bookingId?: StringFilter<"Refund"> | string
+    studentId?: StringFilter<"Refund"> | string
+    amount?: FloatFilter<"Refund"> | number
+    status?: EnumRefundStatusFilter<"Refund"> | $Enums.RefundStatus
+    reason?: StringNullableFilter<"Refund"> | string | null
+    transactionId?: StringNullableFilter<"Refund"> | string | null
+    createdAt?: DateTimeFilter<"Refund"> | Date | string
+    updatedAt?: DateTimeFilter<"Refund"> | Date | string
+  }
+
+  export type TutorProfileCreateWithoutWithdrawalsInput = {
+    id?: string
+    bio?: string | null
+    expertise?: TutorProfileCreateexpertiseInput | string[]
+    hourlyRate: number
+    experience: number
+    education?: string | null
+    rating?: number
+    totalReviews?: number
+    totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutTutorProfileInput
+    categories?: CategoryCreateNestedManyWithoutTutorsInput
+    availabilities?: AvailabilityCreateNestedManyWithoutTutorInput
+    bookings?: BookingCreateNestedManyWithoutTutorInput
+    reviews?: ReviewCreateNestedManyWithoutTutorInput
+  }
+
+  export type TutorProfileUncheckedCreateWithoutWithdrawalsInput = {
+    id?: string
+    userId: string
+    bio?: string | null
+    expertise?: TutorProfileCreateexpertiseInput | string[]
+    hourlyRate: number
+    experience: number
+    education?: string | null
+    rating?: number
+    totalReviews?: number
+    totalSessions?: number
+    totalEarnings?: number
+    withdrawableBalance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categories?: CategoryUncheckedCreateNestedManyWithoutTutorsInput
+    availabilities?: AvailabilityUncheckedCreateNestedManyWithoutTutorInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutTutorInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutTutorInput
+  }
+
+  export type TutorProfileCreateOrConnectWithoutWithdrawalsInput = {
+    where: TutorProfileWhereUniqueInput
+    create: XOR<TutorProfileCreateWithoutWithdrawalsInput, TutorProfileUncheckedCreateWithoutWithdrawalsInput>
+  }
+
+  export type TutorProfileUpsertWithoutWithdrawalsInput = {
+    update: XOR<TutorProfileUpdateWithoutWithdrawalsInput, TutorProfileUncheckedUpdateWithoutWithdrawalsInput>
+    create: XOR<TutorProfileCreateWithoutWithdrawalsInput, TutorProfileUncheckedCreateWithoutWithdrawalsInput>
+    where?: TutorProfileWhereInput
+  }
+
+  export type TutorProfileUpdateToOneWithWhereWithoutWithdrawalsInput = {
+    where?: TutorProfileWhereInput
+    data: XOR<TutorProfileUpdateWithoutWithdrawalsInput, TutorProfileUncheckedUpdateWithoutWithdrawalsInput>
+  }
+
+  export type TutorProfileUpdateWithoutWithdrawalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    expertise?: TutorProfileUpdateexpertiseInput | string[]
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    education?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTutorProfileNestedInput
+    categories?: CategoryUpdateManyWithoutTutorsNestedInput
+    availabilities?: AvailabilityUpdateManyWithoutTutorNestedInput
+    bookings?: BookingUpdateManyWithoutTutorNestedInput
+    reviews?: ReviewUpdateManyWithoutTutorNestedInput
+  }
+
+  export type TutorProfileUncheckedUpdateWithoutWithdrawalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    expertise?: TutorProfileUpdateexpertiseInput | string[]
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
+    education?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categories?: CategoryUncheckedUpdateManyWithoutTutorsNestedInput
+    availabilities?: AvailabilityUncheckedUpdateManyWithoutTutorNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutTutorNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutTutorNestedInput
+  }
+
   export type TutorProfileUpdateWithoutCategoriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17174,12 +22318,15 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTutorProfileNestedInput
     availabilities?: AvailabilityUpdateManyWithoutTutorNestedInput
     bookings?: BookingUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUpdateManyWithoutTutorNestedInput
   }
 
   export type TutorProfileUncheckedUpdateWithoutCategoriesInput = {
@@ -17193,11 +22340,14 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     availabilities?: AvailabilityUncheckedUpdateManyWithoutTutorNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutTutorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutTutorNestedInput
+    withdrawals?: WithdrawalUncheckedUpdateManyWithoutTutorNestedInput
   }
 
   export type TutorProfileUncheckedUpdateManyWithoutCategoriesInput = {
@@ -17211,6 +22361,8 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     totalSessions?: IntFieldUpdateOperationsInput | number
+    totalEarnings?: FloatFieldUpdateOperationsInput | number
+    withdrawableBalance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17247,6 +22399,17 @@ export namespace Prisma {
     studentId: string
     rating: number
     comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WithdrawalCreateManyTutorInput = {
+    id?: string
+    amount: number
+    status?: $Enums.WithdrawalStatus
+    method?: string
+    transactionId?: string | null
+    notes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17320,6 +22483,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutBookingsNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
+    refund?: RefundUpdateOneWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutTutorInput = {
@@ -17337,6 +22501,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
+    refund?: RefundUncheckedUpdateOneWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateManyWithoutTutorInput = {
@@ -17381,6 +22546,39 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WithdrawalUpdateWithoutTutorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumWithdrawalStatusFieldUpdateOperationsInput | $Enums.WithdrawalStatus
+    method?: StringFieldUpdateOperationsInput | string
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WithdrawalUncheckedUpdateWithoutTutorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumWithdrawalStatusFieldUpdateOperationsInput | $Enums.WithdrawalStatus
+    method?: StringFieldUpdateOperationsInput | string
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WithdrawalUncheckedUpdateManyWithoutTutorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumWithdrawalStatusFieldUpdateOperationsInput | $Enums.WithdrawalStatus
+    method?: StringFieldUpdateOperationsInput | string
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17432,6 +22630,17 @@ export namespace Prisma {
     tutorId: string
     rating: number
     comment?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RefundCreateManyStudentInput = {
+    id?: string
+    bookingId: string
+    amount: number
+    status?: $Enums.RefundStatus
+    reason?: string | null
+    transactionId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17526,6 +22735,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tutor?: TutorProfileUpdateOneRequiredWithoutBookingsNestedInput
     review?: ReviewUpdateOneWithoutBookingNestedInput
+    refund?: RefundUpdateOneWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutStudentInput = {
@@ -17543,6 +22753,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     review?: ReviewUncheckedUpdateOneWithoutBookingNestedInput
+    refund?: RefundUncheckedUpdateOneWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateManyWithoutStudentInput = {
@@ -17587,6 +22798,39 @@ export namespace Prisma {
     tutorId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    booking?: BookingUpdateOneRequiredWithoutRefundNestedInput
+  }
+
+  export type RefundUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookingId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: EnumRefundStatusFieldUpdateOperationsInput | $Enums.RefundStatus
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

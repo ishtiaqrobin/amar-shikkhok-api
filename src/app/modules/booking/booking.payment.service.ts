@@ -91,13 +91,41 @@ const verifyPayment = async (sessionId: string) => {
     const bookingId = session.metadata?.bookingId;
 
     if (bookingId) {
-      await prisma.booking.update({
+      // 1. Get booking and platform fee
+      const booking = await prisma.booking.findUnique({
         where: { id: bookingId },
-        data: {
-          paymentStatus: "PAID",
-          status: "CONFIRMED",
-        },
+        include: { tutor: true },
       });
+
+      if (!booking || booking.paymentStatus === "PAID") {
+        return true; // Already processed
+      }
+
+      const feeSetting = await prisma.platformSetting.findUnique({
+        where: { key: "PLATFORM_FEE_PERCENT" },
+      });
+
+      const feePercent = feeSetting ? parseFloat(feeSetting.value) : 10;
+      const feeAmount = (booking.totalPrice * feePercent) / 100;
+      const tutorEarnings = booking.totalPrice - feeAmount;
+
+      // 2. Update booking and tutor balance in transaction
+      await prisma.$transaction([
+        prisma.booking.update({
+          where: { id: bookingId },
+          data: {
+            paymentStatus: "PAID",
+            status: "CONFIRMED",
+          },
+        }),
+        prisma.tutorProfile.update({
+          where: { id: booking.tutorId },
+          data: {
+            totalEarnings: { increment: tutorEarnings },
+            withdrawableBalance: { increment: tutorEarnings },
+          },
+        }),
+      ]);
     }
     return true;
   }

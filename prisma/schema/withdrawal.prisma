@@ -1,0 +1,21 @@
+model Withdrawal {
+    id            String           @id @default(uuid())
+    tutorId       String
+    amount        Float
+    status        WithdrawalStatus @default(PENDING)
+    method        String           @default("STRIPE")
+    transactionId String?
+    notes         String?          @db.Text
+    createdAt     DateTime         @default(now())
+    updatedAt     DateTime         @updatedAt
+
+    tutor TutorProfile @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+
+    @@map("withdrawals")
+}
+
+enum WithdrawalStatus {
+    PENDING
+    APPROVED
+    REJECTED
+}

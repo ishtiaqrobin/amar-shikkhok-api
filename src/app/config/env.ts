@@ -14,6 +14,8 @@ interface EnvConfig {
   REFRESH_TOKEN_SECRET: string;
   REFRESH_TOKEN_EXPIRES_IN: string;
   FRONTEND_URL: string;
+  GOOGLE_CLIENT_ID: string;
+  GOOGLE_CLIENT_SECRET: string;
   EMAIL_SENDER: {
     SMTP_USER: string;
     SMTP_PASS: string;
@@ -44,6 +46,8 @@ const loadEnvVariables = (): EnvConfig => {
     "REFRESH_TOKEN_SECRET",
     "REFRESH_TOKEN_EXPIRES_IN",
     "FRONTEND_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
     "EMAIL_SENDER_SMTP_USER",
     "EMAIL_SENDER_SMTP_PASS",
     "EMAIL_SENDER_SMTP_HOST",
@@ -80,6 +84,8 @@ const loadEnvVariables = (): EnvConfig => {
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET as string,
     REFRESH_TOKEN_EXPIRES_IN: process.env.REFRESH_TOKEN_EXPIRES_IN as string,
     FRONTEND_URL: process.env.FRONTEND_URL as string,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID as string,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET as string,
     EMAIL_SENDER: {
       SMTP_USER: process.env.EMAIL_SENDER_SMTP_USER as string,
       SMTP_PASS: process.env.EMAIL_SENDER_SMTP_PASS as string,

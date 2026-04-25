@@ -21,6 +21,7 @@ model User {
     tutorProfile TutorProfile?
     bookings     Booking[]     @relation("StudentBookings")
     reviews      Review[]
+    refunds      Refund[]
 
     @@map("users")
 }
