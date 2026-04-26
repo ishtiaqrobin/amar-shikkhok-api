@@ -104,10 +104,30 @@ const getDashboardStats = async (
   }
 };
 
+// Get public statistics (Public)
+const getPublicStats = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const result = await AdminService.getPublicStats();
+
+    res.status(200).json({
+      success: true,
+      message: "Public statistics retrieved successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const AdminController = {
   getAllUsers,
   banUser,
   unbanUser,
   getAllBookings,
   getDashboardStats,
+  getPublicStats,
 };

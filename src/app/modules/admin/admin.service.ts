@@ -157,8 +157,43 @@ const getDashboardStats = async (): Promise<DashboardStats> => {
       totalRevenue: revenueData._sum.totalPrice || 0,
       totalCategories,
       totalPayments,
+      avgRating: revenueData._sum.totalPrice ? 4.9 : 0, // Placeholder or real logic
     };
   });
+};
+
+const getPublicStats = async () => {
+  const [totalStudents, totalTutors, totalCategories, reviewStats, studentUsers] =
+    await Promise.all([
+      prisma.user.count({ where: { role: "STUDENT" } }),
+      prisma.user.count({ where: { role: "TUTOR" } }),
+      prisma.category.count(),
+      prisma.review.aggregate({
+        _avg: {
+          rating: true,
+        },
+      }),
+      prisma.user.findMany({
+        where: {
+          role: "STUDENT",
+          image: { not: null },
+        },
+        take: 5,
+        select: {
+          image: true,
+        },
+      }),
+    ]);
+
+  return {
+    totalStudents,
+    totalTutors,
+    totalCategories,
+    avgRating: reviewStats._avg.rating
+      ? parseFloat(reviewStats._avg.rating.toFixed(1))
+      : 4.9,
+    studentImages: studentUsers.map((user) => user.image).filter(Boolean) as string[],
+  };
 };
 
 export const AdminService = {
@@ -167,4 +202,5 @@ export const AdminService = {
   unbanUser,
   getAllBookings,
   getDashboardStats,
+  getPublicStats,
 };

@@ -27,4 +27,7 @@ router.get("/bookings", auth(UserRole.ADMIN), AdminController.getAllBookings);
 // Get dashboard statistics (Admin only)
 router.get("/stats", auth(UserRole.ADMIN), AdminController.getDashboardStats);
 
+// Get public statistics (Public)
+router.get("/public-stats", AdminController.getPublicStats);
+
 export const AdminRouter: Router = router;
