@@ -34,26 +34,10 @@ const getPaymentStats = async (userId: string, role: string) => {
       throw new Error("Tutor profile not found");
     }
 
-    const totalEarnings = await prisma.booking.aggregate({
-      where: {
-        tutorId: tutorProfile.id,
-        paymentStatus: "PAID",
-      },
-      _sum: {
-        totalPrice: true,
-      },
-    });
-
-    const totalSessions = await prisma.booking.count({
-      where: {
-        tutorId: tutorProfile.id,
-        paymentStatus: "PAID",
-      },
-    });
-
     return {
-      totalEarnings: totalEarnings._sum.totalPrice || 0,
-      totalSessions,
+      totalEarnings: tutorProfile.totalEarnings,
+      withdrawableBalance: tutorProfile.withdrawableBalance,
+      totalSessions: tutorProfile.totalSessions,
     };
   }
 

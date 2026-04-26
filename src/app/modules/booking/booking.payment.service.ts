@@ -27,10 +27,10 @@ const createCheckoutSession = async (bookingId: string) => {
       "Student email is required for payment",
     );
   }
-  if (booking.totalPrice < 0.5) {
+  if (booking.totalPrice < 50) {
     throw new AppError(
       status.BAD_REQUEST,
-      "Total price must be at least $0.50 for Stripe payments",
+      "Total price must be at least 50 BDT for Stripe payments",
     );
   }
 
@@ -50,7 +50,7 @@ const createCheckoutSession = async (bookingId: string) => {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "bdt",
             product_data: {
               name: `Tutoring: ${booking.subject}`,
               description: `Session with ${booking.tutor.user.name} on ${new Date(booking.sessionDate).toDateString()}`,

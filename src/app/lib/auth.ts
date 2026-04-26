@@ -17,7 +17,7 @@ export const auth = betterAuth({
   ],
 
   database: prismaAdapter(prisma, {
-    provider: "postgresql", // or "mysql", "postgresql", ...etc
+    provider: "postgresql",
   }),
 
   user: {
@@ -53,6 +53,11 @@ export const auth = betterAuth({
     google: {
       clientId: env.GOOGLE_CLIENT_ID as string,
       clientSecret: env.GOOGLE_CLIENT_SECRET as string,
+      // Redirect URI must point to the FRONTEND proxy so that:
+      // 1. The "state" cookie (set via frontend rewrite) is on the frontend domain
+      // 2. The callback also arrives at the frontend domain
+      // → same domain = state matches = no state_mismatch error
+      redirectURI: `${env.FRONTEND_URL}/api/auth/callback/google`,
       mapProfileToUser: () => {
         return {
           role: "STUDENT",
@@ -63,6 +68,7 @@ export const auth = betterAuth({
       },
     },
   },
+
 
   plugins: [
     bearer(),
@@ -112,25 +118,36 @@ export const auth = betterAuth({
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // 1 day
     cookieCache: {
-      enabled: true,
-      maxAge: 60 * 60 * 24,
+      enabled: false,
     },
   },
 
   advanced: {
-    useSecureCookies: false,
+    // Since the frontend proxies /api/auth/* via Next.js rewrites,
+    // auth requests arrive as same-origin from the frontend domain.
+    // SameSite=Lax is sufficient and avoids the cross-site cookie warning.
+    // SameSite=None is only needed for true cross-origin direct requests.
+    useSecureCookies: true,
     cookies: {
-      state: {
+      sessionToken: {
         attributes: {
-          sameSite: "none",
+          sameSite: "lax",
           secure: true,
           httpOnly: true,
           path: "/",
         },
       },
-      sessionToken: {
+      state: {
         attributes: {
-          sameSite: "none",
+          sameSite: "lax",
+          secure: true,
+          httpOnly: true,
+          path: "/",
+        },
+      },
+      idToken: {
+        attributes: {
+          sameSite: "lax",
           secure: true,
           httpOnly: true,
           path: "/",

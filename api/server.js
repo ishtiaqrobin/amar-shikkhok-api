@@ -8543,7 +8543,6 @@ var auth = betterAuth({
   ],
   database: prismaAdapter(prisma, {
     provider: "postgresql"
-    // or "mysql", "postgresql", ...etc
   }),
   user: {
     additionalFields: {
@@ -8576,6 +8575,11 @@ var auth = betterAuth({
     google: {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      // Redirect URI must point to the FRONTEND proxy so that:
+      // 1. The "state" cookie (set via frontend rewrite) is on the frontend domain
+      // 2. The callback also arrives at the frontend domain
+      // → same domain = state matches = no state_mismatch error
+      redirectURI: `${env.FRONTEND_URL}/api/auth/callback/google`,
       mapProfileToUser: () => {
         return {
           role: "STUDENT",
@@ -8634,24 +8638,35 @@ var auth = betterAuth({
     updateAge: 60 * 60 * 24,
     // 1 day
     cookieCache: {
-      enabled: true,
-      maxAge: 60 * 60 * 24
+      enabled: false
     }
   },
   advanced: {
-    useSecureCookies: false,
+    // Since the frontend proxies /api/auth/* via Next.js rewrites,
+    // auth requests arrive as same-origin from the frontend domain.
+    // SameSite=Lax is sufficient and avoids the cross-site cookie warning.
+    // SameSite=None is only needed for true cross-origin direct requests.
+    useSecureCookies: true,
     cookies: {
-      state: {
+      sessionToken: {
         attributes: {
-          sameSite: "none",
+          sameSite: "lax",
           secure: true,
           httpOnly: true,
           path: "/"
         }
       },
-      sessionToken: {
+      state: {
         attributes: {
-          sameSite: "none",
+          sameSite: "lax",
+          secure: true,
+          httpOnly: true,
+          path: "/"
+        }
+      },
+      idToken: {
+        attributes: {
+          sameSite: "lax",
           secure: true,
           httpOnly: true,
           path: "/"
@@ -10146,10 +10161,10 @@ var createCheckoutSession = async (bookingId) => {
       "Student email is required for payment"
     );
   }
-  if (booking.totalPrice < 0.5) {
+  if (booking.totalPrice < 50) {
     throw new AppError_default(
       status8.BAD_REQUEST,
-      "Total price must be at least $0.50 for Stripe payments"
+      "Total price must be at least 50 BDT for Stripe payments"
     );
   }
   if (!booking.tutor?.user?.name) {
@@ -10164,7 +10179,7 @@ var createCheckoutSession = async (bookingId) => {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "bdt",
             product_data: {
               name: `Tutoring: ${booking.subject}`,
               description: `Session with ${booking.tutor.user.name} on ${new Date(booking.sessionDate).toDateString()}`
@@ -11143,24 +11158,10 @@ var getPaymentStats = async (userId, role) => {
     if (!tutorProfile) {
       throw new Error("Tutor profile not found");
     }
-    const totalEarnings = await prisma.booking.aggregate({
-      where: {
-        tutorId: tutorProfile.id,
-        paymentStatus: "PAID"
-      },
-      _sum: {
-        totalPrice: true
-      }
-    });
-    const totalSessions = await prisma.booking.count({
-      where: {
-        tutorId: tutorProfile.id,
-        paymentStatus: "PAID"
-      }
-    });
     return {
-      totalEarnings: totalEarnings._sum.totalPrice || 0,
-      totalSessions
+      totalEarnings: tutorProfile.totalEarnings,
+      withdrawableBalance: tutorProfile.withdrawableBalance,
+      totalSessions: tutorProfile.totalSessions
     };
   }
   if (role === "ADMIN") {
