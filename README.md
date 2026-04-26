@@ -1,135 +1,94 @@
-# Assignment 4 - Full-Stack Project
+# Amar Shikkhok - Backend API
 
-## � Find Your Assignment
+This is the RESTful API for the Amar Shikkhok tutor booking platform. It handles authentication, tutor management, booking logic, payment processing, and administrative controls.
 
-> 💡 Check your Student ID by clicking your **profile image** on the [Programming Hero Website](https://web.programming-hero.com/profile).
+## 🚀 Technologies
 
-| Last Digit of Student ID | Assignment                           |
-| :----------------------: | ------------------------------------ |
-|      **0, 1, 2, 3**      | [SkillBridge](./1-SkillBridge.md) 🎓 |
-|       **4, 5, 6**        | [FoodHub](./2-FoodHub.md) 🍱         |
-|       **7, 8, 9**        | [MediStore](./3-MediStore.md) 💊     |
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Framework**: [Express.js](https://expressjs.com/)
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
+- **ORM**: [Prisma](https://www.prisma.io/)
+- **Authentication**: [Better Auth](https://www.better-auth.com/)
+- **Validation**: [Zod](https://zod.dev/)
+- **Cloud Storage**: [Cloudinary](https://cloudinary.com/)
+- **Payments**: [Stripe](https://stripe.com/)
+- **Email**: [Nodemailer](https://nodemailer.com/) with EJS templates
 
----
+## 🛠️ Getting Started
 
-## ⚠️ Mandatory Requirements
+### Prerequisites
 
-> [!CAUTION]
-> **MANDATORY - READ CAREFULLY**
->
-> The following **FIVE requirements are MANDATORY**:
->
-> 1. **Homepage** - 4 meaningful sections + Navbar + Footer
-> 2. **UI/UX** - Clean, responsive design with consistent colors & spacing
-> 3. **Commits** - 30 meaningful commits (15 frontend + 15 backend)
-> 4. **Error Handling** - Validation, error messages, loading states
-> 5. **Admin Credentials** - Provide working admin email & password
->
-> ❌ **Failure to complete any of these = 0 MARKS**
+- Node.js (v18+)
+- PostgreSQL instance
+- Stripe API Key
+- Cloudinary Credentials
+- SMTP server (for emails)
 
----
+### Installation
 
-## 📊 Marks Distribution
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-|  #  | Category           | Weight | Details                        |
-| :-: | ------------------ | :----: | ------------------------------ |
-|  1  | Homepage Design    |  20%   | 4 sections + Navbar + Footer   |
-|  2  | UI/UX Quality      |  20%   | Responsive, consistent styling |
-|  3  | Commit History     |  10%   | 30 meaningful commits          |
-|  4  | Error Handling     |  10%   | Validation, loading states     |
-|  5  | Core Functionality |  30%   | Auth, CRUD, role-based access  |
-|  6  | Video Explanation  |  10%   | 5-10 min demo video            |
+2. Configure environment variables:
+   Create a `.env` file based on `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
 
----
+3. Setup the database:
+   ```bash
+   npm run migrate
+   npm run generate
+   ```
 
-## 📅 Timeline
+4. Seed initial data (optional):
+   ```bash
+   npm run seed:admin
+   ```
 
-| Deadline                        | Maximum Marks |
-| ------------------------------- | :-----------: |
-| **January 31, 2026, 11:59 PM**  |   60 Marks    |
-| **February 01, 2026, 11:59 PM** |   50 Marks    |
-| **After February 01**           |   30 Marks    |
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
----
+## 📜 Available Scripts
 
-## 📦 What to Submit
+- `npm run dev`: Starts the development server with hot-reload.
+- `npm run build`: Generates Prisma client and builds the project using `tsup`.
+- `npm run migrate`: Runs Prisma migrations.
+- `npm run db`: Pushes schema changes to the database.
+- `npm run studio`: Opens Prisma Studio to view/edit database data.
+- `npm run stripe:webhook`: Starts a Stripe webhook listener for local development.
 
-| Item                  | Required |
-| --------------------- | :------: |
-| Frontend GitHub Repo  |    ✅    |
-| Backend GitHub Repo   |    ✅    |
-| Frontend Live URL     |    ✅    |
-| Backend Live URL      |    ✅    |
-| Demo Video (5-10 min) |    ✅    |
-| Admin Credentials     |    ✅    |
+## 🔑 Environment Variables
 
-**Example:**
+Required variables in `.env`:
 
-```
-Frontend Repo    : https://github.com/your-username/skillbridge-frontend
-Backend Repo     : https://github.com/your-username/skillbridge-backend
-Frontend Live    : https://skillbridge.vercel.app
-Backend Live     : https://skillbridge-api.vercel.app
-Demo Video       : https://drive.google.com/file/d/xxx/view
-Admin Email      : admin@skillbridge.com
-Admin Password   : admin123
-```
+| Key | Description |
+| --- | --- |
+| `DATABASE_URL` | PostgreSQL connection string |
+| `BETTER_AUTH_SECRET` | Secret key for Better Auth |
+| `BETTER_AUTH_URL` | Base URL for authentication |
+| `STRIPE_SECRET_KEY` | Stripe API secret key |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook verification secret |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
+| `CLOUDINARY_API_KEY` | Cloudinary API key |
+| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
+| `EMAIL_USER` | SMTP email address |
+| `EMAIL_PASS` | SMTP password |
 
----
+## 📡 API Modules
 
-## 🎥 Video Explanation Guide
+- `User`: Profile management and role handling.
+- `Tutor`: Specialized profile for tutors with expertise and pricing.
+- `Category`: Tutor specialization categories.
+- `Booking`: Appointment scheduling and status tracking.
+- `Payment`: Stripe integration and transaction history.
+- `Review`: Feedback system for tutors.
+- `Admin`: Global management and analytics.
 
-**Duration:** 5-10 minutes | **Language:** English or Bengali
+## 📄 License
 
-**What to Cover:**
-
-1. Project overview & features
-2. Show all 3 roles working (Customer/Student, Provider/Seller/Tutor, Admin)
-3. Demonstrate CRUD operations
-4. Show error handling in action
-
-**Recording Options:**
-
-- **Loom** - Record & share link directly
-- **OBS** - Record & upload to Google Drive (set "Anyone with link" access)
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-
-| Technology   | Purpose                        |
-| ------------ | ------------------------------ |
-| Next.js      | App Router, SSR/SSG            |
-| TypeScript   | Type safety                    |
-| Tailwind CSS | Styling (or any CSS framework) |
-
-### Backend
-
-| Technology        | Purpose  |
-| ----------------- | -------- |
-| Node.js + Express | REST API |
-| Postgres + Prisma | Database |
-
-### Deployment
-
-| Service       | Purpose                       |
-| ------------- | ----------------------------- |
-| Vercel/Render | Frontend & Backend deployment |
-
----
-
-## 🎯 Key Rules
-
-- **Roles**: Each project has 3 fixed roles. Users select during registration. Admin = seeded.
-- **Payment**: No payment integration. All orders are Cash on Delivery.
-- **Flexibility**: Routes/endpoints are examples. Modify as needed.
-
----
-
-## ⚠️ Important Notes
-
-> **Plagiarism** = 0 Marks. All work must be original.
-
-**Good luck! Build something you're proud of.** 🚀
+This project is licensed under the [MIT License](./LICENSE).
